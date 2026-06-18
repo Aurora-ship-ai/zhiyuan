@@ -123,7 +123,7 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
   <div class="ti2" id="tb3" onclick="go('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</div>
 </div>
 </div>
-<script>var ac=0,ld=!1;
+<script>var ac=0,ld=!1,pending=[],currentMaterial=null;
 function setChip(i){ac=i;document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===i)});doFilter()}
 function doFilter(){
   var q=document.getElementById("q").value.trim();
@@ -134,23 +134,62 @@ function doFilter(){
   fd.innerHTML="";
   for(var i=0;i<3;i++){fd.innerHTML+="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70;font-size:13px\">"+["分析中","搜索互联网","整理结果"][i]+"</div>";}
   fetch("http://localhost:8000/api/search/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q,page:1,page_size:5})}).then(function(r){return r.json()}).then(function(d){
-    ld=!1;
-    var all=d.results||[];
+    ld=!1;var all=d.results||[];
     var fd=document.getElementById("feed");fd.innerHTML="";
-    var fl=all;
-    document.getElementById("rc").textContent=d.total+" 份";
-    if(fl.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">换个关键词试试</div>";}
-    fl.forEach(function(r,i){
+    document.getElementById("rc").textContent=d.total+" \u4efd";
+    if(all.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">\u6362\u4e2a\u5173\u952e\u8bcd\u8bd5\u8bd5</div>";}
+    all.forEach(function(r,i){
       var ft=r.score>=9;
-      fd.innerHTML+="<div class=\"ca"+(ft?" ft":"")+"\" onclick=\"go(\x27note\x27)\" data-t=\"0\"><div class=\"chd\"><div class=\"sg"+(ft?" hi":"")+"\">\u2605 "+r.score+"</div><span class=\"so\">"+r.source+"</span></div><h3>"+r.title+"</h3><p>"+(r.summary||"")+"</p><div class=\"tg\">"+(r.tags||[]).map(function(t){return"<span>"+t+"</span>"}).join("")+"</div><div class=\"ac\">\u76f4\u8fbe \u2192</div></div>";
+      fd.innerHTML+="<div class=\"ca"+(ft?" ft":"")+"\" onclick=\"openMaterial(\x27"+encodeURIComponent(JSON.stringify(r))+"\x27)\"><div class=\"chd\"><div class=\"sg"+(ft?" hi":"")+"\">\u2605 "+r.score+"</div><span class=\"so\">"+r.source+"</span></div><h3>"+r.title+"</h3><p>"+(r.summary||"")+"</p><div class=\"tg\">"+(r.tags||[]).map(function(t){return"<span>"+t+"</span>"}).join("")+"</div><div class=\"ac\">\u70b9\u51fb\u67e5\u770b \u2192</div></div>";
     });
-    document.getElementById("rc").textContent=fl.length+" 份";
+    document.getElementById("rc").textContent=all.length+" \u4efd";
   }).catch(function(){ld=!1;renderMock()});
 }
-function renderMock(){document.getElementById("rc").textContent="0 份";}
+function renderMock(){document.getElementById("rc").textContent="0 \u4efd";}
 function go(id){
   document.querySelectorAll(".pn").forEach(function(p){p.classList.add("h")});
   document.getElementById(id).classList.remove("h");
-  var map={home:0,knowledge:1,pending:2,profile:3};
+  var map={home:0,knowledge:1,pending:2,profile:3,material:0,note:0};
   document.querySelectorAll(".ti2").forEach(function(t,i){t.classList.toggle("on",i===map[id])});
+  if(id==="pending")renderPending();
+  if(id==="knowledge")renderKB();
+}
+function openMaterial(e){
+  var r=JSON.parse(decodeURIComponent(e));currentMaterial=r;
+  var p=document.getElementById("material");
+  p.querySelector(".m-title").textContent=r.title;
+  p.querySelector(".m-source").textContent=r.source;
+  p.querySelector(".m-summary").textContent=r.summary||"\u6682\u65e0\u6458\u8981";
+  p.querySelector(".m-url").textContent=r.url;
+  var sc=p.querySelector(".m-score");sc.textContent=r.score;
+  sc.className="sg"+(r.score>=9?" hi":"");
+  document.querySelectorAll(".pn").forEach(function(x){x.classList.add("h")});
+  p.classList.remove("h");
+}
+function saveToPending(){
+  if(!currentMaterial)return;
+  if(!pending.find(function(x){return x.url===currentMaterial.url})){
+    pending.unshift({title:currentMaterial.title,source:currentMaterial.source,url:currentMaterial.url,date:new Date().toLocaleDateString()});
+  }
+  go("home");alert("\u5df2\u4fdd\u5b58\u5230\u5f85\u5b66\u6e05\u5355");
+}
+function generateNote(){
+  if(!currentMaterial)return;
+  document.querySelector("#note .cvt").textContent=currentMaterial.title;
+  document.querySelector("#note .cvm").textContent=currentMaterial.source+" \u00b7 850ms";
+  go("note");
+}
+function renderPending(){
+  var fd=document.getElementById("pending").querySelector(".fd");
+  fd.innerHTML="";
+  if(pending.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">\u8fd8\u6ca1\u6709\u6536\u85cf\u7684\u8d44\u6599</div>";return;}
+  pending.forEach(function(p,i){
+    fd.innerHTML+="<div class=\"ca\" style=\"cursor:default\"><div class=\"chd\"><span class=\"so\">"+p.date+" \u00b7 "+p.source+"</span></div><h3>"+p.title+"</h3><div class=\"ac\" style=\"cursor:pointer\" onclick=\"pending.splice("+i+",1);renderPending()\">\u5220\u9664</div></div>";
+  });
+}
+function renderKB(){
+  var fd=document.getElementById("knowledge").querySelector(".fd");
+  fd.innerHTML="";
+  var kb=[{title:"Building Effective Agents",date:"6\u670818\u65e5",c:3,q:4},{title:"AI \u7f16\u7a0b\u6700\u4f73\u5b9e\u8df5",date:"6\u670817\u65e5",c:2,q:0}];
+  kb.forEach(function(n){fd.innerHTML+="<div class=\"ca\" onclick=\"go(\x27note\x27)\"><div class=\"chd\"><span class=\"so\">"+n.date+" \u00b7 \u{1f4a1} "+n.c+" \u00b7 \u{1f0cf} "+n.q+"</span></div><h3>"+n.title+"</h3></div>";});
 }</script></body></html>
