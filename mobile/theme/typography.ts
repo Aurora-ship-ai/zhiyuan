@@ -1,67 +1,45 @@
-﻿import { TextStyle } from "react-native";
+﻿import { Platform, TextStyle } from "react-native";
 
-/**
- * 字体系统
- * 
- * 规则：
- *  - 衬线体仅用于标题，正文一律无衬线
- *  - 正文行高 1.7，标题行高 1.3
- */
+const serif = Platform.select({ ios: "Noto Serif CJK SC", default: "Georgia" });
+const sans = Platform.select({ ios: "Noto Sans CJK SC", default: "Inter" });
+const mono = Platform.select({ ios: "JetBrains Mono", default: "Menlo" });
 
-// 平台字体回退
-const serif = Platform.select({
-  ios: "Noto Serif CJK SC",
-  android: "Noto Serif CJK SC",
-  default: "Georgia",
-});
-
-const sans = Platform.select({
-  ios: "Noto Sans CJK SC",
-  android: "Noto Sans CJK SC",
-  default: "Inter",
-});
-
-const mono = Platform.select({
-  ios: "JetBrains Mono",
-  android: "JetBrains Mono",
-  default: "Menlo",
-});
-
-import { Platform } from "react-native";
-
-export const fonts = {
-  serif,
-  sans,
-  mono,
-} as const;
+export const fonts = { serif, sans, mono } as const;
 
 export const typography: Record<string, TextStyle> = {
+  brand: {
+    fontFamily: serif,
+    fontSize: 26,
+    fontWeight: "700",
+    lineHeight: 32,
+    letterSpacing: 0.02,
+  },
   h1: {
     fontFamily: serif,
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "700",
-    lineHeight: 28 * 1.3,
+    lineHeight: 34,
     letterSpacing: 0,
   },
   h2: {
     fontFamily: serif,
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "600",
-    lineHeight: 22 * 1.3,
+    lineHeight: 27,
     letterSpacing: 0,
   },
   h3: {
     fontFamily: serif,
-    fontSize: 18,
-    fontWeight: "500",
-    lineHeight: 18 * 1.3,
+    fontSize: 17,
+    fontWeight: "600",
+    lineHeight: 23,
     letterSpacing: 0,
   },
   body: {
     fontFamily: sans,
     fontSize: 16,
     fontWeight: "400",
-    lineHeight: 16 * 1.7,
+    lineHeight: 16 * 1.65,
     letterSpacing: 0,
   },
   bodySmall: {
@@ -74,8 +52,22 @@ export const typography: Record<string, TextStyle> = {
   caption: {
     fontFamily: sans,
     fontSize: 12,
-    fontWeight: "300",
+    fontWeight: "400",
     lineHeight: 12 * 1.5,
+    letterSpacing: 0,
+  },
+  captionStrong: {
+    fontFamily: sans,
+    fontSize: 12,
+    fontWeight: "600",
+    lineHeight: 12 * 1.5,
+    letterSpacing: 0,
+  },
+  label: {
+    fontFamily: sans,
+    fontSize: 11,
+    fontWeight: "500",
+    lineHeight: 11 * 1.4,
     letterSpacing: 0,
   },
   code: {
@@ -87,7 +79,7 @@ export const typography: Record<string, TextStyle> = {
   },
   button: {
     fontFamily: sans,
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
     letterSpacing: 0,
   },

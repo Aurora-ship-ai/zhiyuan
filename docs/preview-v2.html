@@ -1,0 +1,495 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>知源 · 设计升级预览</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ========== 升级后色彩 ========== */
+  :root {
+    --bg-base:       #F9F6F0;   /* 暖纸底，比之前更温润 */
+    --bg-card:       #F3EEE4;   /* 卡片面，略带暖灰调 */
+    --bg-elevated:   #EBE4D6;   /* 浮层面，更深一层 */
+    --bg-hover:      #FDFAF5;   /* 悬停高亮 */
+    --text-primary:  #1F1A16;   /* 墨色更深更有质感 */
+    --text-secondary:#5C5147;   /* 次文字更暖 */
+    --text-tertiary: #8E8275;   /* 三级文字更有辨识度 */
+    --text-inverse:  #FDFAF5;   /* 反白 */
+    --accent:        #C0774E;   /* 陶土更深邃 */
+    --accent-hover:  #A85F3B;   /* 陶土按下 */
+    --accent-dim:    #F2E2D5;   /* 陶土淡化 */
+    --green:         #3A5A45;   /* 松绿更深沉 */
+    --green-dim:     #E4EDE3;   /* 松绿淡化 */
+    --gold:          #C49B5A;   /* 旧金更浓郁 */
+    --gold-dim:      #F6ECD5;   /* 旧金淡化 */
+    --border:        #E8E1D4;   /* 暖灰线 */
+    --border-strong: #D5CCBB;   /* 强调分割 */
+    --error:         #C45A4A;   /* 砖红 */
+    --shadow-sm:     0 1px 3px rgba(60, 40, 20, 0.04);   /* 极淡阴影——模拟纸叠 */
+    --shadow-md:     0 2px 8px rgba(60, 40, 20, 0.06);
+    --font-serif:    'Noto Serif SC', 'Georgia', 'STIX Two', serif;
+    --font-sans:     'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-pill: 24px;
+    --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 20px; --space-xl: 24px; --space-2xl: 32px; --space-3xl: 48px;
+    --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-base);
+    color: var(--text-primary);
+    max-width: 430px; margin: 0 auto; min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ========== 顶部状态区 ========== */
+  .header {
+    padding: var(--space-xl) var(--space-lg) var(--space-md);
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .header-brand {
+    font-family: var(--font-serif); font-size: 26px; font-weight: 700;
+    color: var(--text-primary); letter-spacing: 0.02em;
+  }
+  .header-date {
+    font-size: 13px; color: var(--text-tertiary); font-weight: 400;
+  }
+
+  /* ========== 搜索区 ========== */
+  .search-section {
+    padding: 0 var(--space-lg) var(--space-lg);
+    position: relative;
+  }
+  .search-bar {
+    display: flex; align-items: center;
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: 14px 18px;
+    height: 54px;
+    border: 1px solid var(--border);
+    transition: all var(--transition);
+    box-shadow: var(--shadow-sm);
+  }
+  .search-bar:focus-within {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md), 0 0 0 3px var(--accent-dim);
+  }
+  .search-bar svg { margin-right: 12px; flex-shrink: 0; opacity: 0.45; transition: opacity var(--transition); }
+  .search-bar:focus-within svg { opacity: 0.7; }
+  .search-bar input {
+    flex: 1; border: none; outline: none; background: transparent;
+    font-family: var(--font-sans); font-size: 16px; font-weight: 400;
+    color: var(--text-primary);
+  }
+  .search-bar input::placeholder { color: var(--text-tertiary); font-weight: 300; }
+
+  /* 搜索建议标签 */
+  .search-hints {
+    display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-md);
+  }
+  .search-hint {
+    font-size: 13px; color: var(--text-secondary); padding: 7px 14px;
+    background: var(--bg-card); border-radius: var(--radius-pill);
+    cursor: pointer; transition: all var(--transition);
+    border: 1px solid transparent;
+  }
+  .search-hint:hover, .search-hint:active {
+    background: var(--accent-dim); color: var(--accent); border-color: var(--accent);
+  }
+
+  /* 类型筛选 */
+  .filter-section {
+    display: flex; gap: 6px; padding: 0 var(--space-lg) var(--space-md);
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .filter-section::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    font-size: 13px; font-weight: 500; color: var(--text-secondary);
+    padding: 8px 16px; white-space: nowrap; border-radius: var(--radius-pill);
+    cursor: pointer; transition: all var(--transition);
+    background: transparent; border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .filter-chip.active {
+    background: var(--text-primary); color: var(--text-inverse); border-color: var(--text-primary);
+    font-weight: 600;
+  }
+  .filter-chip:hover:not(.active) {
+    background: var(--bg-card); border-color: var(--border-strong);
+  }
+
+  /* ========== 分段标题 ========== */
+  .section-header {
+    padding: var(--space-md) var(--space-lg) var(--space-sm);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .section-title {
+    font-family: var(--font-serif); font-size: 17px; font-weight: 600;
+    color: var(--text-primary);
+  }
+  .section-count {
+    font-size: 12px; color: var(--text-tertiary); font-weight: 400;
+  }
+
+  /* ========== 资料卡片 ========== */
+  .card-list { padding: 0 var(--space-lg) var(--space-3xl); }
+
+  .card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .card:active { transform: scale(0.995); }
+
+  /* 卡片微妙的纸张纹理（左上方光源感） */
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 60px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .card-header {
+    display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);
+    position: relative; z-index: 1;
+  }
+
+  /* 评分徽章 */
+  .score {
+    display: flex; align-items: center; gap: 4px;
+    background: var(--gold-dim); padding: 3px 10px; border-radius: var(--radius-sm);
+    flex-shrink: 0;
+  }
+  .score-star { color: var(--gold); font-size: 12px; }
+  .score-value { font-size: 12px; font-weight: 700; color: var(--gold); }
+  .score-high { background: #E8F0E2; }
+  .score-high .score-star, .score-high .score-value { color: var(--green); }
+
+  .card-source {
+    font-size: 12px; color: var(--text-tertiary); flex: 1;
+    font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .card-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); margin: 0 6px; flex-shrink: 0; }
+
+  .card-title {
+    font-family: var(--font-serif); font-size: 17px; font-weight: 600;
+    color: var(--text-primary); line-height: 1.45;
+    margin-bottom: var(--space-sm); position: relative; z-index: 1;
+  }
+  .card-summary {
+    font-size: 14px; color: var(--text-secondary); line-height: 1.65;
+    margin-bottom: var(--space-md);
+    position: relative; z-index: 1;
+  }
+
+  .card-tags {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-md);
+    position: relative; z-index: 1;
+  }
+  .card-tag {
+    font-size: 11px; font-weight: 500; color: var(--text-secondary);
+    padding: 4px 10px; background: var(--bg-base); border-radius: var(--radius-sm);
+  }
+
+  .card-footer {
+    display: flex; align-items: center; gap: var(--space-lg);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+  .card-action {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 13px; font-weight: 500; color: var(--green);
+    cursor: pointer; padding: 4px 0;
+    transition: opacity var(--transition);
+  }
+  .card-action:hover { opacity: 0.7; }
+  .card-action svg { opacity: 0.8; }
+
+  .card-action-secondary {
+    color: var(--text-tertiary);
+  }
+
+  /* ========== 精选推荐卡片（特殊样式） ========== */
+  .featured-card {
+    background: linear-gradient(135deg, #FBF7F0 0%, #F4ECE0 100%);
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-md);
+  }
+  .featured-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; color: var(--accent);
+    background: var(--accent-dim); padding: 3px 8px; border-radius: var(--radius-sm);
+    margin-bottom: var(--space-sm);
+  }
+
+  /* ========== 底部导航 ========== */
+  .tab-bar {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 430px;
+    display: flex; justify-content: space-around; align-items: flex-start;
+    background: rgba(249, 246, 240, 0.88);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    height: 64px; padding-top: 8px;
+  }
+  .tab-item {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    font-size: 10px; font-weight: 500; color: var(--text-tertiary);
+    cursor: pointer; transition: color var(--transition); min-width: 44px;
+  }
+  .tab-item.active { color: var(--accent); }
+  .tab-dot {
+    width: 4px; height: 4px; border-radius: 50%; background: transparent;
+    transition: background var(--transition);
+  }
+  .tab-item.active .tab-dot { background: var(--accent); }
+
+  /* ========== 加载态：骨架屏升级 ========== */
+  .skeleton-card {
+    background: var(--bg-card); border-radius: var(--radius-lg);
+    border: 1px solid var(--border); padding: var(--space-lg);
+    margin-bottom: var(--space-md); box-shadow: var(--shadow-sm);
+  }
+  .skeleton-line {
+    height: 13px; background: var(--bg-elevated); border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .skeleton-line:last-child { margin-bottom: 0; }
+  @keyframes shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: calc(200px + 100%) 0; }
+  }
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-base) 50%, var(--bg-elevated) 75%);
+    background-size: 200px 100%;
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+
+  /* ========== 空状态 ========== */
+  .empty-state {
+    text-align: center; padding: var(--space-3xl) var(--space-2xl);
+  }
+  .empty-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--bg-card); margin: 0 auto var(--space-lg);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-tertiary);
+  }
+  .empty-title {
+    font-family: var(--font-serif); font-size: 18px; color: var(--text-secondary);
+    margin-bottom: var(--space-xs); font-weight: 600;
+  }
+  .empty-desc {
+    font-size: 14px; color: var(--text-tertiary); line-height: 1.6;
+  }
+
+  /* ========== 按钮（独立预览用） ========== */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 46px; padding: 0 var(--space-lg); font-size: 15px;
+    font-weight: 600; font-family: var(--font-sans);
+    border-radius: var(--radius-md); cursor: pointer;
+    transition: all var(--transition); border: none;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-ghost { background: transparent; color: var(--green); }
+</style>
+</head>
+<body>
+
+<!-- 顶栏 -->
+<div class="header">
+  <span class="header-brand">知源</span>
+  <span class="header-date">6月18日 · 周三</span>
+</div>
+
+<!-- 搜索区 -->
+<div class="search-section">
+  <div class="search-bar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="text" placeholder="搜索你想学的任何主题..." value="使用 AI 编程" readonly>
+  </div>
+
+  <div class="search-hints">
+    <span class="search-hint">机器学习</span>
+    <span class="search-hint">系统设计</span>
+    <span class="search-hint">TypeScript</span>
+    <span class="search-hint">产品思维</span>
+  </div>
+</div>
+
+<!-- 类型筛选 -->
+<div class="filter-section">
+  <span class="filter-chip active">全部</span>
+  <span class="filter-chip">文章</span>
+  <span class="filter-chip">论文</span>
+  <span class="filter-chip">视频</span>
+  <span class="filter-chip">书籍</span>
+  <span class="filter-chip">播客</span>
+</div>
+
+<!-- 搜索结果标题 -->
+<div class="section-header">
+  <span class="section-title">搜索结果</span>
+  <span class="section-count">3 份优质资料</span>
+</div>
+
+<!-- 资料卡片列表 -->
+<div class="card-list">
+
+  <!-- 精选推荐 -->
+  <div class="card featured-card">
+    <div class="featured-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="#C0774E"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      精选推荐
+    </div>
+    <div class="card-header">
+      <div class="score score-high">
+        <span class="score-star">★</span><span class="score-value">9.2</span>
+      </div>
+      <span class="card-source">Anthropic 官方</span>
+    </div>
+    <div class="card-title">Building Effective Agents</div>
+    <div class="card-summary">
+      Anthropic 工程团队撰写的 Agent 构建权威指南——从简单工作流到自主 Agent，LLM 在工程中的角色定位与设计模式。
+    </div>
+    <div class="card-tags">
+      <span class="card-tag">Agent</span><span class="card-tag">LLM</span><span class="card-tag">架构模式</span>
+    </div>
+    <div class="card-footer">
+      <div class="card-action">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        阅读全文
+      </div>
+      <div class="card-action card-action-secondary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        稍后再读
+      </div>
+    </div>
+  </div>
+
+  <!-- 卡片 1 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="score">
+        <span class="score-star">★</span><span class="score-value">4.8</span>
+      </div>
+      <span class="card-source">Towards Data Science</span>
+      <span class="card-dot"></span>
+      <span class="card-source">1月10日</span>
+    </div>
+    <div class="card-title">AI 编程最佳实践：从 Prompt Engineering 到 Agent 工作流</div>
+    <div class="card-summary">系统梳理 AI 辅助编程的五个层次，附真实项目案例与 Prompt 模板。</div>
+    <div class="card-tags">
+      <span class="card-tag">AI Coding</span><span class="card-tag">Prompt</span><span class="card-tag">工程实践</span>
+    </div>
+    <div class="card-footer">
+      <div class="card-action">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        直达
+      </div>
+      <div class="card-action card-action-secondary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        收藏
+      </div>
+    </div>
+  </div>
+
+  <!-- 卡片 2 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="score">
+        <span class="score-star">★</span><span class="score-value">4.6</span>
+      </div>
+      <span class="card-source">LangChain 官方文档</span>
+      <span class="card-dot"></span>
+      <span class="card-source">1月5日</span>
+    </div>
+    <div class="card-title">Building Effective AI Agents with LangChain</div>
+    <div class="card-summary">Agent 架构设计模式详解：ReAct、Planning、Multi-Agent 协作，含完整代码示例。</div>
+    <div class="card-tags">
+      <span class="card-tag">Agent</span><span class="card-tag">LangChain</span><span class="card-tag">ReAct</span>
+    </div>
+    <div class="card-footer">
+      <div class="card-action">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        直达
+      </div>
+      <div class="card-action card-action-secondary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        收藏
+      </div>
+    </div>
+  </div>
+
+  <!-- 卡片 3 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="score">
+        <span class="score-star">★</span><span class="score-value">4.5</span>
+      </div>
+      <span class="card-source">掘金技术社区</span>
+      <span class="card-dot"></span>
+      <span class="card-source">1月2日</span>
+    </div>
+    <div class="card-title">Cursor 与 Copilot 深度对比：2025 AI 编程工具选型</div>
+    <div class="card-summary">代码质量、上下文理解、多文件编辑三方面实测，附带工具最佳使用场景。</div>
+    <div class="card-tags">
+      <span class="card-tag">工具对比</span><span class="card-tag">Cursor</span><span class="card-tag">Copilot</span>
+    </div>
+    <div class="card-footer">
+      <div class="card-action">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        直达
+      </div>
+      <div class="card-action card-action-secondary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        收藏
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 底部导航 -->
+<div class="tab-bar">
+  <div class="tab-item active">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    首页
+    <span class="tab-dot"></span>
+  </div>
+  <div class="tab-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    知识库
+    <span class="tab-dot"></span>
+  </div>
+  <div class="tab-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+    待学
+    <span class="tab-dot"></span>
+  </div>
+  <div class="tab-item">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    我的
+    <span class="tab-dot"></span>
+  </div>
+</div>
+
+<div style="height:80px"></div>
+
+</body>
+</html>
