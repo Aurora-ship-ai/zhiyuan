@@ -1,29 +1,28 @@
-﻿{
-  "expo": {
-    "name": "知源",
-    "slug": "zhiyuan",
-    "version": "0.1.0",
-    "orientation": "portrait",
-    "scheme": "zhiyuan",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.zhiyuan.app"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#FAF7F2"
-      },
-      "package": "com.zhiyuan.app"
-    },
-    "plugins": [
-      "expo-router",
-      "expo-sqlite",
-      "expo-haptics"
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
-  }
+{
+    "expo":  {
+                 "name":  "鐭ユ簮",
+                 "slug":  "zhiyuan",
+                 "version":  "0.1.0",
+                 "orientation":  "portrait",
+                 "scheme":  "zhiyuan",
+                 "userInterfaceStyle":  "automatic",
+                 "newArchEnabled":  true,
+                 "ios":  {
+                             "supportsTablet":  true,
+                             "bundleIdentifier":  "com.zhiyuan.app"
+                         },
+                 "android":  {
+                                 "adaptiveIcon":  {
+                                                      "backgroundColor":  "#FAF7F2"
+                                                  },
+                                 "package":  "com.zhiyuan.app"
+                             },
+                 "plugins":  [
+                                 "expo-router",
+                                 "expo-sqlite"
+                             ],
+                 "experiments":  {
+                                     "typedRoutes":  true
+                                 }
+             }
 }
