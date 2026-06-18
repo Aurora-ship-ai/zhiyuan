@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>知源 · 导出</title>
+<style>
+:root{--c-bg:#F9F6F0;--c-card:#F3EEE4;--c-txt:#1A1512;--c-t2:#5A5045;--c-t3:#8A7E70;--c-acc:#C0774E;--c-bd:#E8E1D4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#EDE8DE;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased}
+.page{width:100%;max-width:460px;background:var(--c-bg);min-height:100vh;padding:24px 20px 60px}
+h2{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--c-txt);margin-bottom:4px}
+.sub{font-size:13px;color:var(--c-t3);margin-bottom:20px}
+.btn-row{display:flex;gap:10px;margin-bottom:20px}
+.btn{flex:1;height:48px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .18s}
+.btn-md{background:var(--c-txt);color:#fff}.btn-md:hover{opacity:.85}
+.btn-html{background:var(--c-acc);color:#fff}.btn-html:hover{background:#A85F3B}
+.btn-copy{background:var(--c-card);color:var(--c-acc2);border:1px solid var(--c-bd);flex:0}.btn-copy:hover{background:#fff}
+.export-list{margin-bottom:16px}
+.export-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--c-card);border-radius:8px;margin-bottom:8px;border:1px solid var(--c-bd);cursor:pointer;transition:all .2s}
+.export-item:hover{background:#fff}
+.export-item.on{background:#FDFAF5;border-color:var(--c-acc)}
+.export-item .cb{width:18px;height:18px;border-radius:5px;border:2px solid var(--c-bd);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.export-item.on .cb{background:var(--c-acc);border-color:var(--c-acc)}
+.export-item.on .cb::after{content:'✓';color:#fff;font-size:11px;font-weight:700}
+.export-item .info{flex:1;min-width:0}
+.export-item .name{font-size:14px;font-weight:600;color:var(--c-txt)}
+.export-item .meta{font-size:11px;color:var(--c-t3);margin-top:2px}
+.preview{border-radius:12px;border:1px solid var(--c-bd);overflow:hidden;background:#fff;max-height:500px;overflow-y:auto}
+.preview pre{margin:0;padding:16px;font-family:'JetBrains Mono','SF Mono',monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;word-break:break-word;color:var(--c-txt);background:#FDFAF5}
+.preview.html-preview{padding:20px;font-size:14px;line-height:1.8}
+.preview.html-preview h2{font-size:18px;margin-top:24px;padding-top:16px;border-top:1px solid var(--c-bd)}
+.preview.html-preview h3{font-size:15px;margin-top:16px;color:var(--c-acc)}
+.preview.html-preview strong{color:var(--c-acc)}
+.preview.html-preview blockquote{color:var(--c-t3);border-left:3px solid var(--c-acc);padding-left:12px;margin:8px 0}
+.preview.html-preview li{margin-bottom:6px}
+.preview.html-preview hr{border:none;border-top:1px solid var(--c-bd);margin:8px 0}
+.toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:var(--c-txt);color:#fff;padding:10px 24px;border-radius:24px;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+</style></head><body><div class="page" id="app"></div><div class="toast" id="toast">已复制</div>
+<script>
+const NOTES=[
+  {title:"Building Effective Agents",tags:["Agent","LLM","架构设计"],logic:"LLM增强→工具调用→工作流编排→Agent自主决策→人工审核",concepts:[{term:"Agent",def:"具备自主决策的AI系统"},{term:"Tool Use",def:"LLM调用外部工具的能力"}],questions:["什么场景用Workflow而非Agent？"],cards:[{q:"Agent vs RPA?",a:"Agent具备推理能力"}],reflection:"需要重点理解Agent的决策边界"},
+  {title:"AI编程最佳实践",tags:["AI","编程","Prompt"],logic:"代码补全→对话编程→上下文感知→Agent工作流→自主开发",concepts:[{term:"Prompt Engineering",def:"设计优化提示词的工程方法"}],questions:["如何建立AI代码Review流程？"],cards:[],reflection:""},
+  {title:"系统设计面试指南",tags:["系统设计","面试"],logic:"需求澄清→容量估算→接口设计→数据模型→架构图",concepts:[{term:"CAP定理",def:"C/A/P不可兼得"}],questions:["百万并发短链接系统？"],cards:[],reflection:"需要练习数据分片策略"},
+];
+
+let selected=new Set(NOTES.map((_,i)=>i)),mode="";
+
+function toggle(i){if(selected.has(i))selected.delete(i);else selected.add(i);render();}
+function selectAll(){if(selected.size===NOTES.length)selected.clear();else NOTES.forEach((_,i)=>selected.add(i));render();}
+
+function genMarkdown(){
+  let md="# 知源 · 知识库导出\n\n> 导出 "+(new Date().toLocaleDateString())+" · 共 "+selected.size+" 条\n\n---\n\n";
+  NOTES.forEach((n,i)=>{if(!selected.has(i))return;
+    md+="## "+(i+1)+". "+n.title+"\n\n";
+    if(n.tags.length)md+="**标签**: "+n.tags.map(t=>"#"+t).join(" · ")+"\n\n";
+    md+="### 核心逻辑链\n\n"+n.logic+"\n\n";
+    if(n.concepts.length){md+="### 关键概念\n\n";n.concepts.forEach(c=>{md+="- **"+c.term+"**: "+c.def+"\n";});md+="\n";}
+    if(n.questions.length){md+="### 延伸思考\n\n";n.questions.forEach(q=>{md+="- "+q+"\n";});md+="\n";}
+    if(n.cards.length){md+="### 问答卡片\n\n";n.cards.forEach(c=>{md+="- **Q**: "+c.q+"\n  **A**: "+c.a+"\n";});md+="\n";}
+    if(n.reflection)md+="### 我的理解\n\n"+n.reflection+"\n\n";
+    md+="---\n\n";
+  });
+  return md;
+}
+
+function genHTML(){
+  let h='<h1>知源 · 知识库导出</h1><blockquote>导出 '+new Date().toLocaleDateString()+' · 共 '+selected.size+' 条</blockquote><hr>';
+  NOTES.forEach((n,i)=>{if(!selected.has(i))return;
+    h+='<h2>'+(i+1)+'. '+n.title+'</h2>';
+    if(n.tags.length)h+='<p><strong>标签</strong>: '+n.tags.map(t=>'#'+t).join(' · ')+'</p>';
+    h+='<h3>核心逻辑链</h3><p>'+n.logic+'</p>';
+    if(n.concepts.length){h+='<h3>关键概念</h3><ul>';n.concepts.forEach(c=>{h+='<li><strong>'+c.term+'</strong>: '+c.def+'</li>';});h+='</ul>';}
+    if(n.questions.length){h+='<h3>延伸思考</h3><ul>';n.questions.forEach(q=>{h+='<li>'+q+'</li>';});h+='</ul>';}
+    if(n.cards.length){h+='<h3>问答卡片</h3><ul>';n.cards.forEach(c=>{h+='<li><strong>Q</strong>: '+c.q+'<br><strong>A</strong>: '+c.a+'</li>';});h+='</ul>';}
+    if(n.reflection)h+='<h3>我的理解</h3><p>'+n.reflection+'</p>';
+    h+='<hr>';
+  });
+  return h;
+}
+
+function copy(t){navigator.clipboard.writeText(t);const el=document.getElementById("toast");el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1500);}
+
+let selectedAll=true;
+function render(){
+  if(selected.size===0)selectedAll=false;
+  else if(selected.size===NOTES.length)selectedAll=true;
+  let h='<h2>导出知识库</h2><div class="sub">选择笔记，导出为 Markdown 或 HTML</div>';
+  h+='<div class="btn-row"><button class="btn btn-md" onclick="mode=\'md\';render()">📝 Markdown</button><button class="btn btn-html" onclick="mode=\'html\';render()">🌐 HTML</button></div>';
+  if(!mode)h+='<div class="sub" style="text-align:center;padding:40px 0">选择一种导出格式查看预览</div>';
+  else{
+    h+='<div class="btn-row"><button class="btn btn-copy" onclick="selectAll()">'+(selectedAll?'取消全选':'全选')+' ('+selected.size+'/'+NOTES.length+')</button><button class="btn btn-copy" onclick="copy('+(mode==='md'?'genMarkdown()':'genHTML()')+')">📋 复制</button></div>';
+    h+='<div class="export-list">';
+    NOTES.forEach((n,i)=>{h+='<div class="export-item'+(selected.has(i)?' on':'')+'" onclick="toggle('+i+')"><div class="cb"></div><div class="info"><div class="name">'+n.title+'</div><div class="meta">'+n.tags.map(t=>'#'+t).join(' ')+'</div></div></div>';});
+    h+='</div>';
+    const md=genMarkdown(),html=genHTML();
+    h+='<div class="preview">';
+    if(mode==='md')h+='<pre>'+md.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</pre>';
+    else h+='<div class="preview html-preview">'+html+'</div>';
+    h+='</div>';
+  }
+  document.getElementById("app").innerHTML=h;
+}
+render();
+</script></body></html>
