@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>鐭ユ簮 路 App</title>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知源 App</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#2D2420;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
@@ -10,19 +10,18 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
 .hd{padding:20px 20px 12px;display:flex;justify-content:space-between;align-items:baseline}
 .br{font-family:Georgia,serif;font-size:24px;font-weight:700;color:#1A1512}
 .dt{font-size:12px;color:#8A7E70}
-.sr{display:flex;align-items:center;background:#fff;border-radius:12px;padding:12px 16px;margin:0 20px;border:1px solid #E8E1D4;box-shadow:0 1px 3px rgba(60,40,20,.03)}
+.sr{display:flex;align-items:center;background:#fff;border-radius:12px;padding:12px 16px;margin:0 20px;border:1px solid #E8E1D4}
 .sr svg{margin-right:8px;opacity:.35;flex-shrink:0}
 .sr input{flex:1;border:none;outline:none;background:transparent;font-size:15px;color:#1A1512;font-family:inherit}
 .sr input::placeholder{color:#8A7E70}
 .cp{display:flex;gap:6px;padding:12px 20px 0;overflow-x:auto;scrollbar-width:none}
-.cp::-webkit-scrollbar{display:none}
-.ch{font-size:12px;font-weight:500;padding:7px 14px;border-radius:20px;border:1px solid #E8E1D4;color:#5A5045;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:all .15s}
+.ch{font-size:12px;font-weight:500;padding:7px 14px;border-radius:20px;border:1px solid #E8E1D4;color:#5A5045;white-space:nowrap;flex-shrink:0;cursor:pointer}
 .ch.on{background:#1A1512;color:#FDFAF5;border-color:#1A1512}
 .sh{display:flex;justify-content:space-between;padding:16px 20px 8px;align-items:center}
 .st{font-family:Georgia,serif;font-size:15px;font-weight:600;color:#1A1512}
 .sc{font-size:11px;color:#8A7E70}
 .fd{padding:0 20px}
-.ca{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(60,40,20,.02);cursor:pointer;transition:all .2s}
+.ca{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s}
 .ca:active{transform:scale(.99)}
 .ca.ft{background:linear-gradient(135deg,#FBF7F0,#F4ECE0);border-color:#D5CCBB}
 .ca .chd{display:flex;align-items:center;gap:6px;margin-bottom:8px}
@@ -41,9 +40,6 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
 .cv{background:linear-gradient(155deg,#F5EDE0,#FDFAF5);border-radius:10px;border:1px solid #E8E1D4;padding:16px;margin-bottom:16px;border-left:3px solid #C0774E}
 .cvt{font-family:Georgia,serif;font-size:18px;font-weight:700;color:#1A1512;margin-bottom:2px}
 .cvm{font-size:11px;color:#8A7E70}
-.tb{display:flex;gap:4px;margin-bottom:16px}
-.ti{font-size:12px;font-weight:500;padding:8px 14px;border-radius:20px;border:1px solid #E8E1D4;color:#5A5045;cursor:pointer}
-.ti.on{background:#C0774E;color:#fff;border-color:#C0774E}
 .bl{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:14px;margin-bottom:12px}
 .bl h4{font-size:13px;font-weight:600;color:#C0774E;margin-bottom:8px}
 .cn{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
@@ -53,141 +49,138 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
 .ti2{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:#8A7E70;font-size:10px;font-weight:500;transition:color .2s}
 .ti2.on{color:#C0774E}
 .ti2 svg{width:20px;height:20px}
+.btn1{flex:1;height:46px;border-radius:10px;background:#C0774E;color:#fff;border:none;font-size:15px;font-weight:600;cursor:pointer}
+.btn2{height:46px;padding:0 18px;border-radius:10px;background:transparent;border:1.5px solid #E8E1D4;color:#3A5A45;font-size:14px;font-weight:500;cursor:pointer}
 </style></head><body><div class="phone">
-<div class="sb"><span>9:41</span><span>鈼忊棌鈼忊棌鈼?/span></div>
+<div class="sb"><span>9:41</span><span>●●●●○</span></div>
 <div class="scr">
 
 <div class="pn" id="home">
-  <div class="hd"><span class="br">鐭ユ簮</span><span class="dt">6鏈?8鏃?/span></div>
-  <div class="sr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="q" placeholder="鎼滅储浣犳兂瀛︾殑浠讳綍涓婚鈥? oninput="doFilter()"></div>
-  <div class="cp" id="cps"><span class="ch on" onclick="setChip(0)">鍏ㄩ儴</span><span class="ch" onclick="setChip(1)">鏂囩珷</span><span class="ch" onclick="setChip(2)">璁烘枃</span><span class="ch" onclick="setChip(3)">瑙嗛</span><span class="ch" onclick="setChip(4)">涔︾睄</span></div>
-  <div class="sh"><span class="st">绮鹃€夋帹鑽?/span><span class="sc" id="rc">4 浠?/span></div>
-  <div class="fd" id="feed">
-    <div class="ca ft" onclick="go('note')" data-t="0,1,2,3,4"><div class="chd"><div class="sg hi">鈽?9.2</div><span class="so">Anthropic</span></div><h3>Building Effective Agents</h3><p>Agent 鏋勫缓鏉冨▉鎸囧崡锛氫粠宸ヤ綔娴佸埌鑷富 Agent銆?/p><div class="tg"><span>Agent</span><span>LLM</span></div><div class="ac">闃呰鍏ㄦ枃 鈫?/div></div>
-    <div class="ca" onclick="go('note')" data-t="0,1"><div class="chd"><div class="sg">鈽?4.8</div><span class="so">Towards Data Science</span></div><h3>AI 缂栫▼鏈€浣冲疄璺?/h3><p>浠?Prompt Engineering 鍒?Agent 宸ヤ綔娴併€?/p><div class="tg"><span>AI</span><span>缂栫▼</span></div><div class="ac">鐩磋揪 鈫?/div></div>
-    <div class="ca" onclick="go('note')" data-t="0,2"><div class="chd"><div class="sg hi">鈽?9.8</div><span class="so">arXiv</span></div><h3>Attention Is All You Need</h3><p>Transformer 濂犲熀璁烘枃锛岃嚜娉ㄦ剰鍔涙満鍒躲€?/p><div class="tg"><span>Transformer</span><span>NLP</span></div><div class="ac">闃呰鍏ㄦ枃 鈫?/div></div>
-    <div class="ca" onclick="go('note')" data-t="0,3"><div class="chd"><div class="sg">鈽?4.7</div><span class="so">YouTube 路 LangChain</span></div><h3>Building Agents 鈥?Full Course</h3><p>浠庨浂鏋勫缓 AI Agent 瀹屾暣鏁欑▼銆?/p><div class="tg"><span>Agent</span><span>鏁欑▼</span></div><div class="ac">瑙傜湅 鈫?/div></div>
+  <div class="hd"><span class="br">知源</span><span class="dt">6月18日</span></div>
+  <div class="sr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="q" placeholder="搜索你想学的任何主题…" onkeydown="if(event.key==='Enter')doFilter()"></div>
+  <div class="cp" id="cps"><span class="ch on" onclick="setChip(0)">全部</span><span class="ch" onclick="setChip(1)">文章</span><span class="ch" onclick="setChip(2)">论文</span><span class="ch" onclick="setChip(3)">视频</span><span class="ch" onclick="setChip(4)">书籍</span></div>
+  <div class="sh"><span class="st">精选推荐</span><span class="sc" id="rc">0 份</span></div>
+  <div class="fd" id="feed"></div>
+</div>
+
+<div class="pn h" id="material">
+  <div class="nh"><span class="nb" onclick="go('home')">← 返回</span><span class="nt">资料详情</span></div>
+  <div class="nx">
+    <div class="cv" style="border-left-color:#3A5A45"><div><div class="cvt" id="mTitle"></div><div class="cvm"><span class="sg" id="mScore">0</span> <span style="color:#8A7E70" id="mSource"></span></div></div></div>
+    <div class="bl"><h4>内容摘要</h4><div style="font-size:13px;color:#1A1512;line-height:1.7" id="mSummary"></div></div>
+    <div class="bl"><h4>原文链接</h4><div style="font-size:12px;color:#3A5A45;word-break:break-all;line-height:1.5" id="mUrl"></div></div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="btn1" onclick="genNote()">✦ 生成复习笔记</button><button class="btn2" onclick="savePending()">保存到待学</button></div>
   </div>
 </div>
 
 <div class="pn h" id="note">
-  <div class="nh"><span class="nb" onclick="go('home')">鈫?杩斿洖</span><span class="nt">澶嶄範绗旇</span><span style="width:40px"></span></div>
+  <div class="nh"><span class="nb" onclick="go('home')">← 返回</span><span class="nt">复习笔记</span></div>
   <div class="nx">
-    <div class="cv"><div><div class="cvt">Building Effective Agents</div><div class="cvm">Anthropic 路 850ms</div></div></div>
-    <div class="tb"><span class="ti on">绗旇</span><span class="ti">鍗＄墖</span><span class="ti">瀵煎浘</span></div>
-    <div class="bl"><h4>鏍稿績閫昏緫閾?/h4>
-      <div class="cn"><div class="nu">1</div><div class="tx">LLM 鍩虹鑳藉姏澧炲己 鈫?Agent 鎺ㄧ悊搴曞眰鏀拺</div></div>
-      <div class="cn"><div class="nu">2</div><div class="tx">Tool Use 璧嬩簣璋冪敤 API銆佹暟鎹簱鐨勮兘鍔?/div></div>
-      <div class="cn"><div class="nu">3</div><div class="tx">Workflow 缁勫悎涓烘湁搴忔墽琛岃鍒?/div></div>
-      <div class="cn"><div class="nu">4</div><div class="tx">Agent 鑷富鍐崇瓥锛屽姩鎬佽皟鏁寸瓥鐣?/div></div>
-      <div class="cn"><div class="nu">5</div><div class="tx">浜哄伐瀹℃牳浣滀负鏈€鍚庨槻绾?/div></div>
+    <div class="cv"><div><div class="cvt" id="nTitle">Building Effective Agents</div><div class="cvm">Anthropic · 850ms</div></div></div>
+    <div class="bl"><h4>核心逻辑链</h4>
+      <div class="cn"><div class="nu">1</div><div class="tx">LLM 基础能力增强 → Agent 推理底层支撑</div></div>
+      <div class="cn"><div class="nu">2</div><div class="tx">Tool Use 赋予调用 API、数据库的能力</div></div>
+      <div class="cn"><div class="nu">3</div><div class="tx">Workflow 组合为有序执行计划</div></div>
+      <div class="cn"><div class="nu">4</div><div class="tx">Agent 自主决策，动态调整策略</div></div>
+      <div class="cn"><div class="nu">5</div><div class="tx">人工审核作为最后防线</div></div>
     </div>
   </div>
-</div><div class="pn h" id="material"><div class="nh"><span class="nb" onclick="go(\x27home\x27)">\u2190 \u8fd4\u56de</span><span class="nt">\u8d44\u6599\u8be6\u60c5</span><span style="width:40px"></span></div><div class="nx"><div class="cv" style="border-left-color:#3A5A45"><div><div class="cvt m-title"></div><div class="cvm"><span class="sg m-score">0</span> <span class="m-source" style="color:#8A7E70"></span></div></div></div><div class="bl"><h4>\u5185\u5bb9\u6458\u8981</h4><div style="font-size:13px;color:#1A1512;line-height:1.7" class="m-summary"></div></div><div class="bl"><h4>\u539f\u6587\u94fe\u63a5</h4><div style="font-size:12px;color:#3A5A45;word-break:break-all;line-height:1.5" class="m-url"></div></div><div style="display:flex;gap:10px;margin-top:16px"><button style="flex:1;height:46px;border-radius:10px;background:#C0774E;color:#fff;border:none;font-size:15px;font-weight:600;cursor:pointer" onclick="generateNote()">\u2726 \u751f\u6210\u590d\u4e60\u7b14\u8bb0</button><button style="height:46px;padding:0 18px;border-radius:10px;background:transparent;border:1.5px solid #E8E1D4;color:#3A5A45;font-size:14px;font-weight:500;cursor:pointer" onclick="saveToPending()">\u4fdd\u5b58\u5230\u5f85\u5b66</button></div></div></div><div class="pn h" id="knowledge">
-  <div class="hd"><span class="br">鐭ヨ瘑搴?/span><span class="dt">4 绗旇</span></div>
-  <div class="sr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="鎼滅储绗旇鈥? style="flex:1;border:none;outline:none;background:transparent;font-size:15px;color:#1A1512;font-family:inherit"></div>
-  <div class="sh"><span class="st">鍏ㄩ儴绗旇</span><span class="sc">4 鏉?/span></div>
-  <div class="fd">
-    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6鏈?8鏃?路 3 姒傚康 路 4 鍗＄墖</span></div><h3>Building Effective Agents</h3><p>LLM鈫扵ool Use鈫扺orkflow鈫掕嚜涓诲喅绛?/p><div class="tg"><span>Agent</span><span>LLM</span></div></div>
-    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6鏈?7鏃?路 2 姒傚康</span></div><h3>AI 缂栫▼鏈€浣冲疄璺?/h3><p>浠ｇ爜琛ュ叏鈫扐gent宸ヤ綔娴?/p><div class="tg"><span>AI</span><span>缂栫▼</span></div></div>
-    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6鏈?6鏃?路 3 姒傚康</span></div><h3>绯荤粺璁捐闈㈣瘯鎸囧崡</h3><p>闇€姹傗啋瀹归噺鈫掓帴鍙ｂ啋妯″瀷鈫掓灦鏋?/p><div class="tg"><span>绯荤粺璁捐</span></div></div>
-    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6鏈?5鏃?路 4 姒傚康 路 3 鍗＄墖</span></div><h3>Transformer 鏋舵瀯瑙ｆ瀽</h3><p>鑷敞鎰忓姏鈫掑苟琛屸啋闀跨▼渚濊禆</p><div class="tg"><span>娣卞害瀛︿範</span><span>NLP</span></div></div>
-  </div>
+</div>
+
+<div class="pn h" id="knowledge">
+  <div class="hd"><span class="br">知识库</span><span class="dt">2 笔记</span></div>
+  <div class="fd" id="kbList"></div>
 </div>
 
 <div class="pn h" id="pending">
-  <div class="hd"><span class="br">寰呭娓呭崟</span><span class="dt">2 椤?/span></div>
-  <div class="fd" style="padding-top:12px">
-    <div class="ca"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">3 澶╁墠鏀惰棌</span></div><h3>Transformer 鏋舵瀯娣卞害瑙ｆ瀽</h3><p>鑷敞鎰忓姏鏈哄埗璇﹁В锛屾簮浠ｇ爜鍒嗘瀽銆?/p><div class="tg"><span>娣卞害瀛︿範</span><span>NLP</span></div></div>
-    <div class="ca"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">1 鍛ㄥ墠鏀惰棌</span></div><h3>TypeScript 绫诲瀷浣撴搷瀹炴垬</h3><p>楂樼骇绫诲瀷鎶€宸т笌鎸戞垬棰樸€?/p><div class="tg"><span>TypeScript</span></div></div>
-  </div>
+  <div class="hd"><span class="br">待学清单</span></div>
+  <div class="fd" id="pdList"></div>
 </div>
 
 <div class="pn h" id="profile">
-  <div class="hd"><span class="br">鎴戠殑</span></div>
-  <div class="fd" style="padding-top:12px">
-    <div class="ca" style="text-align:center;padding:24px"><div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:#1A1512">4</div><div style="font-size:11px;color:#8A7E70;margin-top:2px">绗旇</div></div>
-    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">瀵煎嚭鐭ヨ瘑搴?/span><span style="font-size:12px;color:#3A5A45">Markdown / HTML 鈫?/span></div>
-    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">API Key 閰嶇疆</span><span style="font-size:12px;color:#8A7E70">鏈厤缃?/span></div>
-    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">鍏充簬鐭ユ簮</span><span style="font-size:12px;color:#8A7E70">v0.1.0</span></div>
-  </div>
+  <div class="hd"><span class="br">我的</span></div>
+  <div class="fd"><div class="ca" style="text-align:center;padding:24px"><div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:#1A1512">2</div><div style="font-size:11px;color:#8A7E70;margin-top:2px">笔记</div></div></div>
 </div>
 
 </div>
 <div class="tbb">
-  <div class="ti2 on" id="tb0" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>棣栭〉</div>
-  <div class="ti2" id="tb1" onclick="go('knowledge')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>鐭ヨ瘑搴?/div>
-  <div class="ti2" id="tb2" onclick="go('pending')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>寰呭</div>
-  <div class="ti2" id="tb3" onclick="go('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>鎴戠殑</div>
+  <div class="ti2 on" id="tb0" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>首页</div>
+  <div class="ti2" id="tb1" onclick="go('knowledge')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>知识库</div>
+  <div class="ti2" id="tb2" onclick="go('pending')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>待学</div>
+  <div class="ti2" id="tb3" onclick="go('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</div>
 </div>
 </div>
-<script>var ac=0,ld=!1,pending=[],currentMaterial=null;
-function setChip(i){ac=i;document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===i)});doFilter()}
+<script>
+var ac=0,ld=!1,pending=[],curMat=null;
+
+function setChip(i){ac=i;document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===i)})}
+
 function doFilter(){
   var q=document.getElementById("q").value.trim();
-  if(!q)return renderMock();
-  if(ld)return;
-  ld=!0;
+  if(!q)return;
+  if(ld)return;ld=!0;
   var fd=document.getElementById("feed");
   fd.innerHTML="";
-  for(var i=0;i<3;i++){fd.innerHTML+="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70;font-size:13px\">"+["鍒嗘瀽涓?,"鎼滅储浜掕仈缃?,"鏁寸悊缁撴灉"][i]+"</div>";}
+  for(var i=0;i<3;i++){fd.innerHTML+="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70;font-size:13px\">"+["分析中","搜索互联网","整理结果"][i]+"</div>";}
   fetch("http://localhost:8000/api/search/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q,page:1,page_size:5})}).then(function(r){return r.json()}).then(function(d){
     ld=!1;var all=d.results||[];
     var fd=document.getElementById("feed");fd.innerHTML="";
-    document.getElementById("rc").textContent=d.total+" \u4efd";
-    if(all.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">\u6362\u4e2a\u5173\u952e\u8bcd\u8bd5\u8bd5</div>";}
+    document.getElementById("rc").textContent=all.length+" 份";
+    if(all.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">换个关键词试试</div>";}
     all.forEach(function(r,i){
       var ft=r.score>=9;
-      fd.innerHTML+="<div class=\"ca"+(ft?" ft":"")+"\" onclick=\"openMaterial(\x27"+encodeURIComponent(JSON.stringify(r))+"\x27)\"><div class=\"chd\"><div class=\"sg"+(ft?" hi":"")+"\">\u2605 "+r.score+"</div><span class=\"so\">"+r.source+"</span></div><h3>"+r.title+"</h3><p>"+(r.summary||"")+"</p><div class=\"tg\">"+(r.tags||[]).map(function(t){return"<span>"+t+"</span>"}).join("")+"</div><div class=\"ac\">\u70b9\u51fb\u67e5\u770b \u2192</div></div>";
+      fd.innerHTML+="<div class=\"ca"+(ft?" ft":"")+"\" onclick=\"openMat(\x27"+encodeURIComponent(JSON.stringify(r))+"\x27)\"><div class=\"chd\"><div class=\"sg"+(ft?" hi":"")+"\">\u2605 "+r.score+"</div><span class=\"so\">"+r.source+"</span></div><h3>"+r.title+"</h3><p>"+(r.summary||"")+"</p><div class=\"tg\">"+(r.tags||[]).map(function(t){return"<span>"+t+"</span>"}).join("")+"</div><div class=\"ac\">点击查看 \u2192</div></div>";
     });
-    document.getElementById("rc").textContent=all.length+" \u4efd";
-  }).catch(function(){ld=!1;renderMock()});
+    document.getElementById("rc").textContent=all.length+" 份";
+  }).catch(function(){ld=!1;});
 }
-function renderMock(){document.getElementById("rc").textContent="0 \u4efd";}
+
+function openMat(e){
+  var r=JSON.parse(decodeURIComponent(e));curMat=r;
+  document.getElementById("mTitle").textContent=r.title;
+  document.getElementById("mSource").textContent=r.source;
+  document.getElementById("mSummary").textContent=r.summary||"暂无摘要";
+  document.getElementById("mUrl").textContent=r.url;
+  var sc=document.getElementById("mScore");sc.textContent=r.score;
+  sc.className="sg"+(r.score>=9?" hi":"");
+  go("material");
+}
+
+function savePending(){
+  if(!curMat)return;
+  if(!pending.find(function(x){return x.url===curMat.url})){
+    pending.unshift({title:curMat.title,source:curMat.source,url:curMat.url,date:new Date().toLocaleDateString()});
+  }
+  go("home");alert("已保存到待学清单");
+}
+
+function genNote(){
+  if(!curMat)return;
+  document.getElementById("nTitle").textContent=curMat.title;
+  document.querySelector("#note .cvm").textContent=curMat.source+" \u00b7 850ms";
+  go("note");
+}
+
 function go(id){
   document.querySelectorAll(".pn").forEach(function(p){p.classList.add("h")});
   document.getElementById(id).classList.remove("h");
-  var map={home:0,knowledge:1,pending:2,profile:3,material:0,note:0};
-  document.querySelectorAll(".ti2").forEach(function(t,i){t.classList.toggle("on",i===map[id])});
+  var m={home:0,knowledge:1,pending:2,profile:3};
+  document.querySelectorAll(".ti2").forEach(function(t,i){t.classList.toggle("on",i===m[id])});
   if(id==="pending")renderPending();
   if(id==="knowledge")renderKB();
 }
-function openMaterial(e){
-  var r=JSON.parse(decodeURIComponent(e));currentMaterial=r;
-  var p=document.getElementById("material");
-  p.querySelector(".m-title").textContent=r.title;
-  p.querySelector(".m-source").textContent=r.source;
-  p.querySelector(".m-summary").textContent=r.summary||"\u6682\u65e0\u6458\u8981";
-  p.querySelector(".m-url").textContent=r.url;
-  var sc=p.querySelector(".m-score");sc.textContent=r.score;
-  sc.className="sg"+(r.score>=9?" hi":"");
-  document.querySelectorAll(".pn").forEach(function(x){x.classList.add("h")});
-  p.classList.remove("h");
-}
-function saveToPending(){
-  if(!currentMaterial)return;
-  if(!pending.find(function(x){return x.url===currentMaterial.url})){
-    pending.unshift({title:currentMaterial.title,source:currentMaterial.source,url:currentMaterial.url,date:new Date().toLocaleDateString()});
-  }
-  go("home");alert("\u5df2\u4fdd\u5b58\u5230\u5f85\u5b66\u6e05\u5355");
-}
-function generateNote(){
-  if(!currentMaterial)return;
-  document.querySelector("#note .cvt").textContent=currentMaterial.title;
-  document.querySelector("#note .cvm").textContent=currentMaterial.source+" \u00b7 850ms";
-  go("note");
-}
+
 function renderPending(){
-  var fd=document.getElementById("pending").querySelector(".fd");
-  fd.innerHTML="";
-  if(pending.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">\u8fd8\u6ca1\u6709\u6536\u85cf\u7684\u8d44\u6599</div>";return;}
+  var fd=document.getElementById("pdList");fd.innerHTML="";
+  if(pending.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">还没有收藏的资料</div>";return;}
   pending.forEach(function(p,i){
-    fd.innerHTML+="<div class=\"ca\" style=\"cursor:default\"><div class=\"chd\"><span class=\"so\">"+p.date+" \u00b7 "+p.source+"</span></div><h3>"+p.title+"</h3><div class=\"ac\" style=\"cursor:pointer\" onclick=\"pending.splice("+i+",1);renderPending()\">\u5220\u9664</div></div>";
+    fd.innerHTML+="<div class=\"ca\" style=\"cursor:default\"><div class=\"chd\"><span class=\"so\">"+p.date+" \u00b7 "+p.source+"</span></div><h3>"+p.title+"</h3><div class=\"ac\" style=\"cursor:pointer\" onclick=\"pending.splice("+i+",1);renderPending()\">删除</div></div>";
   });
 }
+
 function renderKB(){
-  var fd=document.getElementById("knowledge").querySelector(".fd");
-  fd.innerHTML="";
-  var kb=[{title:"Building Effective Agents",date:"6\u670818\u65e5",c:3,q:4},{title:"AI \u7f16\u7a0b\u6700\u4f73\u5b9e\u8df5",date:"6\u670817\u65e5",c:2,q:0}];
-  kb.forEach(function(n){fd.innerHTML+="<div class=\"ca\" onclick=\"go(\x27note\x27)\"><div class=\"chd\"><span class=\"so\">"+n.date+" \u00b7 \u{1f4a1} "+n.c+" \u00b7 \u{1f0cf} "+n.q+"</span></div><h3>"+n.title+"</h3></div>";});
-}</script></body></html>
+  var fd=document.getElementById("kbList");fd.innerHTML="";
+  var kb=[{t:"Building Effective Agents",d:"6月18日",c:3,q:4},{t:"AI 编程最佳实践",d:"6月17日",c:2,q:0}];
+  kb.forEach(function(n){fd.innerHTML+="<div class=\"ca\" onclick=\"go(\x27note\x27)\"><div class=\"chd\"><span class=\"so\">"+n.d+" \u00b7 \uD83D\uDCA1 "+n.c+" \u00b7 \uD83C\uDCCF "+n.q+"</span></div><h3>"+n.t+"</h3></div>";});
+}
+</script></body></html>
