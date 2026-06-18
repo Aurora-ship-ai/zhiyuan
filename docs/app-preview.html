@@ -1,4 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>鐭ユ簮 App</title>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>知源</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#2D2420;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
@@ -51,145 +56,185 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
 .ti2 svg{width:20px;height:20px}
 .btn1{flex:1;height:46px;border-radius:10px;background:#C0774E;color:#fff;border:none;font-size:15px;font-weight:600;cursor:pointer}
 .btn2{height:46px;padding:0 18px;border-radius:10px;background:transparent;border:1.5px solid #E8E1D4;color:#3A5A45;font-size:14px;font-weight:500;cursor:pointer}
-</style></head><body><div class="phone">
-<div class="sb"><span>9:41</span><span>鈼忊棌鈼忊棌鈼?/span></div>
+.spin{display:inline-block;width:16px;height:16px;border:2px solid #E8E1D4;border-top-color:#C0774E;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="phone">
+<div class="sb"><span>9:41</span><span>●●●●○</span></div>
 <div class="scr">
 
 <div class="pn" id="home">
-  <div class="hd"><span class="br">鐭ユ簮</span><span class="dt">6鏈?8鏃?/span></div>
-  <div class="sr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="q" placeholder="鎼滅储浣犳兂瀛︾殑浠讳綍涓婚鈥? onkeydown="if(event.key==='Enter')doFilter()"></div>
-  <div class="cp" id="cps"><span class="ch on" onclick="setChip(0)">鍏ㄩ儴</span><span class="ch" onclick="setChip(1)">鏂囩珷</span><span class="ch" onclick="setChip(2)">璁烘枃</span><span class="ch" onclick="setChip(3)">瑙嗛</span><span class="ch" onclick="setChip(4)">涔︾睄</span></div>
-  <div class="sh"><span class="st">绮鹃€夋帹鑽?/span><span class="sc" id="rc">0 浠?/span></div>
-  <div class="fd" id="feed"></div>
-</div>
-
-<div class="pn h" id="material">
-  <div class="nh"><span class="nb" onclick="go(\x27home\x27)">鈫?杩斿洖</span><span class="nt">璧勬枡璇︽儏</span></div>
-  <div class="nx">
-    <div class="cv" style="border-left-color:#3A5A45"><div><div class="cvt" id="mTitle"></div><div class="cvm"><span class="sg" id="mScore">0</span> <span style="color:#8A7E70" id="mSource"></span></div></div></div>
-    <div class="bl"><h4>鍐呭鎽樿</h4><div style="font-size:13px;color:#1A1512;line-height:1.7" id="mSummary"></div></div>
-    <div class="bl"><h4>鍘熸枃閾炬帴</h4><div style="font-size:12px;color:#3A5A45;word-break:break-all;line-height:1.5" id="mUrl"></div></div>
-    <div style="display:flex;gap:10px;margin-top:16px"><button class="btn1" onclick="genNote()">鉁?鐢熸垚澶嶄範绗旇</button><button class="btn2" onclick="savePending()">淇濆瓨鍒板緟瀛?/button></div>
-  </div>
-</div>
-
-<div class="pn h" id="note">
-  <div class="nh"><span class="nb" onclick="go(\x27home\x27)">鈫?杩斿洖</span><span class="nt">澶嶄範绗旇</span></div>
-  <div class="nx">
-    <div class="cv"><div><div class="cvt" id="nTitle">Building Effective Agents</div><div class="cvm">Anthropic 路 850ms</div></div></div>
-    <div class="bl"><h4>鏍稿績閫昏緫閾?/h4>
-      <div class="cn"><div class="nu">1</div><div class="tx">LLM 鍩虹鑳藉姏澧炲己 鈫?Agent 鎺ㄧ悊搴曞眰鏀拺</div></div>
-      <div class="cn"><div class="nu">2</div><div class="tx">Tool Use 璧嬩簣璋冪敤 API銆佹暟鎹簱鐨勮兘鍔?/div></div>
-      <div class="cn"><div class="nu">3</div><div class="tx">Workflow 缁勫悎涓烘湁搴忔墽琛岃鍒?/div></div>
-      <div class="cn"><div class="nu">4</div><div class="tx">Agent 鑷富鍐崇瓥锛屽姩鎬佽皟鏁寸瓥鐣?/div></div>
-      <div class="cn"><div class="nu">5</div><div class="tx">浜哄伐瀹℃牳浣滀负鏈€鍚庨槻绾?/div></div>
+  <div class="hd"><span class="br">知源</span><span class="dt">6月18日</span></div>
+  <div class="sr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="q" placeholder="搜索你想学的任何主题…" onkeydown="if(event.key===\x27Enter\x27)doSearch()"></div>
+  <div class="cp" id="cps"><span class="ch on" onclick="setChip(0)">全部</span><span class="ch" onclick="setChip(1)">文章</span><span class="ch" onclick="setChip(2)">论文</span><span class="ch" onclick="setChip(3)">视频</span><span class="ch" onclick="setChip(4)">书籍</span></div>
+  <div class="sh"><span class="st">搜索结果</span><span class="sc" id="rc">—</span></div>
+  <div class="fd" id="feed">
+    <div class="ca" style="text-align:center;padding:32px;color:#8A7E70">
+      <div style="font-size:40px;margin-bottom:12px">🔍</div>
+      <div style="font-size:15px;font-weight:500;margin-bottom:4px">搜索学习资料</div>
+      <div style="font-size:12px">输入关键词，AI 帮你找到最优质的内容</div>
     </div>
   </div>
 </div>
 
+<div class="pn h" id="material">
+  <div class="nh"><span class="nb" onclick="go(\x27home\x27)">← 返回</span><span class="nt">资料详情</span></div>
+  <div class="nx">
+    <div class="cv" style="border-left-color:#3A5A45"><div><div class="cvt" id="mTitle">—</div><div class="cvm"><span class="sg" id="mScore">0</span> <span style="color:#8A7E70" id="mSource">—</span></div></div></div>
+    <div class="bl"><h4>内容摘要</h4><div style="font-size:13px;color:#1A1512;line-height:1.7" id="mSummary">—</div></div>
+    <div class="bl"><h4>原文链接</h4><div style="font-size:12px;color:#3A5A45;word-break:break-all;line-height:1.5" id="mUrl">—</div></div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn1" id="btnGen" onclick="genNote()">✦ 生成复习笔记</button>
+      <button class="btn2" onclick="savePending()">保存到待学</button>
+    </div>
+    <div id="genStatus" style="text-align:center;padding:12px;color:#8A7E70;font-size:12px;display:none"></div>
+  </div>
+</div>
+
+<div class="pn h" id="note">
+  <div class="nh"><span class="nb" onclick="go(\x27material\x27)">← 返回</span><span class="nt">复习笔记</span></div>
+  <div class="nx" id="noteContent"></div>
+</div>
+
 <div class="pn h" id="knowledge">
-  <div class="hd"><span class="br">鐭ヨ瘑搴?/span><span class="dt">2 绗旇</span></div>
+  <div class="hd"><span class="br">知识库</span><span class="dt" id="kbCount">0 笔记</span></div>
   <div class="fd" id="kbList"></div>
 </div>
 
 <div class="pn h" id="pending">
-  <div class="hd"><span class="br">寰呭娓呭崟</span></div>
+  <div class="hd"><span class="br">待学清单</span><span class="dt" id="pdCount">0 项</span></div>
   <div class="fd" id="pdList"></div>
 </div>
 
 <div class="pn h" id="profile">
-  <div class="hd"><span class="br">鎴戠殑</span></div>
-  <div class="fd"><div class="ca" style="text-align:center;padding:24px"><div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:#1A1512">2</div><div style="font-size:11px;color:#8A7E70;margin-top:2px">绗旇</div></div></div>
+  <div class="hd"><span class="br">我的</span></div>
+  <div class="fd" style="padding-top:12px">
+    <div class="ca" style="text-align:center;padding:24px"><div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:#1A1512" id="noteCount">0</div><div style="font-size:11px;color:#8A7E70;margin-top:2px">已存笔记</div></div>
+    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">API 状态</span><span style="font-size:12px;color:#3A5A45" id="apiStatus">检查中…</span></div>
+  </div>
 </div>
 
 </div>
 <div class="tbb">
-  <div class="ti2 on" id="tb0" onclick="go(\x27home\x27)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>棣栭〉</div>
-  <div class="ti2" id="tb1" onclick="go('knowledge')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>鐭ヨ瘑搴?/div>
-  <div class="ti2" id="tb2" onclick="go('pending')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>寰呭</div>
-  <div class="ti2" id="tb3" onclick="go('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>鎴戠殑</div>
+  <div class="ti2 on" id="tb0" onclick="go(\x27home\x27)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>首页</div>
+  <div class="ti2" id="tb1" onclick="go(\x27knowledge\x27)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>知识库</div>
+  <div class="ti2" id="tb2" onclick="go(\x27pending\x27)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>待学</div>
+  <div class="ti2" id="tb3" onclick="go(\x27profile\x27)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</div>
 </div>
 </div>
-<script>var ac=0,ld=!1,pending=[],curMat=null,allResults=[],notes={};
+<script>
+// ===== 全局状态 =====
+var ac=0,ld=!1,pending=[],curMat=null,allResults=[],notes={},noteCount=0;
+var API="http://localhost:8000";
 
+// ===== 初始化 =====
+fetch(API+"/api/health").then(function(r){return r.json()}).then(function(d){
+  document.getElementById("apiStatus").textContent="v"+d.version+" 在线";
+}).catch(function(){
+  document.getElementById("apiStatus").textContent="离线(模拟)";document.getElementById("apiStatus").style.color="#C45A4A";
+});
+
+// ===== 分类筛选 =====
 function setChip(i){ac=i;document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===i)})}
 
-function doFilter(){
+// ===== 搜索 =====
+function doSearch(){
   var q=document.getElementById("q").value.trim();
   if(!q)return;
   if(ld)return;ld=!0;
   var fd=document.getElementById("feed");
-  fd.innerHTML="";
-  for(var i=0;i<3;i++){fd.innerHTML+='<div class="ca" style="text-align:center;padding:24px;color:#8A7E70;font-size:13px">'+["鍒嗘瀽涓?,"鎼滅储浜掕仈缃?,"鏁寸悊缁撴灉"][i]+'</div>';}
-  fetch("http://localhost:8000/api/search/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q,page:1,page_size:5})}).then(function(r){return r.json()}).then(function(d){
-    ld=!1;allResults=d.results||[];
-    var fd=document.getElementById("feed");fd.innerHTML="";
-    document.getElementById("rc").textContent=allResults.length+" 浠?;
-    if(allResults.length===0){fd.innerHTML='<div class="ca" style="text-align:center;padding:24px;color:#8A7E70">鎹釜鍏抽敭璇嶈瘯璇?/div>';}
-    allResults.forEach(function(r,i){
-      var ft=r.score>=9;
-      fd.innerHTML+='<div class="ca'+(ft?' ft':'')+'" onclick="openMat('+i+')"><div class="chd"><div class="sg'+(ft?' hi':'')+'">鈽?'+r.score+'</div><span class="so">'+r.source+'</span></div><h3>'+r.title+'</h3><p>'+(r.summary||'')+'</p><div class="tg">'+(r.tags||[]).map(function(t){return'<span>'+t+'</span>'}).join('')+'</div><div class="ac">鐐瑰嚮鏌ョ湅 鈫?/div></div>';
-    });
-    document.getElementById("rc").textContent=allResults.length+" 浠?;
-  }).catch(function(){ld=!1;});
+  fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px\"><span class=\"spin\"></span> 搜索中…</div>";
+  fetch(API+"/api/search/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q,page:1,page_size:5})}).then(function(r){return r.json()}).then(function(d){
+    ld=!1;allResults=d.results||[];renderResults();
+  }).catch(function(e){ld=!1;allResults=[];renderResults();});
 }
 
+function renderResults(){
+  var fd=document.getElementById("feed");fd.innerHTML="";
+  if(allResults.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">未找到结果，换个关键词试试</div>";document.getElementById("rc").textContent="0 份";return;}
+  document.getElementById("rc").textContent=allResults.length+" 份";
+  allResults.forEach(function(r,i){
+    var ft=r.score>=9;
+    var tags=(r.tags||[]).map(function(t){return"<span>"+t+"</span>"}).join("");
+    fd.innerHTML+="<div class=\"ca"+(ft?" ft":"")+"\" onclick=\"openMat("+i+")\"><div class=\"chd\"><div class=\"sg"+(ft?" hi":"")+"\">&#9733; "+r.score+"</div><span class=\"so\">"+r.source+"</span></div><h3>"+r.title+"</h3><p>"+(r.summary||"")+"</p><div class=\"tg\">"+tags+"</div><div class=\"ac\">点击查看 &#8594;</div></div>";
+  });
+  document.getElementById("rc").textContent=allResults.length+" 份";
+}
+
+// ===== 资料详情 =====
 function openMat(i){
   curMat=allResults[i];if(!curMat)return;
   document.getElementById("mTitle").textContent=curMat.title;
   document.getElementById("mSource").textContent=curMat.source;
-  document.getElementById("mSummary").textContent=curMat.summary||"鏆傛棤鎽樿";
+  document.getElementById("mSummary").textContent=curMat.summary||"暂无摘要";
   document.getElementById("mUrl").textContent=curMat.url;
   var sc=document.getElementById("mScore");sc.textContent=curMat.score;
   sc.className="sg"+(curMat.score>=9?" hi":"");
+  document.getElementById("genStatus").style.display="none";
+  document.getElementById("btnGen").disabled=false;
   go("material");
 }
 
+// ===== 保存到待学 =====
 function savePending(){
   if(!curMat)return;
   if(!pending.find(function(x){return x.url===curMat.url})){
-    pending.unshift({title:curMat.title,source:curMat.source,url:curMat.url,date:new Date().toLocaleDateString(),idx:allResults.indexOf(curMat)});
+    pending.unshift({title:curMat.title,source:curMat.source,url:curMat.url,date:new Date().toLocaleDateString()});
   }
-  go("home");alert("宸蹭繚瀛樺埌寰呭娓呭崟");
+  go("home");
 }
 
+// ===== 生成笔记 =====
 function genNote(){
   if(!curMat)return;
-  document.getElementById("nTitle").textContent=curMat.title;
-  document.querySelector("#note .cvm").textContent=curMat.source+" 路 鐢熸垚涓€?;
-  // 璋冪敤鐪熷疄绗旇鐢熸垚 API
-  fetch("http://localhost:8000/api/notes/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({material_title:curMat.title,material_content:curMat.summary||curMat.title,source_type:"web"})}).then(function(r){return r.json()}).then(function(d){
-    notes[curMat.url]=d;
-    renderNote(d);
-    document.querySelector("#note .cvm").textContent=curMat.source+" 路 "+(d.took_ms||850)+"ms";
+  var btn=document.getElementById("btnGen");btn.disabled=true;btn.textContent="⏳ 生成中…";
+  var stat=document.getElementById("genStatus");stat.style.display="block";stat.innerHTML='<span class="spin"></span> AI 正在分析资料，提取核心内容…';
+  
+  fetch(API+"/api/notes/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({material_title:curMat.title,material_content:curMat.summary||curMat.title,source_type:"web"})}).then(function(r){return r.json()}).then(function(d){
+    notes[curMat.url]=d;noteCount++;
+    document.getElementById("noteCount").textContent=noteCount;
+    document.getElementById("kbCount").textContent=noteCount+" 笔记";
+    renderNotePanel(d);
+    stat.style.display="none";btn.disabled=false;btn.textContent="✦ 生成复习笔记";
+    go("note");
   }).catch(function(){
-    // 闄嶇骇妯℃嫙
-    var mock={logic_chain:"鏍稿績姒傚康寮曞叆 鈫?鍏抽敭鏂规硶璁哄睍寮€ 鈫?瀹炶返妗堜緥楠岃瘉 鈫?灞€闄愭€т笌鏈潵鍙戝睍",key_concepts:[{term:"鏍稿績姒傚康涓€",definition:curMat.summary||"浠庤祫鏂欎腑鎻愬彇鐨勫叧閿畾涔?}],extension_questions:["濡備綍灏嗘湰鏂囩殑鏂规硶搴旂敤鍒板疄闄呴」鐩腑锛?,"杩欎釜缁撹鐨勫墠鎻愬亣璁炬槸浠€涔堬紵濡傛灉鍓嶆彁鍙樺寲鍛紵"],cards:[{question:"鏈枃鏈€鏍稿績鐨勮鐐规槸浠€涔堬紵",answer:curMat.summary||"璇烽槄璇诲師鏂囪幏鍙栬鎯?}],tags:curMat.tags||[],took_ms:500};
-    notes[curMat.url]=mock;
-    renderNote(mock);
-    document.querySelector("#note .cvm").textContent=curMat.source+" 路 500ms";
+    // 降级：本地生成
+    var mock={logic_chain:curMat.title+"的核心在于其提出的方法论体系。首先建立理论基础，然后通过实践案例验证，最后总结出可推广的通用模式。",key_concepts:[{term:"核心概念",definition:curMat.summary||"请阅读原文深入理解"}],extension_questions:["这个方法在不同场景下如何调整？","如果改变前提条件，结论还成立吗？"],cards:[{question:"本文的核心贡献是什么？",answer:curMat.summary||"请结合原文理解"}],tags:curMat.tags||[],took_ms:200};
+    notes[curMat.url]=mock;noteCount++;
+    document.getElementById("noteCount").textContent=noteCount;
+    document.getElementById("kbCount").textContent=noteCount+" 笔记";
+    renderNotePanel(mock);
+    stat.style.display="none";btn.disabled=false;btn.textContent="✦ 生成复习笔记";
+    go("note");
   });
-  go("note");
 }
 
-function renderNote(d){
-  var nx=document.querySelector("#note .nx");
-  var h='<div class="cv"><div><div class="cvt" id="nTitle">'+curMat.title+'</div><div class="cvm">'+curMat.source+' 路 '+d.took_ms+'ms</div></div></div>';
-  h+='<div class="bl"><h4>鏍稿績閫昏緫閾?/h4><div style="font-size:13px;color:#1A1512;line-height:1.7">'+d.logic_chain+'</div></div>';
+function renderNotePanel(d){
+  var h="";
+  h+="<div class=\"cv\"><div><div class=\"cvt\">"+curMat.title+"</div><div class=\"cvm\">"+curMat.source+" · "+(d.took_ms||0)+"ms</div></div></div>";
+  h+="<div class=\"bl\"><h4>核心逻辑链</h4><div style=\"font-size:13px;color:#1A1512;line-height:1.7\">"+d.logic_chain+"</div></div>";
   if(d.key_concepts&&d.key_concepts.length){
-    h+='<div class="bl"><h4>鍏抽敭姒傚康</h4>';
-    d.key_concepts.forEach(function(c){h+='<div style="margin-bottom:8px"><span style="font-size:13px;font-weight:600;color:#C0774E">'+c.term+'</span><span style="font-size:12px;color:#5A5045;display:block;margin-top:2px">'+c.definition+'</span></div>';});
-    h+='</div>';
+    h+="<div class=\"bl\"><h4>关键概念</h4>";
+    d.key_concepts.forEach(function(c){h+="<div style=\"margin-bottom:10px\"><span style=\"font-size:13px;font-weight:600;color:#C0774E\">"+c.term+"</span><span style=\"font-size:12px;color:#5A5045;display:block;margin-top:2px;line-height:1.6\">"+c.definition+"</span></div>";});
+    h+="</div>";
   }
   if(d.extension_questions&&d.extension_questions.length){
-    h+='<div class="bl"><h4>寤朵几鎬濊€?/h4>';
-    d.extension_questions.forEach(function(q){h+='<div style="font-size:12px;color:#1A1512;line-height:1.7;margin-bottom:6px">? '+q+'</div>';});
-    h+='</div>';
+    h+="<div class=\"bl\"><h4>延伸思考</h4>";
+    d.extension_questions.forEach(function(q,i){h+="<div style=\"display:flex;gap:8px;margin-bottom:8px\"><span style=\"color:#C0774E;font-weight:700;flex-shrink:0\">"+(i+1)+".</span><span style=\"font-size:13px;color:#1A1512;line-height:1.7\">"+q+"</span></div>";});
+    h+="</div>";
   }
-  if(d.tags&&d.tags.length){h+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">'+d.tags.map(function(t){return'<span style="font-size:10px;padding:3px 8px;background:#F3EEE4;border-radius:4px;color:#5A5045">#'+t+'</span>'}).join('')+'</div>';}
-  document.querySelector("#note .nx").innerHTML=h;
+  if(d.cards&&d.cards.length){
+    h+="<div class=\"bl\"><h4>问答卡片</h4>";
+    d.cards.forEach(function(c){h+="<div style=\"margin-bottom:10px;padding:10px;background:#FBF7F0;border-radius:8px\"><div style=\"font-size:12px;font-weight:600;color:#1A1512;margin-bottom:6px\">Q: "+c.question+"</div><div style=\"font-size:12px;color:#3A5A45;line-height:1.6\">A: "+c.answer+"</div></div>";});
+    h+="</div>";
+  }
+  if(d.tags&&d.tags.length){h+="<div style=\"display:flex;gap:4px;flex-wrap:wrap\">"+d.tags.map(function(t){return"<span style=\"font-size:10px;padding:3px 8px;background:#F3EEE4;border-radius:4px;color:#5A5045\">#"+t+"</span>"}).join("")+"</div>";}
+  document.getElementById("noteContent").innerHTML=h;
 }
 
+// ===== 页面切换 =====
 function go(id){
   document.querySelectorAll(".pn").forEach(function(p){p.classList.add("h")});
   document.getElementById(id).classList.remove("h");
@@ -197,18 +242,30 @@ function go(id){
   document.querySelectorAll(".ti2").forEach(function(t,i){t.classList.toggle("on",i===m[id])});
   if(id==="pending")renderPending();
   if(id==="knowledge")renderKB();
+  if(id==="profile"){document.getElementById("noteCount").textContent=noteCount;}
 }
 
+// ===== 待学清单 =====
 function renderPending(){
   var fd=document.getElementById("pdList");fd.innerHTML="";
-  if(pending.length===0){fd.innerHTML='<div class="ca" style="text-align:center;padding:24px;color:#8A7E70">杩樻病鏈夋敹钘忕殑璧勬枡</div>';return;}
+  if(pending.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">还没有收藏的资料</div>";document.getElementById("pdCount").textContent="0 项";return;}
+  document.getElementById("pdCount").textContent=pending.length+" 项";
   pending.forEach(function(p,i){
-    fd.innerHTML+='<div class="ca" onclick="if('+p.idx+'>=0){openMat('+p.idx+')}" style="cursor:pointer"><div class="chd"><span class="so">'+p.date+' 路 '+p.source+'</span></div><h3>'+p.title+'</h3><div class="ac" style="cursor:pointer" onclick="event.stopPropagation();pending.splice('+i+',1);renderPending()">鍒犻櫎</div></div>';
+    fd.innerHTML+="<div class=\"ca\" style=\"cursor:pointer\"><div class=\"chd\"><span class=\"so\">"+p.date+" · "+p.source+"</span></div><h3>"+p.title+"</h3><div class=\"ac\"><span onclick=\"event.stopPropagation();pending.splice("+i+",1);renderPending()\" style=\"cursor:pointer;color:#C45A4A\">删除</span></div></div>";
   });
 }
 
+// ===== 知识库 =====
 function renderKB(){
   var fd=document.getElementById("kbList");fd.innerHTML="";
-  var kb=[{t:"Building Effective Agents",d:"6鏈?8鏃?,c:3,q:4},{t:"AI 缂栫▼鏈€浣冲疄璺?,d:"6鏈?7鏃?,c:2,q:0}];
-  kb.forEach(function(n){fd.innerHTML+='<div class="ca" onclick="go(\x27note\x27)"><div class="chd"><span class="so">'+n.d+' 路 馃挕 '+n.c+' 路 馃儚 '+n.q+'</span></div><h3>'+n.t+'</h3></div>';});
-}</script></body></html>
+  var keys=Object.keys(notes);
+  if(keys.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">生成笔记后自动出现在这里</div>";document.getElementById("kbCount").textContent="0 笔记";return;}
+  document.getElementById("kbCount").textContent=keys.length+" 笔记";
+  keys.forEach(function(k){
+    var n=notes[k];
+    fd.innerHTML+="<div class=\"ca\"><div class=\"chd\"><span class=\"so\">"+(n.took_ms||0)+"ms · 💡 "+(n.key_concepts||[]).length+" · 🃏 "+(n.cards||[]).length+"</span></div><h3>"+(n.material_title||"笔记")+"</h3><div class=\"ac\"><span style=\"cursor:pointer;color:#C45A4A\" onclick=\"delete notes[\x27"+k+"\x27];noteCount--;renderKB();document.getElementById(\x27noteCount\x27).textContent=noteCount\">删除</span></div></div>";
+  });
+}
+</script>
+</body>
+</html>
