@@ -1,0 +1,110 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>知源 · 知识库</title>
+<style>
+:root{--c-bg:#F9F6F0;--c-card:#F3EEE4;--c-elv:#EBE4D6;--c-txt:#1A1512;--c-t2:#5A5045;--c-t3:#8A7E70;--c-acc:#C0774E;--c-acc2:#3A5A45;--c-gold:#C49B5A;--c-bd:#E8E1D4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#EDE8DE;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased}
+.page{width:100%;max-width:460px;background:var(--c-bg);min-height:100vh}
+.h{display:flex;align-items:baseline;justify-content:space-between;padding:24px 20px 16px}
+.h-brand{font-family:Georgia,'Songti SC',serif;font-size:26px;font-weight:700;color:var(--c-txt)}
+.h-date{font-size:13px;color:var(--c-t3)}
+.stats{display:flex;gap:20px;padding:0 20px 16px}
+.stat{text-align:center}
+.stat-num{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--c-acc);line-height:1.2}
+.stat-label{font-size:11px;color:var(--c-t3);margin-top:2px}
+.s-bar{display:flex;align-items:center;background:#fff;border-radius:14px;padding:12px 18px;margin:0 20px;border:1px solid var(--c-bd);box-shadow:0 1px 3px rgba(60,40,20,.04)}
+.s-bar svg{margin-right:10px;opacity:.4}
+.s-bar input{flex:1;border:none;outline:none;background:transparent;font-size:15px;color:var(--c-txt)}
+.s-bar input::placeholder{color:var(--c-t3)}
+.tags-bar{display:flex;flex-wrap:wrap;gap:6px;padding:12px 20px 16px;align-items:center}
+.tags-bar .label{font-size:10px;color:var(--c-t3);font-weight:600;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.tag{font-size:11px;font-weight:500;padding:5px 12px;border-radius:24px;cursor:pointer;border:1px solid var(--c-bd);background:transparent;color:var(--c-t2);transition:all .18s;white-space:nowrap}
+.tag.on{background:var(--c-txt);color:#FDFAF5;border-color:var(--c-txt)}
+.list{padding:0 20px 60px}
+.card{background:var(--c-card);border-radius:10px;border:1px solid var(--c-bd);padding:16px;margin-bottom:14px;cursor:pointer;transition:all .2s;box-shadow:0 1px 3px rgba(60,40,20,.03);position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:50px;background:linear-gradient(180deg,rgba(255,255,255,.3),transparent);pointer-events:none;border-radius:10px 10px 0 0}
+.card:active{transform:scale(.99)}
+.card.expanded .card-preview{display:block}
+.card-title{font-family:Georgia,serif;font-size:16px;font-weight:600;color:var(--c-txt);margin-bottom:6px;position:relative;z-index:1}
+.card-preview{font-size:13px;color:var(--c-t2);line-height:1.6;margin-bottom:10px;position:relative;z-index:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card.expanded .card-preview{-webkit-line-clamp:unset}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;position:relative;z-index:1}
+.c-tag{font-size:10px;color:var(--c-t2);padding:3px 8px;background:var(--c-bg);border-radius:4px}
+.card-meta{display:flex;align-items:center;gap:12px;font-size:11px;color:var(--c-t3);position:relative;z-index:1}
+.card-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--c-bd);position:relative;z-index:1}
+.card.expanded .card-detail{display:block}
+.detail-section{margin-bottom:10px}
+.detail-label{font-size:10px;font-weight:600;color:var(--c-t3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.detail-text{font-size:13px;color:var(--c-t2);line-height:1.6}
+.empty{text-align:center;padding:60px 32px}
+.empty h3{font-family:Georgia,serif;font-size:18px;color:var(--c-t2);margin-bottom:8px}
+.empty p{font-size:13px;color:var(--c-t3);line-height:1.6}
+.export-bar{display:flex;gap:10px;padding:0 20px 20px}
+.btn{height:40px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--c-bd);background:transparent;color:var(--c-acc2);padding:0 16px;transition:all .18s;flex:1;display:flex;align-items:center;justify-content:center;gap:4px}
+.btn:hover{background:var(--c-card)}
+.btn-primary{background:var(--c-acc);color:#fff;border-color:var(--c-acc)}
+.btn-primary:hover{background:#A85F3B}
+</style></head><body><div class="page" id="app"></div>
+<script>
+const DB=[
+  {id:"1",title:"Building Effective Agents",preview:"LLM 能力增强 → 工具调用赋予行动力 → 工作流编排实现多步骤协作 → Agent 自主决策 → 人工审核兜底确保安全可靠",tags:["Agent","LLM","架构设计"],date:"6月18日",concepts:3,cards:4,logic:"LLM 能力增强 → 工具调用赋予行动力 → 工作流编排实现多步骤协作 → Agent 自主决策 → 人工审核兜底",questions:["什么场景用简单 Workflow 而非完整 Agent？"]},
+  {id:"2",title:"AI 编程最佳实践",preview:"代码补全 → 对话式编程 → 上下文感知 → Agent 工作流 → 自主开发。五个层次逐步递进。",tags:["AI","编程","Prompt"],date:"6月17日",concepts:2,cards:0,logic:"代码补全→对话式→上下文感知→Agent工作流→自主开发",questions:["如何建立AI代码的Review流程？"]},
+  {id:"3",title:"系统设计面试指南",preview:"需求澄清 → 容量估算 → 接口设计 → 数据模型 → 架构图 → 深度讨论",tags:["系统设计","面试","架构"],date:"6月16日",concepts:3,cards:0,logic:"需求澄清→容量估算→接口设计→数据模型→架构图→深度讨论",questions:["如何设计百万并发的短链接系统？"]},
+  {id:"4",title:"Transformer 架构解析",preview:"自注意力机制替代RNN → 并行化训练 → 长程依赖建模 → 多模态统一架构",tags:["深度学习","Transformer","NLP"],date:"6月15日",concepts:4,cards:3,logic:"自注意力机制→并行化训练→长程依赖→多模态统一",questions:["为什么Transformer比RNN更适合并行化？"]},
+];
+
+let q="",activeTags=[],expanded=new Set();
+
+function init(){render();}
+function search(v){q=v;render();}
+function toggleTag(t){
+  if(activeTags.includes(t)) activeTags=activeTags.filter(x=>x!==t);
+  else activeTags.push(t);
+  render();
+}
+function toggleCard(id){
+  if(expanded.has(id)) expanded.delete(id); else expanded.add(id);
+  render();
+}
+
+function getResults(){
+  let r=DB;
+  if(q){const lq=q.toLowerCase();r=r.filter(e=>e.title.toLowerCase().includes(lq)||e.preview.toLowerCase().includes(lq)||e.tags.some(t=>t.toLowerCase().includes(lq)));}
+  if(activeTags.length) r=r.filter(e=>activeTags.every(t=>e.tags.includes(t)));
+  return r;
+}
+
+function render(){
+  const results=getResults();
+  const allTags=[...new Set(DB.flatMap(e=>e.tags))].sort();
+  let h='<div class="h"><span class="h-brand">知识库</span><span class="h-date">6月18日</span></div>';
+  h+='<div class="stats"><div class="stat"><div class="stat-num">'+DB.length+'</div><div class="stat-label">笔记</div></div><div class="stat"><div class="stat-num">'+allTags.length+'</div><div class="stat-label">标签</div></div><div class="stat"><div class="stat-num">'+DB.reduce((s,e)=>s+e.cards,0)+'</div><div class="stat-label">卡片</div></div></div>';
+  h+='<div class="s-bar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜索笔记…" value="'+q+'" oninput="search(this.value)"></div>';
+  h+='<div class="tags-bar"><span class="label">标签</span>';
+  allTags.forEach(t=>{h+='<span class="tag'+(activeTags.includes(t)?" on":"")+'" onclick="toggleTag(\"'+t+'\")">'+t+'</span>';});
+  h+='</div>';
+  h+='<div class="export-bar"><button class="btn btn-primary" onclick="alert(\"已导出\")">📥 导出全部</button><button class="btn" onclick="alert(\"已导出\")">📄 PDF</button><button class="btn" onclick="alert(\"已导出\")">📝 Markdown</button></div>';
+
+  if(results.length===0){
+    h+='<div class="empty"><h3>'+(q||activeTags.length?"无匹配结果":"知识库为空")+'</h3><p>'+(q?"换个关键词试试":"点击首页资料卡片中的「生成复习笔记」来创建第一条笔记")+'</p></div>';
+  }else{
+    h+='<div class="list">';
+    results.forEach(e=>{
+      const isExp=expanded.has(e.id);
+      h+='<div class="card'+(isExp?" expanded":"")+'" onclick="toggleCard(\"'+e.id+'\")">';
+      h+='<div class="card-title">'+e.title+'</div>';
+      h+='<div class="card-preview">'+e.preview+'</div>';
+      h+='<div class="card-tags">'+e.tags.map(t=>'<span class="c-tag">#'+t+'</span>').join('')+'</div>';
+      h+='<div class="card-meta"><span>📅 '+e.date+'</span><span>💡 '+e.concepts+' 概念</span><span>🃏 '+e.cards+' 卡片</span><span>❓ '+e.questions.length+' 问题</span></div>';
+      h+='<div class="card-detail">';
+      h+='<div class="detail-section"><div class="detail-label">核心逻辑</div><div class="detail-text">'+e.logic+'</div></div>';
+      h+='<div class="detail-section"><div class="detail-label">延伸思考</div><div class="detail-text">'+e.questions.join('<br>')+'</div></div>';
+      h+='</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+  }
+  document.getElementById("app").innerHTML=h;
+}
+
+init();
+</script></body></html>
