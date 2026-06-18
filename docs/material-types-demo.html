@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>知源 · 多类型资料</title>
+<style>
+:root{--c-bg:#F9F6F0;--c-card:#F3EEE4;--c-txt:#1A1512;--c-t2:#5A5045;--c-t3:#8A7E70;--c-acc:#C0774E;--c-acc2:#3A5A45;--c-gold:#C49B5A;--c-bd:#E8E1D4;--c-purple:#7B5EA7;--c-blue:#4A7FB5}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#EDE8DE;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased}
+.page{width:100%;max-width:460px;background:var(--c-bg);min-height:100vh;padding:24px 20px 60px}
+h2{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--c-txt);margin-bottom:4px}
+.sub{font-size:13px;color:var(--c-t3);margin-bottom:20px;line-height:1.6}
+.tabs{display:flex;gap:4px;margin-bottom:20px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:24px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--c-bd);background:transparent;color:var(--c-t2);white-space:nowrap;flex-shrink:0;transition:all .18s}
+.tab.on{background:var(--c-txt);color:#fff;border-color:var(--c-txt)}
+.tab-icon{width:16px;height:16px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px}
+.tab-icon.web{background:#E4EDE3;color:var(--c-acc2)}
+.tab-icon.paper{background:#F6ECD5;color:var(--c-gold)}
+.tab-icon.video{background:#FFE8E0;color:#C45A4A}
+.tab-icon.book{background:#E8E0F0;color:var(--c-purple)}
+.tab-icon.podcast{background:#E0E8F5;color:var(--c-blue)}
+.list{margin-top:4px}
+.card{background:var(--c-card);border-radius:12px;border:1px solid var(--c-bd);padding:16px;margin-bottom:14px;transition:all .2s;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(60,40,20,.03)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:50px;background:linear-gradient(180deg,rgba(255,255,255,.25),transparent);pointer-events:none;border-radius:12px 12px 0 0}
+.type-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:12px;margin-bottom:10px}
+.type-badge.web{background:#E4EDE3;color:var(--c-acc2)}
+.type-badge.paper{background:#F6ECD5;color:var(--c-gold)}
+.type-badge.video{background:#FFE8E0;color:#C45A4A}
+.type-badge.book{background:#E8E0F0;color:var(--c-purple)}
+.type-badge.podcast{background:#E0E8F5;color:var(--c-blue)}
+.c-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;position:relative;z-index:1}
+.score{display:flex;align-items:center;gap:3px;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700;flex-shrink:0}
+.score.web{background:#E4EDE3;color:var(--c-acc2)}
+.score.paper{background:#F6ECD5;color:var(--c-gold)}
+.score.video{background:#FFE8E0;color:#C45A4A}
+.score.book{background:#E8E0F0;color:var(--c-purple)}
+.score.podcast{background:#E0E8F5;color:var(--c-blue)}
+.c-title{font-family:Georgia,serif;font-size:16px;font-weight:600;color:var(--c-txt);line-height:1.4;margin-bottom:6px;position:relative;z-index:1}
+.c-summary{font-size:13px;color:var(--c-t2);line-height:1.6;margin-bottom:10px;position:relative;z-index:1}
+.c-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;position:relative;z-index:1}
+.c-tag{font-size:10px;color:var(--c-t2);padding:3px 8px;background:var(--c-bg);border-radius:4px}
+.c-meta{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--c-t3);position:relative;z-index:1;padding-top:8px;border-top:1px solid var(--c-bd)}
+.c-meta-item{display:flex;align-items:center;gap:3px}
+.c-meta-item svg{opacity:.6}
+/* 特殊字段 */
+.paper-id{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c-t3);background:var(--c-bg);padding:1px 6px;border-radius:4px}
+.video-thumb{width:100%;height:100px;background:linear-gradient(135deg,#2D2420,#4A3B32);border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+.video-thumb .play{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center}
+.video-duration{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.7);color:#fff;font-size:10px;padding:2px 6px;border-radius:4px}
+.book-cover{float:right;width:60px;height:80px;background:linear-gradient(135deg,#E8E0F0,#F6ECD5);border-radius:6px;margin-left:12px;margin-bottom:8px;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;font-size:24px}
+.podcast-player{margin-top:8px;background:var(--c-bg);border-radius:8px;padding:10px;display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.podcast-play{width:32px;height:32px;border-radius:50%;background:var(--c-acc);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.podcast-progress{flex:1;height:3px;background:var(--c-bd);border-radius:2px;overflow:hidden}
+.podcast-progress .fill{width:35%;height:100%;background:var(--c-acc);border-radius:2px}
+.podcast-time{font-size:10px;color:var(--c-t3)}
+.empty{text-align:center;padding:40px 20px;font-size:13px;color:var(--c-t3)}
+</style></head><body><div class="page" id="app"></div>
+<script>
+const TYPES=["全部","文章","论文","视频","书籍","播客"];
+const ICONS={web:"📄",paper:"📜",video:"▶",book:"📖",podcast:"🎙"};
+const ITEMS=[
+  {type:"web",title:"AI编程最佳实践：从Prompt到Agent",source:"Towards Data Science",score:4.8,summary:"系统梳理AI辅助编程五层次，附真实项目案例与Prompt模板。",tags:["AI","编程","Prompt"],date:"1月10日",extra:"阅读 12min"},
+  {type:"paper",title:"Attention Is All You Need",source:"arXiv",score:9.8,summary:"Transformer架构奠基论文，提出自注意力机制替代RNN，彻底改变NLP和深度学习领域。",tags:["Transformer","注意力","NLP"],date:"2017-06",extra:"被引 120,000+",paperId:"1706.03762"},
+  {type:"video",title:"Building Agents with LangChain — Full Course",source:"YouTube · LangChain",score:4.7,summary:"从零构建AI Agent的完整教程，涵盖Tool Use、Memory、Multi-Agent协作。",tags:["Agent","LangChain","教程"],date:"2025-01",extra:"1h 24min"},
+  {type:"book",title:"Designing Data-Intensive Applications",source:"O'Reilly Media",score:9.5,summary:"分布式系统圣经：存储、复制、分区、事务、共识。每个后端工程师必读。",tags:["分布式","数据库","架构"],date:"2017",extra:"616页 · Martin Kleppmann",author:"Martin Kleppmann"},
+  {type:"podcast",title:"AI Agent的未来：从工具到同事",source:"硅谷101 · 播客",score:4.3,summary:"探讨Agent从简单工具演化为自主协作伙伴的技术路径和商业影响。",tags:["Agent","AI","访谈"],date:"2025-01",extra:"第 187 期 · 42min"},
+];
+
+let activeType="全部";
+
+function filter(t){activeType=t;render();}
+
+function renderIcon(t){
+  if(t==="web")return'<div class="tab-icon web">📄</div>';
+  if(t==="paper")return'<div class="tab-icon paper">📜</div>';
+  if(t==="video")return'<div class="tab-icon video">▶</div>';
+  if(t==="book")return'<div class="tab-icon book">📖</div>';
+  if(t==="podcast")return'<div class="tab-icon podcast">🎙</div>';
+  return'<div class="tab-icon web">📄</div>';
+}
+
+function render(){
+  const filtered=activeType==="全部"?ITEMS:ITEMS.filter(i=>i.type===activeType);
+  let h='<h2>全类型资料</h2><div class="sub">网页/论文/视频/书籍/播客 — 每种类型独特卡片呈现</div>';
+  h+='<div class="tabs">';
+  TYPES.forEach(t=>{h+='<div class="tab'+(activeType===t?" on":"")+'" onclick="filter(\"'+t+'\")">'+(t==="全部"?"":renderIcon(t))+t+'</div>';});
+  h+='</div>';
+  if(filtered.length===0)h+='<div class="empty">该类型暂无资料</div>';
+  else{h+='<div class="list">';filtered.forEach(i=>{
+    const t=i.type||"web";
+    h+='<div class="card">';
+    h+='<div class="type-badge '+t+'">'+ICONS[t]+' '+(t==="web"?"文章":t==="paper"?"论文":t==="video"?"视频":t==="book"?"书籍":"播客")+'</div>';
+    if(t==="video")h+='<div class="video-thumb"><div class="play"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><polygon points="5,3 19,12 5,21"/></svg></div><div class="video-duration">'+i.extra+'</div></div>';
+    h+='<div class="c-head">';
+    if(t==="book")h+='<div class="book-cover">📖</div>';
+    h+='<div class="score '+t+'">★ '+i.score+'</div>';
+    h+='<span style="font-size:11px;color:var(--c-t3);flex:1">'+i.source+'</span>';
+    if(t==="paper")h+='<span class="paper-id">arXiv:'+i.paperId+'</span>';
+    h+='</div>';
+    h+='<div class="c-title">'+i.title+'</div>';
+    h+='<div class="c-summary">'+i.summary+'</div>';
+    h+='<div class="c-tags">'+i.tags.map(tg=>'<span class="c-tag">#'+tg+'</span>').join('')+'</div>';
+    h+='<div class="c-meta">';
+    h+='<span class="c-meta-item">📅 '+i.date+'</span>';
+    h+='<span class="c-meta-item">'+i.extra+'</span>';
+    if(i.author)h+='<span class="c-meta-item">✍ '+i.author+'</span>';
+    h+='</div>';
+    if(t==="podcast")h+='<div class="podcast-player"><div class="podcast-play"><svg width="10" height="12" viewBox="0 0 10 12" fill="#fff"><polygon points="0,0 10,6 0,12"/></svg></div><div class="podcast-progress"><div class="fill"></div></div><div class="podcast-time">'+i.extra+'</div></div>';
+    h+='</div>';
+  });h+='</div>';}
+  document.getElementById("app").innerHTML=h;
+}
+render();
+</script></body></html>
