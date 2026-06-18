@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>知源 · 语义搜索</title>
+<style>
+:root{--c-bg:#F9F6F0;--c-card:#F3EEE4;--c-txt:#1A1512;--c-t2:#5A5045;--c-t3:#8A7E70;--c-acc:#C0774E;--c-acc2:#3A5A45;--c-gold:#C49B5A;--c-bd:#E8E1D4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#EDE8DE;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased}
+.page{width:100%;max-width:460px;background:var(--c-bg);min-height:100vh;padding:24px 20px 60px}
+h2{font-family:Georgia,'Songti SC',serif;font-size:24px;font-weight:700;color:var(--c-txt);margin-bottom:4px}
+.sub{font-size:13px;color:var(--c-t3);margin-bottom:20px;line-height:1.6}
+.s-bar{display:flex;align-items:center;background:#fff;border-radius:14px;padding:14px 18px;border:1px solid var(--c-bd);box-shadow:0 1px 3px rgba(60,40,20,.04);margin-bottom:12px}
+.s-bar svg{margin-right:10px;opacity:.4;flex-shrink:0}
+.s-bar input{flex:1;border:none;outline:none;background:transparent;font-size:16px;color:var(--c-txt);font-family:inherit}
+.s-bar input::placeholder{color:var(--c-t3)}
+.s-bar button{background:var(--c-acc);color:#fff;border:none;border-radius:10px;padding:9px 20px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.hints{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.hint{font-size:13px;color:var(--c-t2);padding:7px 14px;background:var(--c-card);border-radius:24px;cursor:pointer;transition:all .2s;border:1px solid transparent}
+.hint:hover{background:#F2E2D5;color:var(--c-acc)}
+.compare{display:flex;gap:12px;margin-bottom:8px}
+.col{flex:1;min-width:0}
+.col-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid}
+.col-label.kw{border-color:var(--c-t3);color:var(--c-t3)}
+.col-label.sem{border-color:var(--c-acc);color:var(--c-acc)}
+.result{background:var(--c-card);border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid var(--c-bd);transition:all .2s}
+.result.hl{border-color:var(--c-acc);background:#FDFAF5}
+.r-title{font-size:13px;font-weight:600;color:var(--c-txt);margin-bottom:4px}
+.r-score{font-size:10px;color:var(--c-t3);margin-bottom:4px}
+.r-match{font-size:11px;color:var(--c-t2);line-height:1.5}
+.r-match em{background:rgba(192,119,78,.15);font-style:normal;padding:1px 3px;border-radius:3px;font-weight:500;color:var(--c-acc)}
+.no-r{text-align:center;padding:20px;font-size:13px;color:var(--c-t3)}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:12px;margin-left:6px;vertical-align:middle}
+.badge.sem{background:var(--c-acc);color:#fff}
+.badge.kw{background:var(--c-t3);color:#fff}
+.concepts{font-size:10px;color:var(--c-acc2);margin-top:2px}
+</style></head><body><div class="page" id="app"></div>
+<script>
+const NOTES=[
+  {id:"n1",title:"Building Effective Agents",content:"Agent系统构建指南。LLM能力增强到工具调用，工作流编排实现多步骤协作，Agent获得自主决策权。核心原则：从最简单方案开始。",concepts:["agent","llm","工具调用","工作流","自主决策","安全审核"]},
+  {id:"n2",title:"AI编程最佳实践",content:"AI辅助编程五层次：代码补全到对话式编程，上下文感知到Agent工作流。Prompt Engineering技巧。",concepts:["ai编程","prompt","代码补全","对话编程","cursor","copilot"]},
+  {id:"n3",title:"系统设计面试指南",content:"系统设计方法论：需求澄清、容量估算、接口设计、数据模型、架构图、深度讨论。CAP定理与分片策略。",concepts:["系统设计","面试","cap","分片","缓存","架构"]},
+  {id:"n4",title:"Transformer架构深度解析",content:"自注意力机制替代RNN，实现并行化训练和长程依赖建模。Attention Is All You Need论文精读。",concepts:["transformer","注意力","nlp","深度学习","并行化","多模态"]},
+  {id:"n5",title:"TypeScript类型体操",content:"高级类型：条件类型、模板字面量类型、infer关键字。实战案例与类型挑战题。",concepts:["typescript","类型系统","泛型","条件类型","前端"]},
+];
+
+function kwSearch(q){
+  const lq=q.toLowerCase();
+  return NOTES.map(n=>{
+    const inTitle=n.title.toLowerCase().includes(lq)?0.5:0;
+    const inContent=[...lq.split(/\s+/)].filter(w=>n.content.toLowerCase().includes(w)).length/Math.max(lq.split(/\s+/).length,1)*0.3;
+    return {...n,score:inTitle+inContent};
+  }).filter(n=>n.score>.2).sort((a,b)=>b.score-a.score);
+}
+
+function semSearch(q){
+  const lq=q.toLowerCase();
+  const qWords=new Set(lq.split(/[\s,，,、。？]+/).filter(w=>w.length>1));
+  return NOTES.map(n=>{
+    const cm=n.concepts.filter(c=>lq.includes(c)||[...qWords].some(w=>c.includes(w)||w.includes(c)));
+    const overlap=cm.length/Math.max(n.concepts.length,1);
+    const titleMatch=n.title.toLowerCase().includes(lq)?0.3:0;
+    const wordMatch=[...qWords].filter(w=>n.content.toLowerCase().includes(w)).length/Math.max(qWords.size,1)*0.3;
+    return {...n,score:Math.round((overlap*0.4+titleMatch+wordMatch)*100)/100,cm};
+  }).sort((a,b)=>b.score-a.score);
+}
+
+function hl(text,q){
+  let r=text.slice(0,80);
+  if(!q)return r;
+  q.split(/[\s,，,、。？]+/).filter(w=>w.length>1).forEach(w=>{
+    r=r.replace(new RegExp(w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),'<em>$&</em>');
+  });
+  return r+(text.length>80?'…':'');
+}
+
+function doSearch(q){
+  if(!q.trim())return;
+  const kw=kwSearch(q),sem=semSearch(q);
+  let h='<h2>语义搜索</h2><div class="sub">用自然语言描述想法，AI找到语义相近的笔记</div>';
+  h+='<div class="s-bar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input id="q" type="text" placeholder="用自然语言描述你要找的内容…" value="'+q+'" onkeydown="if(event.key==\'Enter\')doSearch(this.value)"><button onclick="doSearch(document.getElementById(\'q\').value)">搜索</button></div>';
+  h+='<div class="hints"><span class="hint" onclick="doSearch(\'AI系统如何自己做决策\')">AI系统如何自己做决策</span><span class="hint" onclick="doSearch(\'怎么写好代码提示词\')">怎么写好代码提示词</span><span class="hint" onclick="doSearch(\'后端架构怎么设计\')">后端架构怎么设计</span><span class="hint" onclick="doSearch(\'NLP模型原理\')">NLP模型原理</span></div>';
+
+  h+='<div class="compare">';
+  h+='<div class="col"><div class="col-label kw">关键词匹配<span class="badge kw">传统</span></div>';
+  if(kw.length===0)h+='<div class="no-r">无直接匹配</div>';
+  else kw.slice(0,5).forEach(r=>{h+='<div class="result"><div class="r-title">'+r.title+'</div><div class="r-match">'+hl(r.content,q)+'</div></div>';});
+  h+='</div>';
+
+  h+='<div class="col"><div class="col-label sem">语义理解<span class="badge sem">AI</span></div>';
+  if(sem.length===0)h+='<div class="no-r">无匹配</div>';
+  else sem.slice(0,5).forEach(r=>{
+    const hasC=r.cm&&r.cm.length>0;
+    h+='<div class="result'+(hasC?' hl':'')+'"><div class="r-title">'+r.title+'</div><div class="r-score">相关度 '+(r.score*100).toFixed(0)+'%</div>'+(hasC?'<div class="concepts">💡 匹配概念: '+r.cm.map(c=>'#'+c).join(' ')+'</div>':'')+'</div>';
+  });
+  h+='</div></div>';
+  document.getElementById("app").innerHTML=h;
+}
+
+doSearch("AI系统如何自己做决策");
+</script></body></html>
