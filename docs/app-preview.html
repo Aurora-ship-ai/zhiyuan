@@ -58,6 +58,9 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
 .btn2{height:46px;padding:0 18px;border-radius:10px;background:transparent;border:1.5px solid #E8E1D4;color:#3A5A45;font-size:14px;font-weight:500;cursor:pointer}
 .spin{display:inline-block;width:16px;height:16px;border:2px solid #E8E1D4;border-top-color:#C0774E;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
+.reader-body{font-family:Georgia,'Songti SC',serif;font-size:16px;color:#1A1512;line-height:1.85;padding:20px;white-space:pre-wrap;word-break:break-word}
+.reader-body h1,.reader-body h2,.reader-body h3{font-family:Georgia,serif;margin:24px 0 12px;color:#1A1512}
+.reader-body p{margin:0 0 16px}
 </style>
 </head>
 <body>
@@ -87,12 +90,19 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
     <div class="bl"><h4>原文链接</h4><div style="font-size:12px;color:#3A5A45;word-break:break-all;line-height:1.5" id="mUrl">—</div></div>
     <div style="display:flex;gap:10px;margin-top:16px">
       <button class="btn1" id="btnGen" onclick="genNote()">✦ 生成复习笔记</button>
-      <button class="btn2" onclick="savePending()">保存到待学</button>
+      <button class="btn2" onclick="savePending()">保存到待学</button><button class="btn2" onclick="openReader()" style="flex:0 0 auto;border-color:#C0774E;color:#C0774E">阅读模式</button>
     </div>
     <div id="genStatus" style="text-align:center;padding:12px;color:#8A7E70;font-size:12px;display:none"></div>
   </div>
 </div>
 
+
+<div class="pn h" id="reader">
+  <div class="nh"><span class="nb" onclick="go('material')">← 返回</span><span class="nt">阅读模式</span></div>
+  <div class="reader-body" id="readerContent">
+    <div style="text-align:center;padding:40px;color:#8A7E70"><span class="spin"></span> 正在加载内容...</div>
+  </div>
+</div>
 <div class="pn h" id="note">
   <div class="nh"><span class="nb" onclick="go(\x27material\x27)">← 返回</span><span class="nt">复习笔记</span></div>
   <div class="nx" id="noteContent"></div>
@@ -266,6 +276,25 @@ function renderKB(){
     fd.innerHTML+="<div class=\"ca\"><div class=\"chd\"><span class=\"so\">"+(n.took_ms||0)+"ms · 💡 "+(n.key_concepts||[]).length+" · 🃏 "+(n.cards||[]).length+"</span></div><h3>"+(n.material_title||"笔记")+"</h3><div class=\"ac\"><span style=\"cursor:pointer;color:#C45A4A\" onclick=\"delete notes[\x27"+k+"\x27];noteCount--;renderKB();document.getElementById(\x27noteCount\x27).textContent=noteCount\">删除</span></div></div>";
   });
 }
+
+function openReader(){
+  if(!curMat)return;
+  var rc=document.getElementById("readerContent");
+  rc.innerHTML='<div style="text-align:center;padding:40px;color:#8A7E70"><span class="spin"></span> 正在加载内容...</div>';
+  go("reader");
+  // 尝试从服务端获取内容
+  fetch(API+"/api/search/content?url="+encodeURIComponent(curMat.url)).then(function(r){return r.json()}).then(function(d){
+    if(d.content&&d.content.length>50){
+      rc.textContent=d.content;
+    }else{loadFallback();}
+  }).catch(function(){loadFallback();});
+  
+  function loadFallback(){
+    var title=curMat.title,summary=curMat.summary||"",url=curMat.url||"";
+    rc.innerHTML='<h1 style="font-family:Georgia,serif;font-size:22px;margin-bottom:16px">'+title+'</h1><div style="font-size:13px;color:#8A7E70;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #E8E1D4">来源: '+curMat.source+'</div><p>'+summary+'</p><p style="margin-top:24px;color:#5A5045">本文摘要如上。完整内容请访问原文：</p><a href="'+url+'" target="_blank" style="color:#C0774E;font-size:14px">打开原文 ↗</a>';
+  }
+}
+
 </script>
 </body>
 </html>
