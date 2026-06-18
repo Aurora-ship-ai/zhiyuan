@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>知源 · 笔记生成试用</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#F9F6F0;color:#1F1A16;max-width:430px;margin:0 auto;min-height:100vh;-webkit-font-smoothing:antialiased}
+.h{display:flex;align-items:baseline;justify-content:space-between;padding:24px 20px 12px}
+.h-brand{font-family:Georgia,'STIX Two','Songti SC',serif;font-size:26px;font-weight:700;color:#1F1A16}
+.h-date{font-size:13px;color:#8E8275}
+.content{padding:0 20px 48px}
+.card{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(60,40,20,.04);position:relative;overflow:hidden;opacity:0;transform:translateY(12px);animation:fadeIn .4s ease forwards}
+.card:nth-child(1){animation-delay:0s}.card:nth-child(2){animation-delay:.08s}.card:nth-child(3){animation-delay:.16s}.card:nth-child(4){animation-delay:.24s}
+@keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(255,255,255,.35),transparent);pointer-events:none;border-radius:10px 10px 0 0}
+.st{font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1F1A16;margin-bottom:12px;position:relative;z-index:1}
+.logic{font-size:15px;color:#1F1A16;line-height:1.7;position:relative;z-index:1}
+.concept{margin-bottom:10px;position:relative;z-index:1}
+.c-term{font-size:14px;color:#C0774E;font-weight:600;margin-bottom:2px}
+.c-def{font-size:14px;color:#5C5147;line-height:1.55}
+.q-item{display:flex;gap:8px;margin-bottom:10px;position:relative;z-index:1}
+.q-prefix{font-size:15px;line-height:22px;flex-shrink:0}
+.q-text{font-size:14px;color:#1F1A16;line-height:1.55}
+.flashcard{background:#FBF7F0;border:1px solid #E8E1D4;border-radius:10px;padding:14px;margin-bottom:12px;cursor:pointer;transition:all .2s;position:relative;z-index:1}
+.flashcard.Q{}.flashcard.A{}.flashcard .q{font-size:14px;color:#1F1A16;font-weight:500}.flashcard .divider{height:1px;background:#E8E1D4;margin:10px 0}.flashcard .a{font-size:14px;color:#3A5A45;line-height:1.55}
+.reflection{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:14px;margin-bottom:16px}
+.reflection textarea{width:100%;border:none;outline:none;background:transparent;font-size:14px;color:#1F1A16;font-family:inherit;resize:vertical;min-height:80px;line-height:1.6}
+.reflection textarea::placeholder{color:#8E8275}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tag{font-size:11px;font-weight:500;color:#5C5147;padding:4px 10px;background:#EBE4D6;border-radius:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:46px;padding:0 20px;font-size:15px;font-weight:600;border-radius:10px;cursor:pointer;border:none;background:#C0774E;color:#fff;transition:all .2s;width:100%}
+.btn:hover{background:#A85F3B}.btn:active{transform:scale(.98)}
+.btn2{background:transparent;border:1.5px solid #C0774E;color:#C0774E;margin-top:12px}
+.bar{display:flex;gap:8px;margin-bottom:20px}
+.tab{padding:8px 18px;border-radius:24px;font-size:13px;font-weight:500;cursor:pointer;background:#F3EEE4;color:#5C5147;border:none;transition:all .2s}
+.tab.on{background:#C0774E;color:#fff}
+.gen-box{text-align:center;padding:56px 20px}
+.gen-box h2{font-family:Georgia,serif;font-size:22px;color:#1F1A16;margin-bottom:8px}
+.gen-box p{font-size:14px;color:#5C5147;margin-bottom:24px;line-height:1.6}
+.gen-box .src{background:#F3EEE4;border-radius:10px;padding:12px;margin-bottom:20px;font-size:13px;color:#5C5147;text-align:left;border:1px solid #E8E1D4}
+.sk-card{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:16px;margin-bottom:16px}
+.sk-line{height:13px;background:#EBE4D6;border-radius:4px;margin-bottom:10px}.sk-line:nth-child(1){width:70%}.sk-line:nth-child(2){width:100%}.sk-line:nth-child(3){width:40%}
+@keyframes shimmer{0%{background-position:-200px 0}100%{background-position:calc(200px + 100%) 0}}
+.sk-shimmer{background:linear-gradient(90deg,#EBE4D6 25%,#F3EEE4 50%,#EBE4D6 75%);background-size:200px 100%;animation:shimmer 1.6s ease-in-out infinite}
+.meta{font-size:12px;color:#8E8275;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #E8E1D4}
+.mm-root{font-weight:700;color:#C0774E;font-size:15px}
+.mm-branch{font-weight:600;font-size:14px;color:#1F1A16;margin:8px 0 4px 16px}
+.mm-leaf{font-size:12px;color:#5C5147;margin-left:32px;margin-bottom:2px}
+</style></head><body>
+<div class="h"><span class="h-brand" onclick="location.reload()">知源</span><span class="h-date">笔记生成</span></div>
+<div id="app"></div>
+<script>
+const MOCK=()=>({
+  id:"demo-"+Date.now(),
+  material_title:"Building Effective Agents",
+  logic_chain:"LLM 能力增强 → 工具调用(Tool Use)赋予行动能力 → 工作流编排(Workflow)实现多步骤协作 → Agent 自主决策与执行 → 人工审核兜底确保安全可靠",
+  key_concepts:[
+    {term:"Agent",definition:"具备自主决策和执行能力的 AI 系统，能根据目标选择工具并采取行动"},
+    {term:"Tool Use",definition:"LLM 调用外部工具（API、数据库、代码执行器）获取信息或执行操作的能力"},
+    {term:"Workflow",definition:"将多个 Agent 或工具调用编排成有序的执行流程，实现复杂任务自动化"},
+    {term:"Guardrails",definition:"限制 Agent 行为的防护机制，包括输入验证、输出过滤和人工审核"}
+  ],
+  extension_questions:[
+    "什么场景下应该用简单 Workflow 而非完整 Agent？如何判断复杂度阈值？",
+    "Agent 自主决策的边界在哪里？如何平衡自动化效率和人工控制？",
+    "多 Agent 协作时，如何设计通信协议确保信息不丢失、不冲突？"
+  ],
+  cards:[
+    {question:"Agent 和传统 RPA 的核心区别是什么？",answer:"Agent 具备推理和自主决策能力，能处理模糊目标；RPA 执行固定规则，无法应对变化。"},
+    {question:"Tool Use 的典型实现方式有哪些？",answer:"Function Calling（LLM 输出结构化函数调用）和 MCP 协议（标准化的工具接口）。"},
+    {question:"什么时候应该引入人工审核？",answer:"涉及资金操作、对外发布内容、法律合规等高风险场景时必须有人工审核环节。"},
+    {question:"如何判断一个任务是否适合用 Agent？",answer:"任务需要动态决策、多步骤推理、且输入具有不确定性时，Agent 比固定流程更有优势。"}
+  ],
+  mindmap:{root:"Building Effective Agents",children:[{name:"核心能力",children:[{name:"推理"},{name:"工具调用"},{name:"记忆"}]},{name:"架构模式",children:[{name:"单一Agent"},{name:"多Agent协作"},{name:"人机协作"}]},{name:"安全机制",children:[{name:"输入验证"},{name:"输出过滤"},{name:"人工兜底"}]}]},
+  tags:["Agent","LLM","架构设计","AI安全"],
+  took_ms:850,generated_at:new Date().toISOString()
+});
+
+let note=null,tab="note",reflection="";
+
+function init(){renderGen();}
+function gen(){
+  document.getElementById("app").innerHTML='<div class="content"><div class="sk-card"><div class="sk-line sk-shimmer"></div><div class="sk-line sk-shimmer"></div><div class="sk-line sk-shimmer"></div></div><div class="sk-card"><div class="sk-line sk-shimmer"></div><div class="sk-line sk-shimmer"></div></div></div>';
+  setTimeout(()=>{note=MOCK();renderNote();},1000+Math.random()*800);
+}
+
+function renderGen(){
+  document.getElementById("app").innerHTML=`
+<div class="gen-box">
+  <h2>复习笔记</h2>
+  <p>AI 将资料转化为结构化深度笔记<br>包含逻辑链、关键概念、延伸问题、问答卡片和思维导图</p>
+  <div class="src"><strong>资料来源</strong><br>Building Effective Agents — Anthropic 官方</div>
+  <button class="btn" onclick="gen()">生成复习笔记</button>
+</div>`;
+}
+
+function renderNote(){
+  let h='<div class="content"><div class="meta">资料来源: '+note.material_title+' · '+note.took_ms+'ms</div>';
+  h+='<div class="bar">';
+  h+='<button class="tab'+(tab==="note"?" on":"")+'" onclick="switchTab(\"note\")">笔记</button>';
+  h+='<button class="tab'+(tab==="cards"?" on":"")+'" onclick="switchTab(\"cards\")">卡片 ('+note.cards.length+')</button>';
+  h+='<button class="tab'+(tab==="mindmap"?" on":"")+'" onclick="switchTab(\"mindmap\")">导图</button>';
+  h+='</div>';
+
+  if(tab==="note"){
+    h+='<div class="card"><div class="st">核心逻辑链</div><div class="logic">'+note.logic_chain+'</div></div>';
+    h+='<div class="card"><div class="st">关键概念</div>';
+    note.key_concepts.forEach(c=>{h+='<div class="concept"><div class="c-term">'+c.term+'</div><div class="c-def">'+c.definition+'</div></div>';});
+    h+='</div>';
+    h+='<div class="card"><div class="st">延伸思考</div>';
+    note.extension_questions.forEach(q=>{h+='<div class="q-item"><span class="q-prefix">?</span><span class="q-text">'+q+'</span></div>';});
+    h+='</div>';
+    h+='<div class="reflection"><textarea placeholder="写下你的理解、疑问或联想…" oninput="reflection=this.value">'+reflection+'</textarea></div>';
+    h+='<div class="tags">'+note.tags.map(t=>'<span class="tag">'+t+'</span>').join('')+'</div>';
+  }else if(tab==="cards"){
+    note.cards.forEach(c=>{
+      h+='<div class="flashcard" onclick="this.classList.toggle(\"flipped\")"><div class="q">Q: '+c.question+'</div><div class="divider"></div><div class="a">A: '+c.answer+'</div></div>';
+    });
+  }else if(tab==="mindmap"){
+    h+='<div class="card"><div class="st">思维导图</div>';
+    h+='<div class="mm-root">● '+note.mindmap.root+'</div>';
+    note.mindmap.children.forEach(c=>{
+      h+='<div class="mm-branch">├ '+c.name+'</div>';
+      c.children.forEach(cc=>{h+='<div class="mm-leaf">│  └ '+cc.name+'</div>';});
+    });
+    h+='</div>';
+  }
+
+  h+='<button class="btn btn2" onclick="note=null;renderGen()">重新生成</button></div>';
+  document.getElementById("app").innerHTML=h;
+}
+
+function switchTab(t){tab=t;renderNote();}
+init();
+</script></body></html>

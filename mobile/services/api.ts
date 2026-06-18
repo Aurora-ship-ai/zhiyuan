@@ -1,4 +1,4 @@
-﻿/**
+/**
  * API 客户端 v2 — 对接服务端真实端点
  * 
  * 红线：API_KEY 决不出现于此文件，所有 AI/搜索调用经由服务端代理。
@@ -101,3 +101,55 @@ export async function healthCheck(): Promise<{ status: string }> {
 }
 
 export default client;
+
+import type { NoteGenerateRequest, NoteGenerateResponse } from "../types";
+
+/** AI 生成复习笔记 */
+export async function generateNote(req: NoteGenerateRequest): Promise<NoteGenerateResponse> {
+  if (USE_MOCK) {
+    await new Promise((r) => setTimeout(r, 800 + Math.random() * 1200));
+    return getMockNote(req);
+  }
+  const { data } = await client.post<NoteGenerateResponse>("/api/notes/generate", req);
+  return data;
+}
+
+function getMockNote(req: NoteGenerateRequest): NoteGenerateResponse {
+  const isAgent = req.material_title.toLowerCase().includes("agent");
+  return {
+    id: `mock-${Date.now()}`,
+    material_title: req.material_title,
+    logic_chain: isAgent
+      ? "LLM 能力增强 → 工具调用赋予行动力 → 工作流编排实现多步骤协作 → Agent 自主决策 → 人工审核兜底"
+      : "问题背景与动机 → 核心方法论 → 关键实现细节 → 实践案例验证 → 局限性与未来方向",
+    key_concepts: isAgent
+      ? [
+          { term: "Agent", definition: "具备自主决策和执行能力的 AI 系统，能根据目标选择工具并采取行动" },
+          { term: "Tool Use", definition: "LLM 调用外部工具获取信息或执行操作的能力" },
+          { term: "Workflow", definition: "将多个 Agent 或工具调用编排成有序的执行流程" },
+        ]
+      : [
+          { term: "核心概念1", definition: "从资料中提取的第一个关键概念的精确定义" },
+          { term: "核心概念2", definition: "第二个关键概念，体现了资料的精华" },
+        ],
+    extension_questions: isAgent
+      ? [
+          "什么场景下应该用简单 Workflow 而非完整 Agent？如何判断复杂度阈值？",
+          "Agent 自主决策的边界在哪里？如何平衡自动化效率和人工控制？",
+        ]
+      : ["这个方法论在其他领域是否适用？如何迁移？", "如何验证自己已经真正理解了这些概念？"],
+    cards: isAgent
+      ? [
+          { question: "Agent 和传统 RPA 的核心区别？", answer: "Agent 具备推理和自主决策能力，能处理模糊目标；RPA 执行固定规则。" },
+          { question: "Tool Use 的典型实现方式？", answer: "Function Calling 和 MCP 协议。" },
+        ]
+      : [{ question: "本文核心观点是什么？", answer: "AI 自动生成的核心摘要将在此呈现。" }],
+    mindmap: isAgent
+      ? { root: "Agent 系统", children: [{ name: "核心能力", children: [{ name: "推理" }, { name: "工具调用" }] }, { name: "架构模式", children: [{ name: "单Agent" }, { name: "多Agent协作" }] }] }
+      : { root: req.material_title.slice(0, 20), children: [{ name: "核心观点", children: [{ name: "论点1" }] }, { name: "实践应用", children: [{ name: "场景1" }] }] },
+    tags: isAgent ? ["Agent", "LLM", "AI安全"] : ["学习笔记"],
+    reflection_zone: "",
+    generated_at: new Date().toISOString(),
+    took_ms: 600,
+  };
+}
