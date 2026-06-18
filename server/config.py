@@ -23,6 +23,10 @@ class Settings(BaseSettings):
     CLAUDE_API_KEY: Optional[str] = None
     OLLAMA_HOST: str = "http://localhost:11434"
 
+    # 搜索服务
+    TAVILY_API_KEY: Optional[str] = None
+    SERPAPI_API_KEY: Optional[str] = None
+
     # 安全
     MAX_REQUEST_SIZE: int = 10 * 1024 * 1024  # 10 MB
 

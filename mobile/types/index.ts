@@ -5,23 +5,23 @@ export type SourceType = "web" | "paper" | "video" | "book" | "podcast";
 export interface SearchResult {
   id: string;
   title: string;
+  url: string;
+  direct_url?: string;
   source: string;
-  sourceType: SourceType;
-  date: string;
+  source_type: SourceType;
   score: number;
   summary: string;
   tags: string[];
+  published_date?: string;
   reachable: boolean;
-  url: string;
-  directUrl?: string;
 }
 
 /** 搜索请求 */
 export interface SearchRequest {
   query: string;
-  type?: SourceType;
+  source_type?: SourceType;
   page?: number;
-  pageSize?: number;
+  page_size?: number;
 }
 
 /** 搜索响应 */
@@ -29,7 +29,10 @@ export interface SearchResponse {
   results: SearchResult[];
   total: number;
   page: number;
-  hasMore: boolean;
+  page_size: number;
+  has_more: boolean;
+  query: string;
+  took_ms: number;
 }
 
 /** 笔记 */
@@ -37,11 +40,11 @@ export interface Note {
   id: string;
   materialId: string;
   title: string;
-  bodyJson: string;        // 富文本 JSON
-  reflectionZone: string;  // 用户自己的理解
+  bodyJson: string;
+  reflectionZone: string;
   extensionQuestions: string[];
   cards: CardItem[];
-  mindmap: unknown;        // 思维导图 JSON
+  mindmap: unknown;
   tags: string[];
   createdAt: string;
   updatedAt: string;
