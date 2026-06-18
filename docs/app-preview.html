@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>鐭ユ簮 路 App</title>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知源 · App</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#2D2420;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
@@ -10,9 +10,10 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
 .hd{padding:20px 20px 12px;display:flex;justify-content:space-between;align-items:baseline}
 .br{font-family:Georgia,serif;font-size:24px;font-weight:700;color:#1A1512}
 .dt{font-size:12px;color:#8A7E70}
-.sr{display:flex;align-items:center;background:#fff;border-radius:12px;padding:12px 16px;margin:0 20px;border:1px solid #E8E1D4;box-shadow:0 1px 3px rgba(60,40,20,.03);cursor:pointer}
+.sr{display:flex;align-items:center;background:#fff;border-radius:12px;padding:12px 16px;margin:0 20px;border:1px solid #E8E1D4;box-shadow:0 1px 3px rgba(60,40,20,.03)}
 .sr svg{margin-right:8px;opacity:.35;flex-shrink:0}
-.sr span{font-size:15px;color:#8A7E70}
+.sr input{flex:1;border:none;outline:none;background:transparent;font-size:15px;color:#1A1512;font-family:inherit}
+.sr input::placeholder{color:#8A7E70}
 .cp{display:flex;gap:6px;padding:12px 20px 0;overflow-x:auto;scrollbar-width:none}
 .cp::-webkit-scrollbar{display:none}
 .ch{font-size:12px;font-weight:500;padding:7px 14px;border-radius:20px;border:1px solid #E8E1D4;color:#5A5045;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:all .15s}
@@ -37,7 +38,7 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
 .nb{font-size:14px;font-weight:500;color:#3A5A45;cursor:pointer}
 .nt{font-family:Georgia,serif;font-size:16px;font-weight:600;flex:1;text-align:center;color:#1A1512}
 .nx{padding:16px 20px}
-.cv{display:flex;gap:12px;background:linear-gradient(155deg,#F5EDE0,#FDFAF5);border-radius:10px;border:1px solid #E8E1D4;padding:16px;margin-bottom:16px;border-left:3px solid #C0774E}
+.cv{background:linear-gradient(155deg,#F5EDE0,#FDFAF5);border-radius:10px;border:1px solid #E8E1D4;padding:16px;margin-bottom:16px;border-left:3px solid #C0774E}
 .cvt{font-family:Georgia,serif;font-size:18px;font-weight:700;color:#1A1512;margin-bottom:2px}
 .cvm{font-size:11px;color:#8A7E70}
 .tb{display:flex;gap:4px;margin-bottom:16px}
@@ -53,95 +54,95 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
 .ti2.on{color:#C0774E}
 .ti2 svg{width:20px;height:20px}
 </style></head><body><div class="phone">
-<div class="sb"><span>9:41</span><span>鈼忊棌鈼忊棌鈼?/span></div>
+<div class="sb"><span>9:41</span><span>●●●●○</span></div>
 <div class="scr">
 
 <div class="pn" id="home">
-  <div class="hd"><span class="br">鐭ユ簮</span><span class="dt">6鏈?8鏃?/span></div>
-  <div class="sr" onclick="this.querySelector('span').textContent=this.querySelector('span').textContent==='鎼滅储浣犳兂瀛︾殑浠讳綍涓婚鈥??'AI 缂栫▼鏈€浣冲疄璺?:this.querySelector('span').textContent==='AI 缂栫▼鏈€浣冲疄璺??'鏈哄櫒瀛︿範鍏ラ棬':'鎼滅储浣犳兂瀛︾殑浠讳綍涓婚鈥?"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>鎼滅储浣犳兂瀛︾殑浠讳綍涓婚鈥?/span></div>
-  <div class="cp" id="cps"><span class="ch on" onclick="sC(0)">鍏ㄩ儴</span><span class="ch" onclick="sC(1)">鏂囩珷</span><span class="ch" onclick="sC(2)">璁烘枃</span><span class="ch" onclick="sC(3)">瑙嗛</span><span class="ch" onclick="sC(4)">涔︾睄</span></div>
-  <div class="sh"><span class="st">绮鹃€夋帹鑽?/span><span class="sc" id="rc">4 浠?/span></div>
+  <div class="hd"><span class="br">知源</span><span class="dt">6月18日</span></div>
+  <div class="sr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="q" placeholder="搜索你想学的任何主题…" oninput="doFilter()"></div>
+  <div class="cp" id="cps"><span class="ch on" onclick="setChip(0)">全部</span><span class="ch" onclick="setChip(1)">文章</span><span class="ch" onclick="setChip(2)">论文</span><span class="ch" onclick="setChip(3)">视频</span><span class="ch" onclick="setChip(4)">书籍</span></div>
+  <div class="sh"><span class="st">精选推荐</span><span class="sc" id="rc">4 份</span></div>
   <div class="fd" id="feed">
-    <div class="ca ft" onclick="go('note')" data-t="0,1,2,3,4"><div class="chd"><div class="sg hi">鈽?9.2</div><span class="so">Anthropic</span></div><h3>Building Effective Agents</h3><p>Agent 鏋勫缓鏉冨▉鎸囧崡锛氫粠宸ヤ綔娴佸埌鑷富 Agent銆?/p><div class="tg"><span>Agent</span><span>LLM</span></div><div class="ac">闃呰鍏ㄦ枃 鈫?/div></div>
-    <div class="ca" onclick="go('note')" data-t="0,1"><div class="chd"><div class="sg">鈽?4.8</div><span class="so">Towards Data Science</span></div><h3>AI 缂栫▼鏈€浣冲疄璺?/h3><p>浠?Prompt Engineering 鍒?Agent 宸ヤ綔娴併€?/p><div class="tg"><span>AI</span><span>缂栫▼</span></div><div class="ac">鐩磋揪 鈫?/div></div>
-    <div class="ca" onclick="go('note')" data-t="0,2"><div class="chd"><div class="sg hi">鈽?9.8</div><span class="so">arXiv</span></div><h3>Attention Is All You Need</h3><p>Transformer 濂犲熀璁烘枃锛岃嚜娉ㄦ剰鍔涙満鍒躲€?/p><div class="tg"><span>Transformer</span><span>NLP</span></div><div class="ac">闃呰鍏ㄦ枃 鈫?/div></div>
-    <div class="ca" onclick="go('note')" data-t="0,3"><div class="chd"><div class="sg">鈽?4.7</div><span class="so">YouTube 路 LangChain</span></div><h3>Building Agents 鈥?Full Course</h3><p>浠庨浂鏋勫缓 AI Agent 瀹屾暣鏁欑▼銆?/p><div class="tg"><span>Agent</span><span>鏁欑▼</span></div><div class="ac">瑙傜湅 鈫?/div></div>
+    <div class="ca ft" onclick="go('note')" data-t="0,1,2,3,4"><div class="chd"><div class="sg hi">★ 9.2</div><span class="so">Anthropic</span></div><h3>Building Effective Agents</h3><p>Agent 构建权威指南：从工作流到自主 Agent。</p><div class="tg"><span>Agent</span><span>LLM</span></div><div class="ac">阅读全文 →</div></div>
+    <div class="ca" onclick="go('note')" data-t="0,1"><div class="chd"><div class="sg">★ 4.8</div><span class="so">Towards Data Science</span></div><h3>AI 编程最佳实践</h3><p>从 Prompt Engineering 到 Agent 工作流。</p><div class="tg"><span>AI</span><span>编程</span></div><div class="ac">直达 →</div></div>
+    <div class="ca" onclick="go('note')" data-t="0,2"><div class="chd"><div class="sg hi">★ 9.8</div><span class="so">arXiv</span></div><h3>Attention Is All You Need</h3><p>Transformer 奠基论文，自注意力机制。</p><div class="tg"><span>Transformer</span><span>NLP</span></div><div class="ac">阅读全文 →</div></div>
+    <div class="ca" onclick="go('note')" data-t="0,3"><div class="chd"><div class="sg">★ 4.7</div><span class="so">YouTube · LangChain</span></div><h3>Building Agents — Full Course</h3><p>从零构建 AI Agent 完整教程。</p><div class="tg"><span>Agent</span><span>教程</span></div><div class="ac">观看 →</div></div>
   </div>
 </div>
 
 <div class="pn h" id="note">
-  <div class="nh"><span class="nb" onclick="go('home')">鈫?杩斿洖</span><span class="nt">澶嶄範绗旇</span><span style="width:40px"></span></div>
+  <div class="nh"><span class="nb" onclick="go('home')">← 返回</span><span class="nt">复习笔记</span><span style="width:40px"></span></div>
   <div class="nx">
-    <div class="cv"><div><div class="cvt">Building Effective Agents</div><div class="cvm">Anthropic 路 850ms</div></div></div>
-    <div class="tb"><span class="ti on">绗旇</span><span class="ti">鍗＄墖</span><span class="ti">瀵煎浘</span></div>
-    <div class="bl"><h4>鏍稿績閫昏緫閾?/h4>
-      <div class="cn"><div class="nu">1</div><div class="tx">LLM 鍩虹鑳藉姏澧炲己 鈫?Agent 鎺ㄧ悊搴曞眰鏀拺</div></div>
-      <div class="cn"><div class="nu">2</div><div class="tx">Tool Use 璧嬩簣璋冪敤 API銆佹暟鎹簱鐨勮兘鍔?/div></div>
-      <div class="cn"><div class="nu">3</div><div class="tx">Workflow 缁勫悎涓烘湁搴忔墽琛岃鍒?/div></div>
-      <div class="cn"><div class="nu">4</div><div class="tx">Agent 鑷富鍐崇瓥锛屽姩鎬佽皟鏁寸瓥鐣?/div></div>
-      <div class="cn"><div class="nu">5</div><div class="tx">浜哄伐瀹℃牳浣滀负鏈€鍚庨槻绾?/div></div>
+    <div class="cv"><div><div class="cvt">Building Effective Agents</div><div class="cvm">Anthropic · 850ms</div></div></div>
+    <div class="tb"><span class="ti on">笔记</span><span class="ti">卡片</span><span class="ti">导图</span></div>
+    <div class="bl"><h4>核心逻辑链</h4>
+      <div class="cn"><div class="nu">1</div><div class="tx">LLM 基础能力增强 → Agent 推理底层支撑</div></div>
+      <div class="cn"><div class="nu">2</div><div class="tx">Tool Use 赋予调用 API、数据库的能力</div></div>
+      <div class="cn"><div class="nu">3</div><div class="tx">Workflow 组合为有序执行计划</div></div>
+      <div class="cn"><div class="nu">4</div><div class="tx">Agent 自主决策，动态调整策略</div></div>
+      <div class="cn"><div class="nu">5</div><div class="tx">人工审核作为最后防线</div></div>
     </div>
   </div>
 </div>
 
 <div class="pn h" id="knowledge">
-  <div class="hd"><span class="br">鐭ヨ瘑搴?/span><span class="dt">4 绗旇</span></div>
-  <div class="sr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>鎼滅储绗旇鈥?/span></div>
-  <div class="sh"><span class="st">鍏ㄩ儴绗旇</span><span class="sc">4 鏉?/span></div>
+  <div class="hd"><span class="br">知识库</span><span class="dt">4 笔记</span></div>
+  <div class="sr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" placeholder="搜索笔记…" style="flex:1;border:none;outline:none;background:transparent;font-size:15px;color:#1A1512;font-family:inherit"></div>
+  <div class="sh"><span class="st">全部笔记</span><span class="sc">4 条</span></div>
   <div class="fd">
-    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6鏈?8鏃?路 馃挕 3 路 馃儚 4</span></div><h3>Building Effective Agents</h3><p>LLM鈫扵ool Use鈫扺orkflow鈫扐gent</p><div class="tg"><span>Agent</span><span>LLM</span></div></div>
-    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6鏈?7鏃?路 馃挕 2</span></div><h3>AI 缂栫▼鏈€浣冲疄璺?/h3><p>浠ｇ爜琛ュ叏鈫扐gent宸ヤ綔娴?/p><div class="tg"><span>AI</span><span>缂栫▼</span></div></div>
-    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6鏈?6鏃?路 馃挕 3</span></div><h3>绯荤粺璁捐闈㈣瘯鎸囧崡</h3><p>闇€姹傗啋浼扮畻鈫掓帴鍙ｂ啋妯″瀷鈫掓灦鏋?/p><div class="tg"><span>绯荤粺璁捐</span></div></div>
-    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6鏈?5鏃?路 馃挕 4 路 馃儚 3</span></div><h3>Transformer 鏋舵瀯瑙ｆ瀽</h3><p>鑷敞鎰忓姏鈫掑苟琛屸啋澶氭ā鎬?/p><div class="tg"><span>娣卞害瀛︿範</span><span>NLP</span></div></div>
+    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6月18日 · 3 概念 · 4 卡片</span></div><h3>Building Effective Agents</h3><p>LLM→Tool Use→Workflow→自主决策</p><div class="tg"><span>Agent</span><span>LLM</span></div></div>
+    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6月17日 · 2 概念</span></div><h3>AI 编程最佳实践</h3><p>代码补全→Agent工作流</p><div class="tg"><span>AI</span><span>编程</span></div></div>
+    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6月16日 · 3 概念</span></div><h3>系统设计面试指南</h3><p>需求→容量→接口→模型→架构</p><div class="tg"><span>系统设计</span></div></div>
+    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6月15日 · 4 概念 · 3 卡片</span></div><h3>Transformer 架构解析</h3><p>自注意力→并行→长程依赖</p><div class="tg"><span>深度学习</span><span>NLP</span></div></div>
   </div>
 </div>
 
 <div class="pn h" id="pending">
-  <div class="hd"><span class="br">寰呭娓呭崟</span><span class="dt">2 椤?/span></div>
+  <div class="hd"><span class="br">待学清单</span><span class="dt">2 项</span></div>
   <div class="fd" style="padding-top:12px">
-    <div class="ca"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">3 澶╁墠鏀惰棌</span></div><h3>Transformer 鏋舵瀯娣卞害瑙ｆ瀽</h3><p>鑷敞鎰忓姏鏈哄埗璇﹁В锛屾簮浠ｇ爜鍒嗘瀽銆?/p><div class="tg"><span>娣卞害瀛︿範</span><span>NLP</span></div></div>
-    <div class="ca"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">1 鍛ㄥ墠鏀惰棌</span></div><h3>TypeScript 绫诲瀷浣撴搷瀹炴垬</h3><p>楂樼骇绫诲瀷鎶€宸т笌鎸戞垬棰樸€?/p><div class="tg"><span>TypeScript</span></div></div>
+    <div class="ca"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">3 天前收藏</span></div><h3>Transformer 架构深度解析</h3><p>自注意力机制详解，源代码分析。</p><div class="tg"><span>深度学习</span><span>NLP</span></div></div>
+    <div class="ca"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">1 周前收藏</span></div><h3>TypeScript 类型体操实战</h3><p>高级类型技巧与挑战题。</p><div class="tg"><span>TypeScript</span></div></div>
   </div>
 </div>
 
 <div class="pn h" id="profile">
-  <div class="hd"><span class="br">鎴戠殑</span></div>
+  <div class="hd"><span class="br">我的</span></div>
   <div class="fd" style="padding-top:12px">
-    <div class="ca" style="text-align:center;padding:24px"><div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:#1A1512">4</div><div style="font-size:11px;color:#8A7E70;margin-top:2px">绗旇</div></div>
-    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">瀵煎嚭鐭ヨ瘑搴?/span><span style="font-size:12px;color:#3A5A45">Markdown / HTML 鈫?/span></div>
-    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">API Key 閰嶇疆</span><span style="font-size:12px;color:#8A7E70">鏈厤缃?/span></div>
-    <div class="ca" style="padding:14px;display:flex;just-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">鍏充簬鐭ユ簮</span><span style="font-size:12px;color:#8A7E70">v0.1.0</span></div>
+    <div class="ca" style="text-align:center;padding:24px"><div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:#1A1512">4</div><div style="font-size:11px;color:#8A7E70;margin-top:2px">笔记</div></div>
+    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">导出知识库</span><span style="font-size:12px;color:#3A5A45">Markdown / HTML →</span></div>
+    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">API Key 配置</span><span style="font-size:12px;color:#8A7E70">未配置</span></div>
+    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">关于知源</span><span style="font-size:12px;color:#8A7E70">v0.1.0</span></div>
   </div>
 </div>
 
 </div>
 <div class="tbb">
-  <div class="ti2 on" id="tb0" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>棣栭〉</div>
-  <div class="ti2" id="tb1" onclick="go('knowledge')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>鐭ヨ瘑搴?/div>
-  <div class="ti2" id="tb2" onclick="go('pending')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>寰呭</div>
-  <div class="ti2" id="tb3" onclick="go('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>鎴戠殑</div>
+  <div class="ti2 on" id="tb0" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>首页</div>
+  <div class="ti2" id="tb1" onclick="go('knowledge')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>知识库</div>
+  <div class="ti2" id="tb2" onclick="go('pending')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>待学</div>
+  <div class="ti2" id="tb3" onclick="go('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</div>
 </div>
 </div>
 <script>
 var ac=0;
-function sC(i){
-  ac=i;
-  document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===i)});
+function setChip(i){ac=i;document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===i)});doFilter()}
+function doFilter(){
+  var q=document.getElementById("q").value.toLowerCase();
   var cards=document.querySelectorAll("#feed .ca");var cnt=0;
   cards.forEach(function(c){
     var types=(c.getAttribute("data-t")||"0").split(",").map(Number);
-    var show=i===0||types.includes(i);
+    var typeOk=ac===0||types.includes(ac);
+    var txt=(c.textContent||"").toLowerCase();
+    var searchOk=q===""||txt.indexOf(q)>=0;
+    var show=typeOk&&searchOk;
     c.style.display=show?"":"none";if(show)cnt++;
   });
-  document.getElementById("rc").textContent=cnt+" 浠?;
+  document.getElementById("rc").textContent=cnt+" 份";
 }
 function go(id){
   document.querySelectorAll(".pn").forEach(function(p){p.classList.add("h")});
   document.getElementById(id).classList.remove("h");
   var map={home:0,knowledge:1,pending:2,profile:3};
   document.querySelectorAll(".ti2").forEach(function(t,i){t.classList.toggle("on",i===map[id])});
-  if(id==="home"){
-    document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===ac)});
-  }
 }
 </script></body></html>
