@@ -110,8 +110,7 @@ body{background:#2D2420;display:flex;justify-content:center;align-items:center;m
   <div class="ti2" id="tb3" onclick="go('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</div>
 </div>
 </div>
-<script>
-var ac=0,ld=!1,pending=[],curMat=null;
+<script>var ac=0,ld=!1,pending=[],curMat=null,allResults=[],notes={};
 
 function setChip(i){ac=i;document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===i)})}
 
@@ -121,35 +120,35 @@ function doFilter(){
   if(ld)return;ld=!0;
   var fd=document.getElementById("feed");
   fd.innerHTML="";
-  for(var i=0;i<3;i++){fd.innerHTML+="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70;font-size:13px\">"+["分析中","搜索互联网","整理结果"][i]+"</div>";}
+  for(var i=0;i<3;i++){fd.innerHTML+='<div class="ca" style="text-align:center;padding:24px;color:#8A7E70;font-size:13px">'+["分析中","搜索互联网","整理结果"][i]+'</div>';}
   fetch("http://localhost:8000/api/search/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q,page:1,page_size:5})}).then(function(r){return r.json()}).then(function(d){
-    ld=!1;var all=d.results||[];
+    ld=!1;allResults=d.results||[];
     var fd=document.getElementById("feed");fd.innerHTML="";
-    document.getElementById("rc").textContent=all.length+" 份";
-    if(all.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">换个关键词试试</div>";}
-    all.forEach(function(r,i){
+    document.getElementById("rc").textContent=allResults.length+" 份";
+    if(allResults.length===0){fd.innerHTML='<div class="ca" style="text-align:center;padding:24px;color:#8A7E70">换个关键词试试</div>';}
+    allResults.forEach(function(r,i){
       var ft=r.score>=9;
-      fd.innerHTML+="<div class=\"ca"+(ft?" ft":"")+"\" onclick=\"openMat(\x27"+encodeURIComponent(JSON.stringify(r))+"\x27)\"><div class=\"chd\"><div class=\"sg"+(ft?" hi":"")+"\">\u2605 "+r.score+"</div><span class=\"so\">"+r.source+"</span></div><h3>"+r.title+"</h3><p>"+(r.summary||"")+"</p><div class=\"tg\">"+(r.tags||[]).map(function(t){return"<span>"+t+"</span>"}).join("")+"</div><div class=\"ac\">点击查看 \u2192</div></div>";
+      fd.innerHTML+='<div class="ca'+(ft?' ft':'')+'" onclick="openMat('+i+')"><div class="chd"><div class="sg'+(ft?' hi':'')+'">★ '+r.score+'</div><span class="so">'+r.source+'</span></div><h3>'+r.title+'</h3><p>'+(r.summary||'')+'</p><div class="tg">'+(r.tags||[]).map(function(t){return'<span>'+t+'</span>'}).join('')+'</div><div class="ac">点击查看 →</div></div>';
     });
-    document.getElementById("rc").textContent=all.length+" 份";
+    document.getElementById("rc").textContent=allResults.length+" 份";
   }).catch(function(){ld=!1;});
 }
 
-function openMat(e){
-  var r=JSON.parse(decodeURIComponent(e));curMat=r;
-  document.getElementById("mTitle").textContent=r.title;
-  document.getElementById("mSource").textContent=r.source;
-  document.getElementById("mSummary").textContent=r.summary||"暂无摘要";
-  document.getElementById("mUrl").textContent=r.url;
-  var sc=document.getElementById("mScore");sc.textContent=r.score;
-  sc.className="sg"+(r.score>=9?" hi":"");
+function openMat(i){
+  curMat=allResults[i];if(!curMat)return;
+  document.getElementById("mTitle").textContent=curMat.title;
+  document.getElementById("mSource").textContent=curMat.source;
+  document.getElementById("mSummary").textContent=curMat.summary||"暂无摘要";
+  document.getElementById("mUrl").textContent=curMat.url;
+  var sc=document.getElementById("mScore");sc.textContent=curMat.score;
+  sc.className="sg"+(curMat.score>=9?" hi":"");
   go("material");
 }
 
 function savePending(){
   if(!curMat)return;
   if(!pending.find(function(x){return x.url===curMat.url})){
-    pending.unshift({title:curMat.title,source:curMat.source,url:curMat.url,date:new Date().toLocaleDateString()});
+    pending.unshift({title:curMat.title,source:curMat.source,url:curMat.url,date:new Date().toLocaleDateString(),idx:allResults.indexOf(curMat)});
   }
   go("home");alert("已保存到待学清单");
 }
@@ -157,8 +156,38 @@ function savePending(){
 function genNote(){
   if(!curMat)return;
   document.getElementById("nTitle").textContent=curMat.title;
-  document.querySelector("#note .cvm").textContent=curMat.source+" \u00b7 850ms";
+  document.querySelector("#note .cvm").textContent=curMat.source+" · 生成中…";
+  // 调用真实笔记生成 API
+  fetch("http://localhost:8000/api/notes/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({material_title:curMat.title,material_content:curMat.summary||curMat.title,source_type:"web"})}).then(function(r){return r.json()}).then(function(d){
+    notes[curMat.url]=d;
+    renderNote(d);
+    document.querySelector("#note .cvm").textContent=curMat.source+" · "+(d.took_ms||850)+"ms";
+  }).catch(function(){
+    // 降级模拟
+    var mock={logic_chain:"核心概念引入 → 关键方法论展开 → 实践案例验证 → 局限性与未来发展",key_concepts:[{term:"核心概念一",definition:curMat.summary||"从资料中提取的关键定义"}],extension_questions:["如何将本文的方法应用到实际项目中？","这个结论的前提假设是什么？如果前提变化呢？"],cards:[{question:"本文最核心的观点是什么？",answer:curMat.summary||"请阅读原文获取详情"}],tags:curMat.tags||[],took_ms:500};
+    notes[curMat.url]=mock;
+    renderNote(mock);
+    document.querySelector("#note .cvm").textContent=curMat.source+" · 500ms";
+  });
   go("note");
+}
+
+function renderNote(d){
+  var nx=document.querySelector("#note .nx");
+  var h='<div class="cv"><div><div class="cvt" id="nTitle">'+curMat.title+'</div><div class="cvm">'+curMat.source+' · '+d.took_ms+'ms</div></div></div>';
+  h+='<div class="bl"><h4>核心逻辑链</h4><div style="font-size:13px;color:#1A1512;line-height:1.7">'+d.logic_chain+'</div></div>';
+  if(d.key_concepts&&d.key_concepts.length){
+    h+='<div class="bl"><h4>关键概念</h4>';
+    d.key_concepts.forEach(function(c){h+='<div style="margin-bottom:8px"><span style="font-size:13px;font-weight:600;color:#C0774E">'+c.term+'</span><span style="font-size:12px;color:#5A5045;display:block;margin-top:2px">'+c.definition+'</span></div>';});
+    h+='</div>';
+  }
+  if(d.extension_questions&&d.extension_questions.length){
+    h+='<div class="bl"><h4>延伸思考</h4>';
+    d.extension_questions.forEach(function(q){h+='<div style="font-size:12px;color:#1A1512;line-height:1.7;margin-bottom:6px">? '+q+'</div>';});
+    h+='</div>';
+  }
+  if(d.tags&&d.tags.length){h+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">'+d.tags.map(function(t){return'<span style="font-size:10px;padding:3px 8px;background:#F3EEE4;border-radius:4px;color:#5A5045">#'+t+'</span>'}).join('')+'</div>';}
+  document.querySelector("#note .nx").innerHTML=h;
 }
 
 function go(id){
@@ -172,15 +201,14 @@ function go(id){
 
 function renderPending(){
   var fd=document.getElementById("pdList");fd.innerHTML="";
-  if(pending.length===0){fd.innerHTML="<div class=\"ca\" style=\"text-align:center;padding:24px;color:#8A7E70\">还没有收藏的资料</div>";return;}
+  if(pending.length===0){fd.innerHTML='<div class="ca" style="text-align:center;padding:24px;color:#8A7E70">还没有收藏的资料</div>';return;}
   pending.forEach(function(p,i){
-    fd.innerHTML+="<div class=\"ca\" style=\"cursor:default\"><div class=\"chd\"><span class=\"so\">"+p.date+" \u00b7 "+p.source+"</span></div><h3>"+p.title+"</h3><div class=\"ac\" style=\"cursor:pointer\" onclick=\"pending.splice("+i+",1);renderPending()\">删除</div></div>";
+    fd.innerHTML+='<div class="ca" onclick="if('+p.idx+'>=0){openMat('+p.idx+')}" style="cursor:pointer"><div class="chd"><span class="so">'+p.date+' · '+p.source+'</span></div><h3>'+p.title+'</h3><div class="ac" style="cursor:pointer" onclick="event.stopPropagation();pending.splice('+i+',1);renderPending()">删除</div></div>';
   });
 }
 
 function renderKB(){
   var fd=document.getElementById("kbList");fd.innerHTML="";
   var kb=[{t:"Building Effective Agents",d:"6月18日",c:3,q:4},{t:"AI 编程最佳实践",d:"6月17日",c:2,q:0}];
-  kb.forEach(function(n){fd.innerHTML+="<div class=\"ca\" onclick=\"go(\x27note\x27)\"><div class=\"chd\"><span class=\"so\">"+n.d+" \u00b7 \uD83D\uDCA1 "+n.c+" \u00b7 \uD83C\uDCCF "+n.q+"</span></div><h3>"+n.t+"</h3></div>";});
-}
-</script></body></html>
+  kb.forEach(function(n){fd.innerHTML+='<div class="ca" onclick="go('note')"><div class="chd"><span class="so">'+n.d+' · 💡 '+n.c+' · 🃏 '+n.q+'</span></div><h3>'+n.t+'</h3></div>';});
+}</script></body></html>
