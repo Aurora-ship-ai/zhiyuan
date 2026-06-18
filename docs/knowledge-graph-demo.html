@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>鐭ユ簮 路 鐭ヨ瘑鍥捐氨</title>
+<style>
+:root{--c-bg:#F9F6F0;--c-card:#F3EEE4;--c-txt:#1A1512;--c-t2:#5A5045;--c-t3:#8A7E70;--c-acc:#C0774E;--c-acc2:#3A5A45;--c-gold:#C49B5A;--c-bd:#E8E1D4;--c-purple:#7B5EA7;--c-blue:#4A7FB5}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#EDE8DE;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased}
+.page{width:100%;max-width:460px;background:var(--c-bg);min-height:100vh;padding:24px 20px 60px}
+h2{font-family:Georgia,serif;font-size:24px;font-weight:700;color:var(--c-txt);margin-bottom:4px}
+.sub{font-size:13px;color:var(--c-t3);margin-bottom:20px;line-height:1.6}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.leg{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--c-t3)}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.leg-dot.note{background:var(--c-acc)}
+.leg-dot.concept{background:var(--c-acc2)}
+.leg-dot.domain{background:var(--c-gold)}
+.graph-container{background:var(--c-card);border-radius:12px;border:1px solid var(--c-bd);padding:16px;margin-bottom:20px;overflow:hidden;position:relative;min-height:300px}
+canvas{display:block;width:100%}
+.info-panel{background:#fff;border-radius:10px;border:1px solid var(--c-bd);padding:14px;margin-bottom:16px;display:none}
+.info-panel.show{display:block}
+.info-title{font-family:Georgia,serif;font-size:16px;font-weight:600;color:var(--c-txt);margin-bottom:4px}
+.info-type{font-size:11px;color:var(--c-t3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
+.info-desc{font-size:13px;color:var(--c-t2);line-height:1.6}
+.connections{margin-top:20px}
+.conn-title{font-size:13px;font-weight:600;color:var(--c-txt);margin-bottom:10px}
+.conn-list{display:flex;flex-direction:column;gap:8px}
+.conn-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--c-card);border-radius:8px;cursor:pointer;transition:all .2s}
+.conn-item:hover{background:#fff}
+.conn-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.conn-item .conn-dot{background:var(--c-acc)}
+.conn-item.concept .conn-dot{background:var(--c-acc2)}
+.conn-text{font-size:12px;color:var(--c-txt);font-weight:500}
+.conn-sub{font-size:10px;color:var(--c-t3)}
+</style></head><body><div class="page" id="app"></div>
+<script>
+const DATA={
+  nodes:[
+    {id:"n1",type:"note",label:"Building Effective Agents",desc:"Agent鏋勫缓鏉冨▉鎸囧崡锛歀LM鈫扵ool Use鈫扺orkflow鈫掕嚜涓诲喅绛?,tags:["Agent","LLM"]},
+    {id:"n2",type:"note",label:"AI 缂栫▼鏈€浣冲疄璺?,desc:"浜斿眰娆★細浠ｇ爜琛ュ叏鈫掑璇濃啋涓婁笅鏂団啋Agent宸ヤ綔娴佲啋鑷富寮€鍙?,tags:["AI","缂栫▼"]},
+    {id:"n3",type:"note",label:"绯荤粺璁捐闈㈣瘯鎸囧崡",desc:"闇€姹傛緞娓呪啋瀹归噺浼扮畻鈫掓帴鍙ｈ璁♀啋鏁版嵁妯″瀷",tags:["绯荤粺璁捐"]},
+    {id:"n4",type:"note",label:"Transformer鏋舵瀯瑙ｆ瀽",desc:"鑷敞鎰忓姏鈫掑苟琛岃缁冣啋闀跨▼渚濊禆鈫掑妯℃€佺粺涓€",tags:["娣卞害瀛︿範","NLP"]},
+    {id:"c1",type:"concept",label:"Agent",desc:"鑷富鍐崇瓥鐨凙I绯荤粺",tags:["AI"]},
+    {id:"c2",type:"concept",label:"Tool Use",desc:"LLM璋冪敤澶栭儴宸ュ叿",tags:["AI"]},
+    {id:"c3",type:"concept",label:"Prompt Engineering",desc:"鎻愮ず璇嶅伐绋嬫柟娉?,tags:["AI","缂栫▼"]},
+    {id:"c4",type:"concept",label:"Workflow",desc:"澶氭楠や换鍔＄紪鎺?,tags:["绯荤粺璁捐"]},
+    {id:"c5",type:"concept",label:"Attention",desc:"鑷敞鎰忓姏鏈哄埗",tags:["娣卞害瀛︿範","NLP"]},
+    {id:"c6",type:"concept",label:"CAP瀹氱悊",desc:"涓€鑷存€?鍙敤鎬?鍒嗗尯瀹归敊",tags:["绯荤粺璁捐"]},
+    {id:"d1",type:"domain",label:"AI & ML",desc:"浜哄伐鏅鸿兘涓庢満鍣ㄥ涔?},
+    {id:"d2",type:"domain",label:"绯荤粺璁捐",desc:"鍒嗗竷寮忕郴缁熶笌鏋舵瀯"},
+  ],
+  edges:[
+    ["n1","c1"],["n1","c2"],["n1","c4"],["n1","d1"],
+    ["n2","c3"],["n2","c1"],["n2","d1"],
+    ["n3","c6"],["n3","c4"],["n3","d2"],
+    ["n4","c5"],["n4","d1"],
+    ["c1","c2"],["c1","c4"],["c5","d1"],["c6","d2"],
+  ]
+};
+
+let positions={},selected=null,canvas,ctx;
+
+function layout(){
+  const cx=200,cy=180,rx=170,ry=140;
+  const domains=DATA.nodes.filter(n=>n.type==="domain");
+  const notes=DATA.nodes.filter(n=>n.type==="note");
+  const concepts=DATA.nodes.filter(n=>n.type==="concept");
+  domains.forEach((d,i)=>{const a=(i/domains.length)*Math.PI*2-Math.PI/2;positions[d.id]={x:cx+Math.cos(a)*rx*.5,y:cy+Math.sin(a)*ry*.5};});
+  notes.forEach((d,i)=>{const a=(i/notes.length)*Math.PI*2;positions[d.id]={x:cx+Math.cos(a)*rx*.75,y:cy+Math.sin(a)*ry*.75};});
+  concepts.forEach((d,i)=>{const a=(i/concepts.length)*Math.PI*2+Math.PI/6;positions[d.id]={x:cx+Math.cos(a)*rx,y:cy+Math.sin(a)*ry};});
+}
+
+function getNode(id){return DATA.nodes.find(n=>n.id===id)}
+function getTypeColor(t){return t==="note"?{fill:varStr("--c-acc"),stroke:varStr("--c-acc"),text:"#fff"}:t==="concept"?{fill:varStr("--c-acc2"),stroke:varStr("--c-acc2"),text:"#fff"}:{fill:varStr("--c-gold"),stroke:varStr("--c-gold"),text:"#fff"}}
+
+function varStr(v){return getComputedStyle(document.documentElement).getPropertyValue(v)}
+function refreshGraph(){
+  canvas=document.getElementById("graph");ctx=canvas.getContext("2d");
+  const dpr=2;canvas.width=400*dpr;canvas.height=360*dpr;canvas.style.width="100%";canvas.style.height="360px";ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,800,720);
+  // edges
+  DATA.edges.forEach(([a,b])=>{
+    const pa=positions[a],pb=positions[b];if(!pa||!pb)return;
+    ctx.beginPath();ctx.moveTo(pa.x,pa.y);ctx.lineTo(pb.x,pb.y);
+    ctx.strokeStyle=selected&&(a===selected||b===selected)?varStr("--c-acc"):"rgba(140,130,115,0.2)";
+    ctx.lineWidth=selected&&(a===selected||b===selected)?2:1;ctx.stroke();
+  });
+  // nodes
+  const sizes={note:14,concept:10,domain:18};
+  DATA.nodes.forEach(n=>{
+    const p=positions[n.id];if(!p)return;
+    const s=sizes[n.type]||10;const c=getTypeColor(n.type);
+    const isSel=n.id===selected;const highlight=!selected||isSel||DATA.edges.some(e=>isSel&&(e[0]===n.id||e[1]===n.id));
+    ctx.beginPath();ctx.arc(p.x,p.y,s,0,Math.PI*2);
+    ctx.fillStyle=isSel?varStr("--c-acc"):highlight?c.fill:"rgba(140,130,115,0.25)";
+    ctx.fill();ctx.strokeStyle=c.stroke;ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle="#fff";ctx.font=`${s>12?"bold "+(s-2)+"px":(s-1)+"px"} -apple-system,sans-serif`;ctx.textAlign="center";ctx.textBaseline="middle";
+    if(s>10)ctx.fillText(n.label.slice(0,1),p.x,p.y);
+    // label
+    if(s>10||isSel||n.type==="domain"){
+      ctx.fillStyle=varStr("--c-t2");ctx.font="10px -apple-system,sans-serif";ctx.fillText(n.label.length>6?n.label.slice(0,6)+"鈥?:n.label,p.x,p.y+s+10);
+    }
+  });
+}
+
+function render(){
+  layout();
+  let h='<h2>鐭ヨ瘑鍥捐氨</h2><div class="sub">鍙鍖栫瑪璁般€佹蹇典笌棰嗗煙涔嬮棿鐨勫叧鑱?/div>';
+  h+='<div class="legend"><div class="leg"><div class="leg-dot note"></div>绗旇</div><div class="leg"><div class="leg-dot concept"></div>姒傚康</div><div class="leg"><div class="leg-dot domain"></div>棰嗗煙</div>';
+  if(selected){const n=getNode(selected);h+='<div class="leg" style="margin-left:auto;cursor:pointer;color:var(--c-acc)" onclick="selected=null;render()">鉁?娓呴櫎</div>';}
+  h+='</div>';
+  h+='<div class="graph-container"><canvas id="graph" width="400" height="360" onclick="handleClick(event)"></canvas></div>';
+  if(selected){
+    const n=getNode(selected);
+    h+='<div class="info-panel show"><div class="info-type">'+n.type.toUpperCase()+'</div><div class="info-title">'+n.label+'</div><div class="info-desc">'+n.desc+'</div>';
+    if(n.tags){h+='<div style="margin-top:8px;display:flex;gap:4px;flex-wrap:wrap">'+n.tags.map(t=>'<span style="font-size:10px;padding:2px 8px;background:var(--c-card);border-radius:4px;color:var(--c-t2)">#'+t+'</span>').join('')+'</div>';}
+    const conns=DATA.edges.filter(e=>e[0]===selected||e[1]===selected).map(e=>e[0]===selected?e[1]:e[0]).filter(id=>id!==selected);
+    if(conns.length){h+='<div class="connections"><div class="conn-title">鍏宠仈鑺傜偣 路 '+conns.length+'</div><div class="conn-list">';
+      conns.forEach(cid=>{const cn=getNode(cid);if(!cn)return;h+='<div class="conn-item '+cn.type+'" onclick="selected=\"'+cid+'\";render()"><div class="conn-dot"></div><div><div class="conn-text">'+cn.label+'</div><div class="conn-sub">'+cn.type+'</div></div></div>';});
+      h+='</div></div>';}
+    h+='</div>';
+  }
+  document.getElementById("app").innerHTML=h;
+  setTimeout(refreshGraph,50);
+}
+
+function handleClick(e){
+  const rect=canvas.getBoundingClientRect();const sx=400/rect.width;
+  const mx=(e.clientX-rect.left)*sx,my=(e.clientY-rect.top)*sx*360/400;
+  let best=null,bestDist=20;
+  DATA.nodes.forEach(n=>{const p=positions[n.id];if(!p)return;const dx=mx-p.x,dy=my-p.y,d=Math.sqrt(dx*dx+dy*dy);if(d<bestDist){best=n.id;bestDist=d;}});
+  if(best)selected=selected===best?null:best;else selected=null;
+  render();
+}
+layout();render();
+
+function handleClick(e){const rect=canvas.getBoundingClientRect();const sx=400/rect.width;const mx=(e.clientX-rect.left)*sx,my=(e.clientY-rect.top)*sx*360/400;let best=null,bestDist=20;DATA.nodes.forEach(n=>{const p=positions[n.id];if(!p)return;const dx=mx-p.x,dy=my-p.y,d=Math.sqrt(dx*dx+dy*dy);if(d<bestDist){best=n.id;bestDist=d;}});if(best)selected=selected===best?null:best;else selected=null;render();}
+</script></body></html>
