@@ -1,142 +1,147 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知源 · App 预览</title>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知源 · App</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#2D2420;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}
 .phone{width:390px;height:844px;background:#F9F6F0;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 0 2px #1A1512;display:flex;flex-direction:column}
-.status-bar{display:flex;justify-content:space-between;padding:16px 28px 0;font-size:12px;font-weight:600;color:#1A1512;flex-shrink:0}
-.screen{flex:1;overflow:hidden;position:relative}
-.panel{position:absolute;top:0;left:0;width:100%;height:100%;overflow-y:auto;overflow-x:hidden;background:#F9F6F0;transition:transform .35s cubic-bezier(.4,0,.2,1);padding-bottom:20px}
-.panel.hidden{transform:translateX(100%)}
-.panel.left{transform:translateX(-100%)}
-
-/* 首页 */
-.h-head{padding:20px 20px 12px;display:flex;justify-content:space-between;align-items:baseline}
-.h-brand{font-family:Georgia,serif;font-size:24px;font-weight:700;color:#1A1512}
-.h-date{font-size:12px;color:#8A7E70}
-.s-bar{display:flex;align-items:center;background:#fff;border-radius:12px;padding:12px 16px;margin:0 20px;border:1px solid #E8E1D4;box-shadow:0 1px 3px rgba(60,40,20,.03)}
-.s-bar svg{margin-right:8px;opacity:.35}
-.s-bar span{font-size:15px;color:#8A7E70}
-.chips{display:flex;gap:6px;padding:12px 20px 0;overflow-x:auto;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{font-size:12px;font-weight:500;padding:7px 14px;border-radius:20px;border:1px solid #E8E1D4;color:#5A5045;white-space:nowrap;flex-shrink:0}
-.chip.on{background:#1A1512;color:#FDFAF5;border-color:#1A1512}
-.sec{display:flex;justify-content:space-between;padding:16px 20px 8px;align-items:center}
-.sec-t{font-family:Georgia,serif;font-size:15px;font-weight:600;color:#1A1512}
-.sec-c{font-size:11px;color:#8A7E70}
-.feed{padding:0 20px}
-.c{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(60,40,20,.02);cursor:pointer;transition:all .2s}
-.c:active{transform:scale(.99)}
-.c.ft{background:linear-gradient(135deg,#FBF7F0,#F4ECE0);border-color:#D5CCBB}
-.c .head{display:flex;align-items:center;gap:6px;margin-bottom:8px}
-.c .sc{display:flex;align-items:center;gap:3px;padding:2px 8px;border-radius:5px;background:#F6ECD5;font-size:10px;font-weight:700;color:#C49B5A}
-.c .sc.hi{background:#E8F0E2;color:#3A5A45}
-.c .src{font-size:11px;color:#8A7E70;flex:1}
-.c h3{font-family:Georgia,serif;font-size:15px;font-weight:600;color:#1A1512;line-height:1.35;margin-bottom:6px}
-.c p{font-size:12px;color:#5A5045;line-height:1.5;margin-bottom:8px}
-.c .tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
-.c .tags span{font-size:10px;padding:3px 8px;background:#F9F6F0;border-radius:4px;color:#5A5045}
-.c .act{display:flex;gap:14px;padding-top:6px;border-top:1px solid #E8E1D4;font-size:12px;font-weight:500;color:#3A5A45}
-
-/* 笔记 */
-.note-head{padding:16px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #E8E1D4}
-.note-back{font-size:14px;font-weight:500;color:#3A5A45;cursor:pointer}
-.note-title{font-family:Georgia,serif;font-size:16px;font-weight:600;flex:1;text-align:center;color:#1A1512}
-.note-body{padding:16px 20px}
+.sb{display:flex;justify-content:space-between;padding:16px 28px 0;font-size:12px;font-weight:600;color:#1A1512;flex-shrink:0}
+.scr{flex:1;overflow:hidden;position:relative}
+.pn{position:absolute;top:0;left:0;width:100%;height:100%;overflow-y:auto;background:#F9F6F0;transition:transform .35s cubic-bezier(.4,0,.2,1);padding-bottom:16px}
+.pn.h{transform:translateX(100%)}
+.hd{padding:20px 20px 12px;display:flex;justify-content:space-between;align-items:baseline}
+.br{font-family:Georgia,serif;font-size:24px;font-weight:700;color:#1A1512}
+.dt{font-size:12px;color:#8A7E70}
+.sr{display:flex;align-items:center;background:#fff;border-radius:12px;padding:12px 16px;margin:0 20px;border:1px solid #E8E1D4;box-shadow:0 1px 3px rgba(60,40,20,.03);cursor:pointer}
+.sr svg{margin-right:8px;opacity:.35;flex-shrink:0}
+.sr span{font-size:15px;color:#8A7E70}
+.cp{display:flex;gap:6px;padding:12px 20px 0;overflow-x:auto;scrollbar-width:none}
+.cp::-webkit-scrollbar{display:none}
+.ch{font-size:12px;font-weight:500;padding:7px 14px;border-radius:20px;border:1px solid #E8E1D4;color:#5A5045;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:all .15s}
+.ch.on{background:#1A1512;color:#FDFAF5;border-color:#1A1512}
+.sh{display:flex;justify-content:space-between;padding:16px 20px 8px;align-items:center}
+.st{font-family:Georgia,serif;font-size:15px;font-weight:600;color:#1A1512}
+.sc{font-size:11px;color:#8A7E70}
+.fd{padding:0 20px}
+.ca{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(60,40,20,.02);cursor:pointer;transition:all .2s}
+.ca:active{transform:scale(.99)}
+.ca.ft{background:linear-gradient(135deg,#FBF7F0,#F4ECE0);border-color:#D5CCBB}
+.ca .chd{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.ca .sg{display:flex;align-items:center;gap:3px;padding:2px 8px;border-radius:5px;background:#F6ECD5;font-size:10px;font-weight:700;color:#C49B5A}
+.ca .sg.hi{background:#E8F0E2;color:#3A5A45}
+.ca .so{font-size:11px;color:#8A7E70;flex:1}
+.ca h3{font-family:Georgia,serif;font-size:15px;font-weight:600;color:#1A1512;line-height:1.35;margin-bottom:6px}
+.ca p{font-size:12px;color:#5A5045;line-height:1.5;margin-bottom:8px}
+.ca .tg{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.ca .tg span{font-size:10px;padding:3px 8px;background:#F9F6F0;border-radius:4px;color:#5A5045}
+.ca .ac{display:flex;gap:14px;padding-top:6px;border-top:1px solid #E8E1D4;font-size:12px;font-weight:500;color:#3A5A45}
+.nh{padding:16px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #E8E1D4}
+.nb{font-size:14px;font-weight:500;color:#3A5A45;cursor:pointer}
+.nt{font-family:Georgia,serif;font-size:16px;font-weight:600;flex:1;text-align:center;color:#1A1512}
+.nx{padding:16px 20px}
 .cv{display:flex;gap:12px;background:linear-gradient(155deg,#F5EDE0,#FDFAF5);border-radius:10px;border:1px solid #E8E1D4;padding:16px;margin-bottom:16px;border-left:3px solid #C0774E}
-.cv .cv-t{font-family:Georgia,serif;font-size:18px;font-weight:700;color:#1A1512;margin-bottom:2px}
-.cv .cv-m{font-size:11px;color:#8A7E70}
-.tabs{display:flex;gap:4px;margin-bottom:16px}
-.tb{font-size:12px;font-weight:500;padding:8px 14px;border-radius:20px;border:1px solid #E8E1D4;color:#5A5045;cursor:pointer}
-.tb.on{background:#C0774E;color:#fff;border-color:#C0774E}
-.block{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:14px;margin-bottom:12px}
-.block h4{font-size:13px;font-weight:600;color:#C0774E;margin-bottom:8px}
-.block .log{font-size:13px;color:#1A1512;line-height:1.7}
+.cvt{font-family:Georgia,serif;font-size:18px;font-weight:700;color:#1A1512;margin-bottom:2px}
+.cvm{font-size:11px;color:#8A7E70}
+.tb{display:flex;gap:4px;margin-bottom:16px}
+.ti{font-size:12px;font-weight:500;padding:8px 14px;border-radius:20px;border:1px solid #E8E1D4;color:#5A5045;cursor:pointer}
+.ti.on{background:#C0774E;color:#fff;border-color:#C0774E}
+.bl{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:14px;margin-bottom:12px}
+.bl h4{font-size:13px;font-weight:600;color:#C0774E;margin-bottom:8px}
 .cn{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
-.cn .n{width:20px;height:20px;border-radius:50%;background:#C0774E;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
-.cn .t{font-size:13px;color:#1A1512;line-height:1.6}
-
-/* 底部 Tab */
-.tabs-bar{display:flex;height:56px;border-top:1px solid #E8E1D4;background:rgba(249,246,240,.88);flex-shrink:0}
-.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:#8A7E70;font-size:10px;font-weight:500;transition:color .2s}
-.tab-item.on{color:#C0774E}
-.tab-item svg{width:20px;height:20px}
+.cn .nu{width:20px;height:20px;border-radius:50%;background:#C0774E;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.cn .tx{font-size:13px;color:#1A1512;line-height:1.6}
+.tbb{display:flex;height:56px;border-top:1px solid #E8E1D4;background:rgba(249,246,240,.88);flex-shrink:0}
+.ti2{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:#8A7E70;font-size:10px;font-weight:500;transition:color .2s}
+.ti2.on{color:#C0774E}
+.ti2 svg{width:20px;height:20px}
 </style></head><body><div class="phone">
-<div class="status-bar"><span>9:41</span><span>●●●●○</span></div>
+<div class="sb"><span>9:41</span><span>●●●●○</span></div>
+<div class="scr">
 
-<div class="screen">
-  <!-- 首页面板 -->
-  <div class="panel" id="home">
-    <div class="h-head"><span class="h-brand">知源</span><span class="h-date">6月18日</span></div>
-    <div class="s-bar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>使用 AI 编程…</span></div>
-    <div class="chips"><span class="chip on">全部</span><span class="chip">文章</span><span class="chip">论文</span><span class="chip">视频</span><span class="chip">书籍</span></div>
-    <div class="sec"><span class="sec-t">精选推荐</span><span class="sec-c">3 份</span></div>
-    <div class="feed">
-      <div class="c ft" onclick="showPanel('note')">
-        <div class="head"><div class="sc hi">★ 9.2</div><span class="src">Anthropic 官方</span></div>
-        <h3>Building Effective Agents</h3>
-        <p>Agent 构建权威指南：从简单工作流到自主 Agent 的完整设计模式。</p>
-        <div class="tags"><span>Agent</span><span>LLM</span><span>架构模式</span></div>
-        <div class="act"><span>阅读全文 →</span><span style="color:#8A7E70">稍后再读</span></div>
-      </div>
-      <div class="c" onclick="showPanel('note')">
-        <div class="head"><div class="sc">★ 4.8</div><span class="src">Towards Data Science</span></div>
-        <h3>AI 编程最佳实践</h3>
-        <p>从 Prompt Engineering 到 Agent 工作流，五层次系统梳理。</p>
-        <div class="tags"><span>AI</span><span>编程</span><span>Prompt</span></div>
-        <div class="act"><span>直达 →</span><span style="color:#8A7E70">收藏</span></div>
-      </div>
-      <div class="c" onclick="showPanel('note')">
-        <div class="head"><div class="sc">★ 4.6</div><span class="src">LangChain 官方</span></div>
-        <h3>Building Effective AI Agents with LangChain</h3>
-        <p>Agent 架构设计模式详解，含完整代码示例。</p>
-        <div class="tags"><span>Agent</span><span>LangChain</span></div>
-        <div class="act"><span>直达 →</span><span style="color:#8A7E70">收藏</span></div>
-      </div>
-    </div>
+<div class="pn" id="home">
+  <div class="hd"><span class="br">知源</span><span class="dt">6月18日</span></div>
+  <div class="sr" onclick="this.querySelector('span').textContent=this.querySelector('span').textContent==='搜索你想学的任何主题…'?'AI 编程最佳实践':this.querySelector('span').textContent==='AI 编程最佳实践'?'机器学习入门':'搜索你想学的任何主题…'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>搜索你想学的任何主题…</span></div>
+  <div class="cp" id="cps"><span class="ch on" onclick="sC(0)">全部</span><span class="ch" onclick="sC(1)">文章</span><span class="ch" onclick="sC(2)">论文</span><span class="ch" onclick="sC(3)">视频</span><span class="ch" onclick="sC(4)">书籍</span></div>
+  <div class="sh"><span class="st">精选推荐</span><span class="sc" id="rc">4 份</span></div>
+  <div class="fd" id="feed">
+    <div class="ca ft" onclick="go('note')" data-t="0,1,2,3,4"><div class="chd"><div class="sg hi">★ 9.2</div><span class="so">Anthropic</span></div><h3>Building Effective Agents</h3><p>Agent 构建权威指南：从工作流到自主 Agent。</p><div class="tg"><span>Agent</span><span>LLM</span></div><div class="ac">阅读全文 →</div></div>
+    <div class="ca" onclick="go('note')" data-t="0,1"><div class="chd"><div class="sg">★ 4.8</div><span class="so">Towards Data Science</span></div><h3>AI 编程最佳实践</h3><p>从 Prompt Engineering 到 Agent 工作流。</p><div class="tg"><span>AI</span><span>编程</span></div><div class="ac">直达 →</div></div>
+    <div class="ca" onclick="go('note')" data-t="0,2"><div class="chd"><div class="sg hi">★ 9.8</div><span class="so">arXiv</span></div><h3>Attention Is All You Need</h3><p>Transformer 奠基论文，自注意力机制。</p><div class="tg"><span>Transformer</span><span>NLP</span></div><div class="ac">阅读全文 →</div></div>
+    <div class="ca" onclick="go('note')" data-t="0,3"><div class="chd"><div class="sg">★ 4.7</div><span class="so">YouTube · LangChain</span></div><h3>Building Agents — Full Course</h3><p>从零构建 AI Agent 完整教程。</p><div class="tg"><span>Agent</span><span>教程</span></div><div class="ac">观看 →</div></div>
   </div>
+</div>
 
-  <!-- 笔记面板 -->
-  <div class="panel hidden" id="note">
-    <div class="note-head"><span class="note-back" onclick="showPanel('home')">← 返回</span><span class="note-title">复习笔记</span><span style="width:40px"></div>
-    <div class="note-body">
-      <div class="cv"><div><div class="cv-t">Building Effective Agents</div><div class="cv-m">Anthropic · 生成耗时 850ms</div></div></div>
-      <div class="tabs"><span class="tb on">笔记</span><span class="tb">卡片</span><span class="tb">导图</span></div>
-      <div class="block"><h4>核心逻辑链</h4>
-        <div class="cn"><div class="n">1</div><div class="t">LLM 基础能力持续增强，为 Agent 提供推理与生成的底层支撑</div></div>
-        <div class="cn"><div class="n">2</div><div class="t">Tool Use 赋予 LLM 与外部世界交互的能力——调用 API、查询数据库</div></div>
-        <div class="cn"><div class="n">3</div><div class="t">Workflow 将多个工具调用组合为有序的多步骤执行计划</div></div>
-        <div class="cn"><div class="n">4</div><div class="t">Agent 获得自主决策权，根据中间结果动态调整策略</div></div>
-        <div class="cn"><div class="n">5</div><div class="t">人工审核作为最后防线，确保高风险操作的可靠性与安全性</div></div>
-      </div>
-      <div class="block"><h4>关键概念</h4>
-        <div style="font-size:12px;color:#5A5045;line-height:1.7">
-          <strong style="color:#C0774E">Agent</strong> 具备自主决策和执行能力的 AI 系统<br>
-          <strong style="color:#C0774E">Tool Use</strong> LLM 通过结构化输出调用外部工具<br>
-          <strong style="color:#C0774E">Workflow</strong> 将多个工具调用编排为有序执行链路
-        </div>
-      </div>
-      <div class="block"><h4>延伸思考</h4>
-        <div style="font-size:12px;color:#1A1512;line-height:1.7">❓ 什么场景下应选择简单 Workflow 而非完整 Agent？<br>❓ Agent 自主决策的边界在哪里？</div>
-      </div>
-      <div class="block" style="border:2px dashed #E8E1D4;background:#FBF8F2"><h4 style="color:#8A7E70">💡 我的理解</h4><div style="font-size:12px;color:#8A7E70;font-style:italic">在这里写下你的理解…</div></div>
+<div class="pn h" id="note">
+  <div class="nh"><span class="nb" onclick="go('home')">← 返回</span><span class="nt">复习笔记</span><span style="width:40px"></span></div>
+  <div class="nx">
+    <div class="cv"><div><div class="cvt">Building Effective Agents</div><div class="cvm">Anthropic · 850ms</div></div></div>
+    <div class="tb"><span class="ti on">笔记</span><span class="ti">卡片</span><span class="ti">导图</span></div>
+    <div class="bl"><h4>核心逻辑链</h4>
+      <div class="cn"><div class="nu">1</div><div class="tx">LLM 基础能力增强 → Agent 推理底层支撑</div></div>
+      <div class="cn"><div class="nu">2</div><div class="tx">Tool Use 赋予调用 API、数据库的能力</div></div>
+      <div class="cn"><div class="nu">3</div><div class="tx">Workflow 组合为有序执行计划</div></div>
+      <div class="cn"><div class="nu">4</div><div class="tx">Agent 自主决策，动态调整策略</div></div>
+      <div class="cn"><div class="nu">5</div><div class="tx">人工审核作为最后防线</div></div>
     </div>
   </div>
 </div>
 
-<div class="tabs-bar">
-  <div class="tab-item on" onclick="showPanel('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>首页</div>
-  <div class="tab-item" onclick="showPanel('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>知识库</div>
-  <div class="tab-item" onclick="showPanel('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>待学</div>
-  <div class="tab-item" onclick="showPanel('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</div>
+<div class="pn h" id="knowledge">
+  <div class="hd"><span class="br">知识库</span><span class="dt">4 笔记</span></div>
+  <div class="sr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>搜索笔记…</span></div>
+  <div class="sh"><span class="st">全部笔记</span><span class="sc">4 条</span></div>
+  <div class="fd">
+    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6月18日 · 💡 3 · 🃏 4</span></div><h3>Building Effective Agents</h3><p>LLM→Tool Use→Workflow→Agent</p><div class="tg"><span>Agent</span><span>LLM</span></div></div>
+    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6月17日 · 💡 2</span></div><h3>AI 编程最佳实践</h3><p>代码补全→Agent工作流</p><div class="tg"><span>AI</span><span>编程</span></div></div>
+    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6月16日 · 💡 3</span></div><h3>系统设计面试指南</h3><p>需求→估算→接口→模型→架构</p><div class="tg"><span>系统设计</span></div></div>
+    <div class="ca" onclick="go('note')"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">6月15日 · 💡 4 · 🃏 3</span></div><h3>Transformer 架构解析</h3><p>自注意力→并行→多模态</p><div class="tg"><span>深度学习</span><span>NLP</span></div></div>
+  </div>
+</div>
+
+<div class="pn h" id="pending">
+  <div class="hd"><span class="br">待学清单</span><span class="dt">2 项</span></div>
+  <div class="fd" style="padding-top:12px">
+    <div class="ca"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">3 天前收藏</span></div><h3>Transformer 架构深度解析</h3><p>自注意力机制详解，源代码分析。</p><div class="tg"><span>深度学习</span><span>NLP</span></div></div>
+    <div class="ca"><div class="chd"><span class="so" style="font-size:11px;color:#8A7E70">1 周前收藏</span></div><h3>TypeScript 类型体操实战</h3><p>高级类型技巧与挑战题。</p><div class="tg"><span>TypeScript</span></div></div>
+  </div>
+</div>
+
+<div class="pn h" id="profile">
+  <div class="hd"><span class="br">我的</span></div>
+  <div class="fd" style="padding-top:12px">
+    <div class="ca" style="text-align:center;padding:24px"><div style="font-family:Georgia,serif;font-size:32px;font-weight:700;color:#1A1512">4</div><div style="font-size:11px;color:#8A7E70;margin-top:2px">笔记</div></div>
+    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">导出知识库</span><span style="font-size:12px;color:#3A5A45">Markdown / HTML →</span></div>
+    <div class="ca" style="padding:14px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">API Key 配置</span><span style="font-size:12px;color:#8A7E70">未配置</span></div>
+    <div class="ca" style="padding:14px;display:flex;just-content:space-between;align-items:center"><span style="font-size:14px;font-weight:500">关于知源</span><span style="font-size:12px;color:#8A7E70">v0.1.0</span></div>
+  </div>
+</div>
+
+</div>
+<div class="tbb">
+  <div class="ti2 on" id="tb0" onclick="go('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>首页</div>
+  <div class="ti2" id="tb1" onclick="go('knowledge')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>知识库</div>
+  <div class="ti2" id="tb2" onclick="go('pending')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>待学</div>
+  <div class="ti2" id="tb3" onclick="go('profile')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>我的</div>
 </div>
 </div>
 <script>
-function showPanel(id){
-  document.querySelectorAll(".panel").forEach(function(p){p.classList.add("hidden")});
-  document.getElementById(id).classList.remove("hidden");
-  document.querySelectorAll(".tab-item").forEach(function(t,i){
-    t.classList.toggle("on",(id==="home"&&i===0)||(id==="note"&&i===0));
+var ac=0;
+function sC(i){
+  ac=i;
+  document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===i)});
+  var cards=document.querySelectorAll("#feed .ca");var cnt=0;
+  cards.forEach(function(c){
+    var types=(c.getAttribute("data-t")||"0").split(",").map(Number);
+    var show=i===0||types.includes(i);
+    c.style.display=show?"":"none";if(show)cnt++;
   });
+  document.getElementById("rc").textContent=cnt+" 份";
 }
-</script>
-</body></html>
+function go(id){
+  document.querySelectorAll(".pn").forEach(function(p){p.classList.add("h")});
+  document.getElementById(id).classList.remove("h");
+  var map={home:0,knowledge:1,pending:2,profile:3};
+  document.querySelectorAll(".ti2").forEach(function(t,i){t.classList.toggle("on",i===map[id])});
+  if(id==="home"){
+    document.querySelectorAll("#cps .ch").forEach(function(c,j){c.classList.toggle("on",j===ac)});
+  }
+}
+</script></body></html>
