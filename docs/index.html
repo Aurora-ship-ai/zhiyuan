@@ -2,92 +2,120 @@
 <style>
 body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#EDE8DE;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased}
 .page{width:100%;max-width:460px;background:#F9F6F0;min-height:100vh;padding:28px 20px 60px}
-h1{font-family:Georgia,'Songti SC',serif;font-size:30px;font-weight:700;color:#1A1512;margin:0 0 4px}
-h1 span{font-size:16px;font-weight:400;color:#C0774E;margin-left:8px}
-.sub{font-size:14px;color:#8A7E70;line-height:1.7;margin:0 0 24px}
-.stats{display:flex;gap:0;margin-bottom:20px;background:#F3EEE4;border-radius:12px;border:1px solid #E8E1D4;overflow:hidden}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.brand-mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#C0774E,#A85F3B);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(192,119,78,.25)}
+.brand-mark svg{width:20px;height:20px}
+h1{font-family:Georgia,'Songti SC',serif;font-size:28px;font-weight:700;color:#1A1512;margin:0}
+.sub{font-size:14px;color:#8A7E70;line-height:1.7;margin:8px 0 24px}
+.status-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#F3EEE4;border-radius:12px;margin-bottom:24px;font-size:13px;font-weight:500;color:#3A5A45;border:1px solid #E8E1D4}
+.status-bar .dot{width:8px;height:8px;border-radius:50%;background:#3A5A45;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.status-bar a{color:#3A5A45;margin-left:auto;font-weight:600;text-decoration:none}
+.stats{display:flex;margin-bottom:28px;background:#F3EEE4;border-radius:12px;border:1px solid #E8E1D4;overflow:hidden}
 .stat{flex:1;text-align:center;padding:14px 8px;border-right:1px solid #E8E1D4}
 .stat:last-child{border-right:none}
-.stat .num{font-family:Georgia,serif;font-size:22px;font-weight:700;color:#C0774E}
+.stat .num{font-family:Georgia,serif;font-size:24px;font-weight:700;color:#C0774E}
 .stat .lbl{font-size:10px;color:#8A7E70;margin-top:2px}
-.live{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#E4EDE3;border-radius:10px;margin-bottom:24px;font-size:13px;font-weight:500;color:#3A5A45}
-.live .dot{width:8px;height:8px;border-radius:50%;background:#3A5A45;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-h2{font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1A1512;margin:0 0 12px}
-.grid{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
-.card{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;cursor:pointer;text-decoration:none;transition:all .2s}
-.card:hover{background:#fff;border-color:#D5CCBB;transform:translateY(-1px);box-shadow:0 2px 8px rgba(60,40,20,.06)}
-.card .icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.card .icon.s{background:#F2E2D5}
-.card .icon.n{background:#E4EDE3}
-.card .icon.k{background:#F6ECD5}
-.card .icon.x{background:#F3EEE4;border:1px solid #E8E1D4}
+.section-title{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.section-title h2{font-family:Georgia,serif;font-size:15px;font-weight:600;color:#1A1512;margin:0}
+.section-title .line{flex:1;height:1px;background:#E8E1D4}
+.cards{display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
+.card{display:flex;align-items:center;gap:14px;padding:16px;background:#F3EEE4;border-radius:12px;border:1px solid #E8E1D4;cursor:pointer;text-decoration:none;transition:all .2s}
+.card:hover{background:#fff;border-color:#D5CCBB;box-shadow:0 2px 12px rgba(60,40,20,.06)}
+.card:active{transform:scale(.99)}
+.card .icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card .icon.orange{background:#F2E2D5;color:#C0774E}
+.card .icon.green{background:#E4EDE3;color:#3A5A45}
+.card .icon.gold{background:#F6ECD5;color:#C49B5A}
+.card .icon.gray{background:#EBE4D6;color:#5A5045}
+.card .icon svg{width:20px;height:20px}
 .card .info{flex:1;min-width:0}
 .card .name{font-size:14px;font-weight:600;color:#1A1512}
 .card .desc{font-size:11px;color:#8A7E70;margin-top:2px;line-height:1.4}
-.card .arr{color:#C0774E;font-size:18px;flex-shrink:0}
-.hint{text-align:center;padding:20px;background:#FBF8F2;border-radius:10px;border:2px dashed #E8E1D4}
-.hint p{font-size:13px;color:#5A5045;line-height:1.7}
-.hint code{background:#F3EEE4;padding:2px 8px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;color:#C0774E}
+.card .chevron{color:#C0774E;opacity:.5;flex-shrink:0}
+.hint{text-align:center;padding:24px;background:#FBF8F2;border-radius:12px;border:2px dashed #E8E1D4}
+.hint p{font-size:13px;color:#5A5045;line-height:1.8;margin:0}
+.hint code{background:#F3EEE4;padding:2px 8px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono','SF Mono',monospace;color:#C0774E}
 </style></head><body><div class="page">
-<h1>知源<span>v0.1</span></h1>
-<p class="sub">AI 原生学习工具 — 从找资料到写笔记到存知识，全链路闭环</p>
+<div class="brand">
+  <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+  <h1>知源</h1>
+</div>
+<p class="sub">AI 原生学习工具 — 从找资料到写笔记到存知识</p>
 
-<div class="live" id="server-status">
-  <div class="dot"></div><span>检查服务端状态…</span>
+<div class="status-bar" id="server-status">
+  <div class="dot"></div><span>检查服务端…</span>
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="num">80</div><div class="lbl">文件</div></div>
-  <div class="stat"><div class="num">8</div><div class="lbl">交互 Demo</div></div>
-  <div class="stat"><div class="num">7</div><div class="lbl">API 端点</div></div>
+  <div class="stat"><div class="num">81</div><div class="lbl">文件</div></div>
+  <div class="stat"><div class="num">8</div><div class="lbl">Demo</div></div>
+  <div class="stat"><div class="num">7</div><div class="lbl">API</div></div>
   <div class="stat"><div class="num">3</div><div class="lbl">阶段</div></div>
 </div>
 
-<h2>📱 产品 Demo</h2>
-<div class="grid">
+<div class="section-title"><h2>产品功能</h2><div class="line"></div></div>
+<div class="cards">
   <a class="card" href="search-demo.html">
-    <div class="icon s">🔍</div><div class="info"><div class="name">资料搜索</div><div class="desc">骨架屏 + AI评分 + 直达/收藏</div></div><div class="arr">→</div>
+    <div class="icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+    <div class="info"><div class="name">资料搜索</div><div class="desc">骨架屏 · AI 评分 · 直达/收藏</div></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </a>
   <a class="card" href="material-types-demo.html">
-    <div class="icon s">📚</div><div class="info"><div class="name">多类型资料</div><div class="desc">文章/论文/视频/书籍/播客 差异卡片</div></div><div class="arr">→</div>
+    <div class="icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+    <div class="info"><div class="name">多类型资料</div><div class="desc">文章/论文/视频/书籍/播客</div></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </a>
   <a class="card" href="note-demo.html">
-    <div class="icon n">✍️</div><div class="info"><div class="name">AI 笔记生成</div><div class="desc">逻辑链 · 概念 · 卡片翻转 · 思维导图</div></div><div class="arr">→</div>
+    <div class="icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+    <div class="info"><div class="name">AI 笔记生成</div><div class="desc">逻辑链 · 概念 · 卡片翻转 · 导图</div></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </a>
   <a class="card" href="knowledge-demo.html">
-    <div class="icon k">🗂</div><div class="info"><div class="name">知识库</div><div class="desc">标签筛选 · 全文搜索 · 卡片展开</div></div><div class="arr">→</div>
+    <div class="icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+    <div class="info"><div class="name">知识库</div><div class="desc">标签筛选 · 全文搜索 · 展开详情</div></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </a>
   <a class="card" href="semantic-search-demo.html">
-    <div class="icon k">🧠</div><div class="info"><div class="name">语义搜索</div><div class="desc">关键词 vs AI 语义理解 对比视图</div></div><div class="arr">→</div>
+    <div class="icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
+    <div class="info"><div class="name">语义搜索</div><div class="desc">关键词 vs AI 意图理解 对比</div></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </a>
   <a class="card" href="knowledge-graph-demo.html">
-    <div class="icon k">🕸</div><div class="info"><div class="name">知识图谱</div><div class="desc">力导向 · 拖拽 · 缩放 · 光晕交互</div></div><div class="arr">→</div>
+    <div class="icon gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><line x1="10.4" y1="6.5" x2="6.4" y2="17.5"/><line x1="13.6" y1="6.5" x2="17.6" y2="17.5"/></svg></div>
+    <div class="info"><div class="name">知识图谱</div><div class="desc">力导向 · 拖拽 · 缩放 · 光晕</div></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </a>
 </div>
 
-<h2>🛠 设计与工具</h2>
-<div class="grid">
+<div class="section-title"><h2>工具与设计</h2><div class="line"></div></div>
+<div class="cards">
   <a class="card" href="preview-v2.html">
-    <div class="icon x">🎨</div><div class="info"><div class="name">首页设计预览</div><div class="desc">暖纸色盘 · 卡片质感 · 底部导航</div></div><div class="arr">→</div>
+    <div class="icon gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+    <div class="info"><div class="name">首页设计预览</div><div class="desc">暖纸色盘 · 卡片质感 · 底部导航</div></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </a>
   <a class="card" href="export-demo.html">
-    <div class="icon x">📥</div><div class="info"><div class="name">导出功能</div><div class="desc">Markdown / HTML 双格式 · 一键复制</div></div><div class="arr">→</div>
+    <div class="icon gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+    <div class="info"><div class="name">导出功能</div><div class="desc">Markdown · HTML 双格式</div></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </a>
   <a class="card" href="http://localhost:8000/api/docs" target="_blank">
-    <div class="icon x">⚡</div><div class="info"><div class="name">API 文档 (Swagger)</div><div class="desc">7 个端点可在线调试</div></div><div class="arr">→</div>
+    <div class="icon gray"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+    <div class="info"><div class="name">API 文档 · Swagger</div><div class="desc">7 个端点 · 在线调试</div></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
   </a>
 </div>
 
 <div class="hint">
-  <p><strong>启用真实 AI</strong><br>在 <code>server/.env</code> 填入 API Key 即可切换：<br><code>TAVILY_API_KEY</code> · <code>CLAUDE_API_KEY</code> · <code>OPENAI_API_KEY</code></p>
+  <p>启用真实 AI：在 <code>server/.env</code> 填入 <code>TAVILY_API_KEY</code> · <code>CLAUDE_API_KEY</code></p>
 </div>
 
 </div>
 <script>
-fetch("http://localhost:8000/api/health").then(function(r){return r.json()}).then(function(d){
-  document.getElementById("server-status").innerHTML='<div class="dot"></div>服务端运行中 · v'+d.version+' · <a href="http://localhost:8000" style="color:#3A5A45;margin-left:auto">打开 →</a>';
-}).catch(function(){
-  document.getElementById("server-status").innerHTML='<div class="dot" style="background:#C45A4A;animation:none"></div>服务端未启动 · 运行 uvicorn server.main:app';
+fetch("http://localhost:8000/api/health").then(r=>r.json()).then(d=>{
+  document.getElementById("server-status").innerHTML='<div class="dot"></div>服务端运行中 · v'+d.version+' · <a href="http://localhost:8000">打开 →</a>';
+}).catch(()=>{
+  document.getElementById("server-status").innerHTML='<div class="dot" style="background:#C45A4A;animation:none"></div>服务端未启动 · 运行 uvicorn server.main:app</div>';
 });
 </script></body></html>
