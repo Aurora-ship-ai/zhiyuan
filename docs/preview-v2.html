@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -237,22 +237,26 @@
   /* ========== 底部导航 ========== */
   .tab-bar {
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 100%; max-width: 430px;
-    display: flex; justify-content: space-around; align-items: flex-start;
+    width: 100%; max-width: 430px; min-width: 320px;
+    display: flex; justify-content: space-evenly; align-items: center;
     background: rgba(249, 246, 240, 0.88);
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border);
-    height: 64px; padding-top: 8px;
+    border-top: 1px solid var(--border); overflow: hidden;
+    height: 64px; padding: 6px 4px 0;
+    z-index: 100;
   }
   .tab-item {
     display: flex; flex-direction: column; align-items: center; gap: 3px;
-    font-size: 10px; font-weight: 500; color: var(--text-tertiary);
-    cursor: pointer; transition: color var(--transition); min-width: 44px;
+    font-size: 10px; font-weight: 500; color: var(--text-tertiary); line-height: 1;
+    cursor: pointer; transition: color var(--transition);
+    flex: 1 1 25%; min-width: 0; max-width: 80px;
+    text-align: center; white-space: nowrap; overflow: hidden;
+    padding: 0 2px;
   }
   .tab-item.active { color: var(--accent); }
   .tab-dot {
     width: 4px; height: 4px; border-radius: 50%; background: transparent;
-    transition: background var(--transition);
+    transition: background var(--transition); flex-shrink: 0;
   }
   .tab-item.active .tab-dot { background: var(--accent); }
 
