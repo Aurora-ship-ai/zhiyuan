@@ -1,25 +1,26 @@
-﻿"""资料搜索路由"""
+"""资料搜索路由"""
 from fastapi import APIRouter, Depends, HTTPException
 from ..models.search import SearchRequest, SearchResponse
 from ..services.search_service import SearchService
 from ..dependencies import get_current_user
+from ..config import settings
 
 router = APIRouter()
 search_service = SearchService()
 
 
+async def optional_auth(user_id: str | None = None):
+    """开发环境可选鉴权"""
+    if settings.APP_ENV == "production":
+        return await get_current_user(None)  # type: ignore
+    return user_id or "dev-user"
+
+
 @router.post("/", response_model=SearchResponse)
 async def search(
     request: SearchRequest,
-    user_id: str = Depends(get_current_user),
+    user_id: str = Depends(optional_auth),
 ):
-    """
-    资料搜索
-
-    - 请求体经过 Pydantic 严格校验
-    - 需要 JWT 鉴权
-    - API Key 仅在服务端拼接，前端永不可见
-    """
     try:
         return await search_service.search(request)
     except Exception as e:
