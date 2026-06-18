@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>知源 · 搜索试用</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#F9F6F0;color:#1F1A16;max-width:430px;margin:0 auto;min-height:100vh;-webkit-font-smoothing:antialiased}
+  .h{display:flex;align-items:baseline;justify-content:space-between;padding:24px 20px 12px}
+  .h-brand{font-family:Georgia,'STIX Two','Songti SC',serif;font-size:26px;font-weight:700;color:#1F1A16;cursor:pointer}
+  .h-date{font-size:13px;color:#8E8275}
+  .s-section{padding:0 20px 20px}
+  .s-bar{display:flex;align-items:center;background:#fff;border-radius:14px;padding:14px 18px;height:54px;border:1px solid #E8E1D4;box-shadow:0 1px 3px rgba(60,40,20,0.04)}
+  .s-bar svg{margin-right:12px;flex-shrink:0;opacity:0.45}
+  .s-bar input{flex:1;border:none;outline:none;background:transparent;font-size:16px;color:#1F1A16}
+  .s-bar input::placeholder{color:#8E8275}
+  .s-bar button{background:#C0774E;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s}
+  .s-bar button:hover{background:#A85F3B}
+  .s-bar button:active{transform:scale(0.97)}
+  .s-hints{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .s-hint{font-size:13px;color:#5C5147;padding:7px 14px;background:#F3EEE4;border-radius:24px;cursor:pointer;border:1px solid transparent;transition:all .2s}
+  .s-hint:hover{background:#F2E2D5;color:#C0774E}
+  .f-row{display:flex;gap:6px;padding:0 20px 16px;overflow-x:auto;scrollbar-width:none}
+  .f-row::-webkit-scrollbar{display:none}
+  .f-chip{font-size:13px;font-weight:500;color:#5C5147;padding:8px 16px;white-space:nowrap;border-radius:24px;cursor:pointer;border:1px solid #E8E1D4;background:transparent;flex-shrink:0;transition:all .2s}
+  .f-chip.on{background:#1F1A16;color:#FDFAF5;border-color:#1F1A16;font-weight:600}
+  .sec-head{display:flex;align-items:center;justify-content:space-between;padding:8px 20px 8px}
+  .sec-title{font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1F1A16}
+  .sec-count{font-size:12px;color:#8E8275}
+  .list{padding:0 20px 48px}
+  .card{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(60,40,20,0.04);position:relative;overflow:hidden;opacity:0;transform:translateY(12px);animation:fadeIn .4s ease forwards}
+  .card:nth-child(1){animation-delay:0s}
+  .card:nth-child(2){animation-delay:.1s}
+  .card:nth-child(3){animation-delay:.2s}
+  .card:nth-child(4){animation-delay:.3s}
+  @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(180deg,rgba(255,255,255,0.35),transparent);pointer-events:none;border-radius:10px 10px 0 0}
+  .card.ft{background:linear-gradient(135deg,#FBF7F0,#F4ECE0);border-color:#D5CCBB;box-shadow:0 2px 8px rgba(60,40,20,0.06)}
+  .c-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;position:relative;z-index:1}
+  .score{display:flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;background:#F6ECD5;flex-shrink:0}
+  .score.hi{background:#E8F0E2}
+  .score-star{font-size:12px;color:#C49B5A}
+  .score.hi .score-star{color:#3A5A45}
+  .score-val{font-size:12px;font-weight:700;color:#C49B5A}
+  .score.hi .score-val{color:#3A5A45}
+  .c-src{font-size:12px;color:#8E8275;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .c-dot{width:3px;height:3px;border-radius:50%;background:#D5CCBB;margin:0 4px;flex-shrink:0}
+  .ft-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:#C0774E;background:#F2E2D5;padding:3px 8px;border-radius:6px;margin-bottom:8px}
+  .c-title{font-family:Georgia,serif;font-size:17px;font-weight:600;color:#1F1A16;line-height:1.45;margin-bottom:8px;position:relative;z-index:1}
+  .c-summary{font-size:14px;color:#5C5147;line-height:1.65;margin-bottom:12px;position:relative;z-index:1}
+  .c-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;position:relative;z-index:1}
+  .c-tag{font-size:11px;font-weight:500;color:#5C5147;padding:4px 10px;background:#F9F6F0;border-radius:6px}
+  .c-foot{display:flex;align-items:center;gap:20px;padding-top:8px;border-top:1px solid #E8E1D4;position:relative;z-index:1}
+  .c-act{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:#3A5A45;cursor:pointer;transition:opacity .2s}
+  .c-act:hover{opacity:.7}
+  .c-act svg{opacity:.8;flex-shrink:0}
+  .c-act2{color:#8E8275}
+  .took{font-size:11px;color:#8E8275;padding:4px 0 12px 20px}
+  .empty{padding:80px 32px;text-align:center}
+  .empty h3{font-family:Georgia,serif;font-size:18px;color:#5C5147;margin-bottom:8px;font-weight:600}
+  .empty p{font-size:14px;color:#8E8275;line-height:1.6}
+  .sk-card{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:16px;margin-bottom:16px}
+  .sk-line{height:13px;background:#EBE4D6;border-radius:4px;margin-bottom:10px}
+  .sk-line:nth-child(1){width:70%}
+  .sk-line:nth-child(2){width:100%}
+  .sk-line:nth-child(3){width:40%}
+  @keyframes shimmer{0%{background-position:-200px 0}100%{background-position:calc(200px + 100%) 0}}
+  .sk-shimmer{background:linear-gradient(90deg,#EBE4D6 25%,#F3EEE4 50%,#EBE4D6 75%);background-size:200px 100%;animation:shimmer 1.6s ease-in-out infinite}
+</style>
+</head>
+<body>
+
+<div class="h"><span class="h-brand" onclick="location.reload()">知源</span><span class="h-date">6月18日 · 周三</span></div>
+
+<div class="s-section">
+  <div class="s-bar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="query" placeholder="搜索你想学的任何主题..." onkeydown="if(event.key==='Enter')search()">
+    <button onclick="search()">搜索</button>
+  </div>
+  <div class="s-hints">
+    <span class="s-hint" onclick="quickSearch('AI 编程')">AI 编程</span>
+    <span class="s-hint" onclick="quickSearch('机器学习')">机器学习</span>
+    <span class="s-hint" onclick="quickSearch('系统设计')">系统设计</span>
+    <span class="s-hint" onclick="quickSearch('TypeScript')">TypeScript</span>
+  </div>
+</div>
+
+<div class="f-row">
+  <span class="f-chip on">全部</span><span class="f-chip">文章</span><span class="f-chip">论文</span><span class="f-chip">视频</span><span class="f-chip">书籍</span>
+</div>
+
+<div id="results"></div>
+
+<script>
+// ========== 模拟搜索引擎（与前端 services/api.ts 完全一致） ==========
+const MOCK_DB = {
+  "ai 编程": [
+    {id:"ant1",title:"Building Effective Agents",url:"https://anthropic.com/engineering/building-effective-agents",source:"Anthropic 官方",score:9.2,summary:"Anthropic 工程团队撰写的 Agent 构建权威指南——从简单工作流到自主 Agent，LLM 在工程中的角色定位与设计模式。核心观点：最简单的方案往往最有效，不要过早引入复杂 Agent 架构。",tags:["Agent","LLM","架构模式"],date:"2025-01-12"},
+    {id:"tds1",title:"AI 编程最佳实践：从 Prompt Engineering 到 Agent 工作流",url:"https://towardsdatascience.com/ai-coding-best-practices-2025",source:"Towards Data Science",score:4.8,summary:"系统梳理 AI 辅助编程的五个层次：代码补全→对话式编程→上下文感知→Agent 工作流→自主开发。每个阶段的关键突破与代表工具。",tags:["AI Coding","Prompt","工程实践"],date:"2025-01-10"},
+    {id:"lc1",title:"Building Effective AI Agents with LangChain",url:"https://docs.langchain.com/agents",source:"LangChain 官方文档",score:4.6,summary:"Agent 架构设计模式详解：ReAct、Planning、Multi-Agent 协作，含完整代码示例与最佳实践。",tags:["Agent","LangChain","ReAct"],date:"2025-01-05"},
+    {id:"jj1",title:"Cursor 与 Copilot 深度对比：2025 AI 编程工具选型",url:"https://juejin.cn/post/ai-coding-tools-comparison-2025",source:"掘金技术社区",score:4.5,summary:"代码质量、上下文理解、多文件编辑三个维度实测对比各工具，附带最佳使用场景推荐。",tags:["工具对比","Cursor","Copilot"],date:"2025-01-02"},
+  ],
+  "机器学习": [
+    {id:"arx1",title:"Attention Is All You Need — Transformer 奠基论文",url:"https://arxiv.org/abs/1706.03762",source:"arXiv",score:9.8,summary:"Transformer 架构的奠基论文，提出自注意力机制替代 RNN，彻底改变 NLP 和整个深度学习领域。",tags:["Transformer","注意力机制","深度学习"],date:"2017-06-12"},
+    {id:"ore1",title:"Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow",url:"https://www.oreilly.com/library/view/hands-on-machine-learning/9781098125974/",source:"O'Reilly Media",score:9.0,summary:"公认最佳的 ML 实操入门书，涵盖从线性回归到深度学习的完整路径，含大量代码示例。",tags:["机器学习","Scikit-Learn","TensorFlow"],date:"2022-10-01"},
+    {id:"cs1",title:"CS231n: Convolutional Neural Networks for Visual Recognition",url:"https://cs231n.github.io/",source:"Stanford University",score:9.5,summary:"斯坦福经典计算机视觉课程，深度学习视觉识别系统全覆盖。",tags:["计算机视觉","CNN","深度学习"],date:"2024-01-01"},
+  ],
+  "系统设计": [
+    {id:"ddia1",title:"Designing Data-Intensive Applications",url:"https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/",source:"O'Reilly Media",score:9.5,summary:"分布式系统圣经：存储、复制、分区、事务、共识。每个后端工程师必读。",tags:["分布式系统","数据库","架构"],date:"2017-03-01"},
+    {id:"sys1",title:"System Design Interview — An Insider's Guide",url:"https://bytebytego.com/",source:"ByteByteGo",score:8.8,summary:"系统设计面试经典，从设计短链接到设计 YouTube，逐步讲解架构决策。",tags:["系统设计","面试","架构"],date:"2023-06-01"},
+  ],
+};
+
+function getResults(query) {
+  const q = query.toLowerCase().trim();
+  for (const [key, results] of Object.entries(MOCK_DB)) {
+    if (q.includes(key) || key.includes(q)) {
+      return { results, query, took_ms: 5 + Math.round(Math.random() * 8) };
+    }
+  }
+  // 无匹配时返回默认结果
+  return { results: MOCK_DB["ai 编程"], query, took_ms: 8 };
+}
+
+function quickSearch(q) {
+  document.getElementById("query").value = q;
+  search();
+}
+
+function search() {
+  const q = document.getElementById("query").value.trim();
+  if (!q) return;
+
+  const container = document.getElementById("results");
+  
+  // 显示骨架屏
+  container.innerHTML = '';
+  for (let i = 0; i < 3; i++) {
+    container.innerHTML += '<div class="sk-card"><div class="sk-line sk-shimmer"></div><div class="sk-line sk-shimmer"></div><div class="sk-line sk-shimmer"></div></div>';
+  }
+
+  // 模拟网络延迟
+  setTimeout(() => {
+    const { results, query, took_ms } = getResults(q);
+    let html = `<div class="took">搜索 "${query}" · ${results.length} 条结果 · ${took_ms}ms</div>`;
+    
+    if (results.length === 0) {
+      html += '<div class="empty"><h3>暂无结果</h3><p>换个关键词试试</p></div>';
+    } else {
+      html += '<div class="sec-head"><span class="sec-title">搜索结果</span><span class="sec-count">' + results.length + ' 份资料</span></div><div class="list">';
+      results.forEach((item, i) => {
+        const isFt = item.score >= 9;
+        html += '<div class="card' + (isFt ? ' ft' : '') + '" style="animation-delay:' + (i*0.08) + 's">';
+        if (isFt) html += '<div class="ft-badge">★ 精选推荐</div>';
+        html += '<div class="c-head">';
+        html += '<div class="score' + (isFt ? ' hi' : '') + '"><span class="score-star">★</span><span class="score-val">' + item.score + '</span></div>';
+        html += '<span class="c-src">' + item.source + '</span>';
+        if (item.date) html += '<span class="c-dot"></span><span class="c-src">' + item.date + '</span>';
+        html += '</div>';
+        html += '<div class="c-title">' + item.title + '</div>';
+        html += '<div class="c-summary">' + item.summary + '</div>';
+        html += '<div class="c-tags">' + item.tags.map(t => '<span class="c-tag">' + t + '</span>').join('') + '</div>';
+        html += '<div class="c-foot">';
+        html += '<div class="c-act"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>' + (isFt ? '阅读全文' : '直达') + '</div>';
+        html += '<div class="c-act c-act2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>' + (isFt ? '稍后再读' : '收藏') + '</div>';
+        html += '</div></div>';
+      });
+      html += '</div>';
+    }
+    container.innerHTML = html;
+  }, 400 + Math.random() * 600);
+}
+
+// 默认显示
+document.getElementById("query").value = "AI 编程";
+search();
+</script>
+</body>
+</html>
