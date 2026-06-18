@@ -1,0 +1,81 @@
+﻿# ============================
+# 安全红线 — 绝不进仓库
+# ============================
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+credentials.json
+service-account.json
+config/credentials.yml.enc
+
+# ============================
+# 依赖
+# ============================
+node_modules/
+.pnp/
+.pnp.js
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+.venv/
+venv/
+*.egg
+
+# ============================
+# 构建产物
+# ============================
+.expo/
+android/app/build/
+ios/build/
+ios/Pods/
+*.apk
+*.ipa
+*.jsbundle
+build/
+
+# ============================
+# IDE / 编辑器
+# ============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ============================
+# 数据库 / 本地数据
+# ============================
+*.db
+*.sqlite
+*.sqlite3
+data/
+lancedb_data/
+
+# ============================
+# 日志 / 临时文件
+# ============================
+*.log
+logs/
+tmp/
+temp/
+.cache/
+
+# ============================
+# Docker
+# ============================
+docker-compose.override.yml
+
+# ============================
+# 测试
+# ============================
+.coverage
+htmlcov/
+.pytest_cache/
