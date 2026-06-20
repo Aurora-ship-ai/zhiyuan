@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>知源 · 复习笔记</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#EDE8DE;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased}
+.page{width:100%;max-width:460px;background:#F9F6F0;min-height:100vh}
+.nav{display:flex;align-items:center;padding:14px 20px;position:sticky;top:0;z-index:10;background:rgba(249,246,240,.82);backdrop-filter:blur(16px)}
+.nav-back{font-size:14px;font-weight:500;color:#3A5A45;cursor:pointer}
+.nav-title{font-family:Georgia,serif;font-size:16px;font-weight:600;color:#1A1512;flex:1;text-align:center}
+.cv{position:relative;border-radius:12px;overflow:hidden;margin:0 20px 16px;background:linear-gradient(155deg,#F5EDE0,#FDFAF5);border:1px solid #E8E1D4;box-shadow:0 2px 12px rgba(60,30,10,.04)}
+.cv-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:#C0774E}
+.cv-inner{padding:20px 20px 20px 24px}
+.cv-label{font-size:11px;font-weight:600;color:#C0774E;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.cv-title{font-family:Georgia,serif;font-size:22px;font-weight:700;color:#1A1512;line-height:1.35;margin-bottom:6px}
+.cv-meta{display:flex;gap:16px;font-size:12px;color:#8A7E70}
+.cv-meta span{display:flex;align-items:center;gap:4px}
+.tabs{display:flex;gap:4px;padding:0 20px 16px;overflow-x:auto;scrollbar-width:none}
+.tab{display:flex;align-items:center;gap:6px;padding:9px 18px;border-radius:24px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #E8E1D4;background:transparent;color:#5A5045;white-space:nowrap;flex-shrink:0;transition:all .18s}
+.tab.on{background:#C0774E;color:#fff;border-color:#C0774E}
+.dot{width:5px;height:5px;border-radius:50%;background:#8A7E70}
+.tab.on .dot{background:rgba(255,255,255,.6)}
+.main{padding:0 20px 60px}
+.sec{margin-bottom:20px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.sec-icon.logic{background:#F2E2D5;color:#C0774E}
+.sec-icon.concept{background:#F6ECD5;color:#C49B5A}
+.sec-icon.question{background:#E4EDE3;color:#3A5A45}
+.sec-icon.reflect{background:#EBE4D6;color:#8A7E70}
+.sec-title{font-family:Georgia,serif;font-size:16px;font-weight:600;color:#1A1512}
+.logic-card{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;overflow:hidden}
+.logic-step{display:flex;gap:14px;padding:14px 16px}
+.logic-step:not(:last-child){border-bottom:1px solid #E8E1D4}
+.logic-num{width:26px;height:26px;border-radius:50%;background:#C0774E;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.logic-text{font-size:14px;color:#1A1512;line-height:1.65;flex:1}
+.concept-card{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;overflow:hidden}
+.concept-item{padding:14px 16px;border-left:3px solid transparent}
+.concept-item:not(:last-child){border-bottom:1px solid #E8E1D4}
+.concept-item:nth-child(5n+1){border-left-color:#C0774E}
+.concept-item:nth-child(5n+2){border-left-color:#C49B5A}
+.concept-item:nth-child(5n+3){border-left-color:#3A5A45}
+.concept-item:nth-child(5n+4){border-left-color:#C45A4A}
+.concept-item:nth-child(5n+5){border-left-color:#7B5EA7}
+.concept-term{font-size:14px;font-weight:700;color:#C0774E;margin-bottom:3px}
+.concept-def{font-size:13px;color:#5A5045;line-height:1.6}
+.q-card{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;overflow:hidden}
+.q-item{display:flex;gap:12px;padding:14px 16px;align-items:flex-start}
+.q-item:not(:last-child){border-bottom:1px solid #E8E1D4}
+.q-num{width:22px;height:22px;border-radius:50%;background:#E4EDE3;color:#3A5A45;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.q-text{font-size:14px;color:#1A1512;line-height:1.6}
+.reflect-card{background:linear-gradient(135deg,#FBF8F2,#F5F0E6);border-radius:10px;border:2px dashed #E8E1D4;padding:18px}
+.reflect-card textarea{width:100%;border:none;outline:none;background:transparent;font-family:Georgia,serif;font-size:15px;color:#1A1512;resize:vertical;min-height:90px;line-height:1.75}
+.reflect-card textarea::placeholder{color:#8A7E70;font-style:italic}
+.tags-row{display:flex;flex-wrap:wrap;gap:6px;padding:0 20px;margin-bottom:20px}
+.tag{font-size:11px;font-weight:500;padding:5px 12px;border-radius:24px;background:#EBE4D6;color:#5A5045}
+.fc{background:#FDFAF5;border-radius:10px;border:1px solid #E8E1D4;overflow:hidden;cursor:pointer;transition:all .25s;box-shadow:0 1px 4px rgba(60,30,10,.03);margin-bottom:14px}
+.fc:active{transform:scale(.985)}
+.fc-q{padding:18px;display:flex;gap:10px;align-items:flex-start}
+.fc-q-badge{width:24px;height:24px;border-radius:6px;background:#C0774E;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.fc-q-text{font-size:15px;color:#1A1512;font-weight:600;line-height:1.5}
+.fc-a{display:none;padding:0 18px 18px 52px}
+.fc-a-text{font-size:14px;color:#3A5A45;line-height:1.65;padding:14px;background:rgba(228,237,227,.4);border-radius:8px}
+.fc.flipped .fc-a{display:block}
+.fc-hint{text-align:center;font-size:11px;color:#8A7E70;padding:8px 0 4px}
+.fc.flipped .fc-hint{display:none}
+.mm{background:#F3EEE4;border-radius:10px;border:1px solid #E8E1D4;padding:20px}
+.mm-root{font-size:16px;font-weight:700;color:#C0774E;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.mm-root::before{content:'';width:10px;height:10px;border-radius:50%;background:#C0774E;flex-shrink:0}
+.mm-branch{margin-left:24px;margin-bottom:14px}
+.mm-br-title{font-size:14px;font-weight:600;color:#1A1512;margin-bottom:6px}
+.mm-leaf{font-size:13px;color:#5A5045;margin-left:24px;margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.mm-leaf::before{content:'·';color:#C49B5A;font-weight:700}
+.rv-mode{padding:0 20px 20px;display:none}
+.rv-mode.active{display:block}
+.rv-score{display:flex;gap:12px;justify-content:center;margin:16px 0}
+.rv-s{width:40px;height:40px;border-radius:50%;border:2px solid #E8E1D4;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;color:#8A7E70;background:transparent}
+.rv-s:hover,.rv-s.sel{border-color:#C0774E;color:#C0774E;background:#F2E2D5}
+.rv-next{width:100%;height:46px;border-radius:10px;background:#3A5A45;color:#fff;border:none;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px}
+</style></head><body><div class="page" id="app"></div>
+<script>
+var note={
+  material_title:"Building Effective Agents",
+  source:"Anthropic Engineering",
+  took_ms:850,
+  logic_chain:["LLM基础推理能力持续增强，为Agent提供底层认知支撑","Tool Use赋予LLM与外部世界交互的能力——调用API、查询数据库、执行代码","Workflow将多个工具调用编排为有序的多步骤执行链路","Agent在多步执行基础上获得自主决策权——根据中间结果动态调整策略","Guardrails作为安全层确保高风险操作的可靠性与可追溯性"],
+  key_concepts:[
+    {term:"Agent",def:"具备自主感知、推理、决策和执行能力的AI系统，能在不确定环境中完成复杂目标"},
+    {term:"Tool Use",def:"LLM通过Function Calling或MCP协议调用外部API、数据库和代码执行器的能力"},
+    {term:"Workflow",def:"将多个独立的工具调用或子任务编排为有序、可追踪、可回滚的执行链路"},
+    {term:"Multi-Agent",def:"多个Agent通过通信协议协作完成单个Agent无法处理的复杂任务"},
+    {term:"Guardrails",def:"防护机制层：输入验证、输出过滤、操作权限控制与人工审核节点"},
+    {term:"ReAct模式",def:"Reasoning+Acting：Agent交替进行推理和行动，每一步基于上一步结果动态决策"}
+  ],
+  extension_questions:[
+    "如何量化一个任务是否需要Agent？能否建立决策树来判断？",
+    "Tool Use的Function Calling和MCP协议各有什么优劣？什么场景选哪种？",
+    "多Agent协作时，信息如何在Agent间传递而不丢失上下文？",
+    "Guardrails设计中最容易被忽略的安全漏洞是什么？",
+    "Agent的自主决策权和人类监督权如何做精细化切分？"
+  ],
+  cards:[
+    {q:"Agent和传统RPA的本质区别是什么？",a:"Agent具备推理和自主决策能力，能根据环境变化动态调整行为；RPA仅执行预设固定规则。关键在于Agent拥有判断力。"},
+    {q:"Tool Use两种主流实现方式？",a:"Function Calling：LLM直接输出结构化函数调用。MCP协议：标准化工具接口规范，松耦合集成。"},
+    {q:"什么场景用Workflow而非Agent？",a:"任务步骤固定、不依赖动态决策时用Workflow。Agent适用于需要根据中间结果调整策略的复杂场景。"},
+    {q:"自主决策权限如何分级？",a:"L1只读查询/L2内部操作/L3外部通信/L4资金操作/L5系统变更。每级需不同审核机制。"},
+    {q:"Agent记忆机制如何设计？",a:"短期记忆(上下文窗口)+长期记忆(向量数据库)+工作记忆(任务状态)。关键是检索精度和遗忘策略。"}
+  ],
+  mindmap:{root:"Agent系统",children:[
+    {name:"核心能力",children:[{name:"推理"},{name:"工具调用"},{name:"记忆"}]},
+    {name:"架构模式",children:[{name:"单Agent"},{name:"Multi-Agent"},{name:"人机协作"}]},
+    {name:"安全机制",children:[{name:"输入验证"},{name:"输出过滤"},{name:"权限分级"},{name:"人工兜底"}]}
+  ]},
+  tags:["Agent","LLM","Tool Use","Workflow","AI安全","架构设计"]
+};
+
+var tab="note",reflection="",rvIdx=0,rvScores={},mode="note";
+
+function toggleCard(el){el.classList.toggle("flipped")}
+
+function render(){
+  var h="";
+  h+='<div class="nav"><span class="nav-back" onclick="mode=\x27note\x27;render()">\u2190 \u8d44\u6599</span><span class="nav-title">\u590d\u4e60\u7b14\u8bb0</span><span style="width:50px"></span></div>';
+
+  if(mode==="note"){
+    h+='<div class="cv"><div class="cv-bar"></div><div class="cv-inner"><div class="cv-label">\u8d44\u6599\u6765\u6e90</div><div class="cv-title">'+note.material_title+'</div><div class="cv-meta"><span>\u{1F4C4} '+note.source+'</span><span>\u23F1 '+note.took_ms+'ms</span><span>\u{1F4C5} 6\u670821\u65e5</span></div></div></div>';
+
+    h+='<div class="tabs"><div class="tab'+(tab==="note"?" on":"")+'" onclick="tab=\x27note\x27;render()"><span class="dot"></span>\u7b14\u8bb0</div><div class="tab'+(tab==="cards"?" on":"")+'" onclick="tab=\x27cards\x27;render()"><span class="dot"></span>\u95ee\u7b54\u5361\u7247 \u00b7 '+note.cards.length+'</div><div class="tab'+(tab==="mindmap"?" on":"")+'" onclick="tab=\x27mindmap\x27;render()"><span class="dot"></span>\u601d\u7ef4\u5bfc\u56fe</div><div class="tab" onclick="mode=\x27review\x27;render()"><span class="dot"></span>\u{1F4DD} \u590d\u4e60\u6a21\u5f0f</div></div>';
+
+    h+='<div class="main">';
+
+    if(tab==="note"){
+      h+='<div class="sec"><div class="sec-head"><div class="sec-icon logic">\u{1F517}</div><div class="sec-title">\u6838\u5fc3\u903b\u8f91\u94fe</div></div><div class="logic-card">';
+      note.logic_chain.forEach(function(s,i){h+='<div class="logic-step"><div class="logic-num">'+(i+1)+'</div><div class="logic-text">'+s+'</div></div>';});
+      h+='</div></div>';
+      h+='<div class="sec"><div class="sec-head"><div class="sec-icon concept">\u{1F4A1}</div><div class="sec-title">\u5173\u952e\u6982\u5ff5</div></div><div class="concept-card">';
+      note.key_concepts.forEach(function(c){h+='<div class="concept-item"><div class="concept-term">'+c.term+'</div><div class="concept-def">'+c.def+'</div></div>';});
+      h+='</div></div>';
+      h+='<div class="sec"><div class="sec-head"><div class="sec-icon question">\u2753</div><div class="sec-title">\u5ef6\u4f38\u601d\u8003</div></div><div class="q-card">';
+      note.extension_questions.forEach(function(q,i){h+='<div class="q-item"><div class="q-num">'+(i+1)+'</div><div class="q-text">'+q+'</div></div>';});
+      h+='</div></div>';
+      h+='<div class="sec"><div class="sec-head"><div class="sec-icon reflect">\u270F\uFE0F</div><div class="sec-title">\u6211\u7684\u7406\u89e3</div></div><div class="reflect-card"><textarea placeholder="\u5728\u8fd9\u91cc\u5199\u4e0b\u4f60\u7684\u7406\u89e3\u3001\u7591\u95ee\u548c\u8054\u60f3\u2026" oninput="reflection=this.value">'+reflection+'</textarea></div></div>';
+      h+='<div class="tags-row">'+note.tags.map(function(t){return'<span class="tag">#'+t+'</span>'}).join("")+'</div>';
+    }else if(tab==="cards"){
+      note.cards.forEach(function(c,i){h+='<div class="fc" onclick="toggleCard(this)"><div class="fc-q"><div class="fc-q-badge">'+(i+1)+'</div><div class="fc-q-text">'+c.q+'</div></div><div class="fc-a"><div class="fc-a-text">'+c.a+'</div></div><div class="fc-hint">\u8f7b\u89e6\u67e5\u770b\u7b54\u6848</div></div>';});
+    }else if(tab==="mindmap"){
+      h+='<div class="mm"><div class="mm-root">'+note.mindmap.root+'</div>';
+      note.mindmap.children.forEach(function(br){h+='<div class="mm-branch"><div class="mm-br-title">'+br.name+'</div>';br.children.forEach(function(lf){h+='<div class="mm-leaf">'+lf.name+'</div>';});h+='</div>';});
+      h+='</div>';
+    }
+    h+='</div>';
+  }else if(mode==="review"){
+    h+='<div class="main"><div class="sec"><div class="sec-head"><div class="sec-icon logic">\u{1F3AF}</div><div class="sec-title">\u590d\u4e60\u6a21\u5f0f</div></div>';
+    if(rvIdx<note.cards.length){
+      var c=note.cards[rvIdx];
+      h+='<div style="text-align:center;color:#8A7E70;font-size:12px;margin-bottom:8px">\u5361\u7247 '+(rvIdx+1)+' / '+note.cards.length+'</div>';
+      h+='<div class="fc" onclick="toggleCard(this)"><div class="fc-q"><div class="fc-q-badge">'+(rvIdx+1)+'</div><div class="fc-q-text">'+c.q+'</div></div><div class="fc-a"><div class="fc-a-text">'+c.a+'</div></div><div class="fc-hint">\u8f7b\u89e6\u67e5\u770b\u7b54\u6848</div></div>';
+      h+='<div class="rv-score"><span class="rv-s'+(rvScores[rvIdx]==1?" sel":"")+'" onclick="rvScores[rvIdx]=1;render()">1</span><span class="rv-s'+(rvScores[rvIdx]==2?" sel":"")+'" onclick="rvScores[rvIdx]=2;render()">2</span><span class="rv-s'+(rvScores[rvIdx]==3?" sel":"")+'" onclick="rvScores[rvIdx]=3;render()">3</span><span class="rv-s'+(rvScores[rvIdx]==4?" sel":"")+'" onclick="rvScores[rvIdx]=4;render()">4</span><span class="rv-s'+(rvScores[rvIdx]==5?" sel":"")+'" onclick="rvScores[rvIdx]=5;render()">5</span></div><div style="text-align:center;font-size:11px;color:#8A7E70">\u81ea\u8bc4 1-5\u5206\uff081\u5b8c\u5168\u4e0d\u4f1a \u2192 5\u5b8c\u5168\u638c\u63e1\uff09</div>';
+      h+='<button class="rv-next" onclick="rvIdx++;render()">\u4e0b\u4e00\u5f20 \u2192</button>';
+    }else{
+      var avg=Object.values(rvScores).reduce(function(a,b){return a+b},0)/note.cards.length;
+      h+='<div style="text-align:center;padding:40px 0"><div style="font-size:48px;margin-bottom:12px">\u{1F389}</div><div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#1A1512;margin-bottom:8px">\u590d\u4e60\u5b8c\u6210</div><div style="font-size:14px;color:#5A5045;margin-bottom:4px">\u5e73\u5747\u81ea\u8bc4\u5206: '+avg.toFixed(1)+' / 5</div><div style="font-size:12px;color:#8A7E70">'+note.cards.length+'\u5f20\u5361\u7247\u5df2\u5b8c\u6210</div></div>';
+      h+='<button class="rv-next" style="background:#C0774E" onclick="rvIdx=0;rvScores={};render()">\u91cd\u65b0\u590d\u4e60</button>';
+      h+='<button class="rv-next" style="background:transparent;border:1.5px solid #E8E1D4;color:#3A5A45;margin-top:8px" onclick="mode=\x27note\x27;render()">\u8fd4\u56de\u7b14\u8bb0</button>';
+    }
+    h+='</div>';
+  }
+
+  document.getElementById("app").innerHTML=h;
+}
+render();
+</script></body></html>

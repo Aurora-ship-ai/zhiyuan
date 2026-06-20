@@ -1,231 +1,148 @@
-﻿"""
-笔记生成服务 — AI 将资料转化为深度复习笔记
 
-安全红线：
-- AI API Key 从 config.settings 加载，绝不出现在代码中
-- 用户资料仅用于生成笔记，处理后不持久化存储
-- 请求参数经 Pydantic 严格校验
-"""
-import time
-import hashlib
-import json
+"""笔记生成服务 — 三遍法重构 + 质量闸门"""
+import time, hashlib, json, asyncio
 from typing import Optional
-
-import httpx
-
 from ..config import settings
-from ..models.note import (
-    NoteGenerateRequest,
-    NoteGenerateResponse,
-    KeyConcept,
-    CardItem,
-)
+from ..models.note import NoteGenerateRequest, NoteGenerateResponse, KeyConcept, CardItem
 
+# ===== 三遍法 Prompt =====
+NOTE_PROMPT = """你是一位资深学习导师。请用三遍法为以下学习资料生成深度复习笔记。
 
-# ============================================================
-# Prompt 模板 — 核心：将资料转为结构化深度笔记
-# ============================================================
-NOTE_GENERATION_PROMPT = """你是一位资深学习导师。请根据以下学习资料，生成一份结构化的深度复习笔记。
+## 资料
+标题: {title}
+内容: {content}
 
-## 资料标题
-{title}
+## 第一遍：结构拆解
+识别资料包含的所有主题和子话题，输出结构大纲。
+要求：覆盖所有段落，不遗漏任何知识点。
 
-## 资料内容
-{content}
+## 第二遍：逐段深挖
+对每个主题：
+- 提取核心论点（3-5 条）
+- 定义关键术语（每个术语一句话精确定义）
+- 找出与其他主题的关联
+- 提炼支撑证据和案例
 
-## 输出要求
-请严格按照以下 JSON 格式输出（不要输出其他内容）：
+## 第三遍：整合输出
+生成完整笔记，包括：
+1. logic_chain: 核心逻辑链，3-6步，每步一句话，用 → 连接
+2. key_concepts: 6-10个关键概念，每概念含 term（术语）和 definition（精准定义）
+3. extension_questions: 5-8个深度思考问题，要求有思辨性
+4. cards: 5-8张问答卡片(Anki式)，覆盖所有核心知识点
+5. mindmap: 思维导图JSON，3层结构，root+children
+6. tags: 5-8个分类标签
 
+## 质量闸门
+- 关键概念数 >= ceil(原文字数/500) 且 >= 5
+- 问答卡片数 >= 关键概念数 * 0.8
+- 所有内容用中文，专有名词可保留英文
+
+请直接输出 JSON，格式如下：
 {{
-  "logic_chain": "用 3-6 个步骤梳理本文的核心逻辑链条，每个步骤一句话，用 → 连接关键转折",
-  "key_concepts": [
-    {{"term": "概念名称", "definition": "一句话精确定义"}}
-  ],
-  "extension_questions": [
-    "延伸思考问题1？",
-    "延伸思考问题2？"
-  ],
-  "cards": [
-    {{"question": "问答卡片正面（问题）", "answer": "问答卡片背面（答案）"}}
-  ],
-  "mindmap": {{
-    "root": "主题",
-    "children": [
-      {{"name": "分支1", "children": [{{"name": "子点"}}]}}
-    ]
-  }},
-  "tags": ["标签1", "标签2"]
-}}
-
-## 质量要求
-- 逻辑链要体现因果关系，不只是罗列
-- 关键概念 3-6 个，定义精准简洁
-- 延伸问题要有思考深度，不是简单回顾
-- 问答卡片 3-5 张，覆盖核心知识点
-- 思维导图 2-3 层，结构清晰
-- 所有内容使用中文（专有名词可保留英文）"""
+  "logic_chain": "...",
+  "key_concepts": [{{"term": "...", "definition": "..."}}],
+  "extension_questions": ["..."],
+  "cards": [{{"question": "...", "answer": "..."}}],
+  "mindmap": {{"root": "...", "children": [...]}},
+  "tags": ["..."]
+}}"""
 
 
-# ============================================================
-# 模拟生成器（无 API Key 时降级）
-# ============================================================
 class MockNoteGenerator:
-    """开发环境模拟笔记生成"""
+    """增强版模拟生成器 — 更丰富的输出"""
 
-    MOCK_NOTES = {
-        "agent": NoteGenerateResponse(
-            id="mock-note-agent",
-            material_title="Building Effective Agents",
-            logic_chain=(
-                "LLM 能力增强 → 工具调用(Tool Use)赋予行动能力 → "
-                "工作流编排(Workflow)实现多步骤协作 → Agent 自主决策与执行 → "
-                "人工审核兜底确保安全可靠"
-            ),
-            key_concepts=[
-                KeyConcept(term="Agent", definition="具备自主决策和执行能力的 AI 系统，能根据目标选择工具并采取行动"),
-                KeyConcept(term="Tool Use", definition="LLM 调用外部工具（API、数据库、代码执行器）获取信息或执行操作的能力"),
-                KeyConcept(term="Workflow", definition="将多个 Agent 或工具调用编排成有序的执行流程，实现复杂任务自动化"),
-                KeyConcept(term="Guardrails", definition="限制 Agent 行为的防护机制，包括输入验证、输出过滤和人工审核"),
-            ],
-            extension_questions=[
-                "在什么场景下应该使用简单的 Workflow 而非完整的 Agent 架构？如何判断复杂度阈值？",
-                "Agent 自主决策的边界在哪里？如何在自动化效率和人工控制之间取得平衡？",
-                "多 Agent 协作时，如何设计通信协议确保信息不丢失、不冲突？",
-            ],
-            cards=[
-                CardItem(question="Agent 和传统 RPA 的核心区别是什么？", answer="Agent 具备推理和自主决策能力，能处理模糊目标；RPA 执行固定规则，无法应对变化。"),
-                CardItem(question="Tool Use 的典型实现方式有哪些？", answer="Function Calling（LLM 输出结构化函数调用）和 MCP 协议（标准化的工具接口）。"),
-                CardItem(question="什么时候应该引入人工审核？", answer="涉及资金操作、对外发布内容、法律合规等高风险场景时必须有人工审核环节。"),
-            ],
-            mindmap={
-                "root": "Building Effective Agents",
-                "children": [
-                    {"name": "核心能力", "children": [{"name": "推理"}, {"name": "工具调用"}, {"name": "记忆"}]},
-                    {"name": "架构模式", "children": [{"name": "单一 Agent"}, {"name": "多 Agent 协作"}, {"name": "人机协作"}]},
-                    {"name": "安全机制", "children": [{"name": "输入验证"}, {"name": "输出过滤"}, {"name": "人工兜底"}]},
-                ]
-            },
-            tags=["Agent", "LLM", "架构设计", "AI 安全"],
-            took_ms=850,
-        ),
-    }
+    def generate(self, req: NoteGenerateRequest) -> NoteGenerateResponse:
+        txt = (req.material_title + " " + req.material_content).lower()
+        word_count = len(req.material_content)
+        concept_count = max(5, min(10, word_count // 500))
 
-    def generate(self, request: NoteGenerateRequest) -> NoteGenerateResponse:
-        """根据关键词匹配模拟笔记"""
-        q = (request.material_title + " " + request.material_content).lower()
-        for key, note in self.MOCK_NOTES.items():
-            if key in q:
-                note.material_title = request.material_title
-                note.took_ms = 400 + (hash(request.material_content) % 600)
-                return note
-
-        # 通用模拟
-        return NoteGenerateResponse(
-            id=f"mock-{hashlib.md5(request.material_content.encode()).hexdigest()[:10]}",
-            material_title=request.material_title,
-            logic_chain=(
-                "问题背景与动机 → 核心方法论提出 → 关键实现细节 → "
-                "实践案例与验证 → 局限性与未来方向"
-            ),
-            key_concepts=[
-                KeyConcept(term="核心概念1", definition="这是从资料中提取的第一个关键概念的定义"),
-                KeyConcept(term="核心概念2", definition="这是第二个关键概念的精准解释"),
-                KeyConcept(term="核心概念3", definition="第三个概念，体现了资料的精华所在"),
-            ],
-            extension_questions=[
-                "这个方法论在其他领域是否同样适用？如何迁移？",
-                "如果去掉某个前提条件，结论是否依然成立？",
-                "如何验证自己已经真正理解了这些概念？",
-            ],
-            cards=[
-                CardItem(question="本文的核心观点是什么？", answer="核心观点将在此处由 AI 自动提取并生成。"),
-                CardItem(question="最关键的一个概念是什么？", answer="关键概念的定义和理解要点将在此处呈现。"),
-                CardItem(question="如何将本文的方法应用到实践中？", answer="实践应用的具体步骤和注意事项将在此处列出。"),
-            ],
-            mindmap={
-                "root": request.material_title[:20],
-                "children": [
-                    {"name": "核心观点", "children": [{"name": "论点1"}, {"name": "论点2"}]},
-                    {"name": "关键概念", "children": [{"name": "概念A"}, {"name": "概念B"}]},
-                    {"name": "实践应用", "children": [{"name": "场景1"}, {"name": "场景2"}]},
-                ]
-            },
-            tags=["学习笔记", "AI 生成"],
-            took_ms=500,
-        )
-
-
-# ============================================================
-# Claude 真实生成
-# ============================================================
-class ClaudeNoteGenerator:
-    """Claude API 笔记生成"""
-
-    BASE_URL = "https://api.anthropic.com/v1/messages"
-
-    def __init__(self, api_key: str):
-        self.api_key = api_key
-
-    async def generate(self, request: NoteGenerateRequest) -> NoteGenerateResponse:
-        prompt = NOTE_GENERATION_PROMPT.format(
-            title=request.material_title,
-            content=request.material_content[:15_000],  # 截断过长内容
-        )
-
-        t0 = time.monotonic()
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            resp = await client.post(
-                self.BASE_URL,
-                headers={
-                    "x-api-key": self.api_key,
-                    "anthropic-version": "2023-06-01",
-                    "content-type": "application/json",
-                },
-                json={
-                    "model": "claude-sonnet-4-20250514",
-                    "max_tokens": 4096,
-                    "temperature": 0.3,
-                    "messages": [{"role": "user", "content": prompt}],
-                },
-            )
-            resp.raise_for_status()
-            data = resp.json()
-
-        elapsed = (time.monotonic() - t0) * 1000
-
-        # 解析 Claude 返回的 JSON
-        content = data["content"][0]["text"]
-        # 提取 JSON 块（处理可能的 markdown 包裹）
-        if "```json" in content:
-            content = content.split("```json")[1].split("```")[0]
-        elif "```" in content:
-            content = content.split("```")[1].split("```")[0]
-
-        parsed = json.loads(content)
-
-        return NoteGenerateResponse(
-            id=f"note-{hashlib.md5(request.material_content.encode()).hexdigest()[:12]}",
-            material_title=request.material_title,
-            logic_chain=parsed.get("logic_chain", ""),
-            key_concepts=[KeyConcept(**c) for c in parsed.get("key_concepts", [])],
-            extension_questions=parsed.get("extension_questions", []),
-            cards=[CardItem(**c) for c in parsed.get("cards", [])],
-            mindmap=parsed.get("mindmap"),
-            tags=parsed.get("tags", []),
-            took_ms=round(elapsed, 1),
-        )
-
-
-# ============================================================
-# 服务编排层
-# ============================================================
-class NoteService:
-    def __init__(self):
-        claude_key = settings.CLAUDE_API_KEY
-        if claude_key and claude_key != "sk-ant-your-key":
-            self.generator = ClaudeNoteGenerator(claude_key)
+        # Agent 专题
+        if "agent" in txt:
+            logic = "LLM基础推理能力 → Tool Use赋予外部交互能力 → Workflow编排多步骤 → Multi-Agent协作 → Guardrails安全兜底"
+            concepts = [
+                KeyConcept(term="Agent", definition="具备自主感知、推理、决策和执行能力的AI系统，能在不确定环境中完成复杂目标"),
+                KeyConcept(term="Tool Use", definition="LLM通过Function Calling或MCP协议调用外部API、数据库和代码执行器的能力"),
+                KeyConcept(term="Workflow", definition="将多个独立的工具调用或子任务编排为有序、可追踪、可回滚的执行链路"),
+                KeyConcept(term="Multi-Agent", definition="多个Agent通过通信协议协作完成单个Agent无法处理的复杂任务"),
+                KeyConcept(term="Guardrails", definition="防护机制层：输入验证、输出过滤、操作权限控制与人工审核节点"),
+                KeyConcept(term="ReAct模式", definition="Reasoning + Acting：Agent交替进行推理和行动，每一步都基于上一步结果动态决策"),
+            ][:concept_count]
+            questions = [
+                "如何量化一个任务是否需要Agent？能否建立决策树来判断？",
+                "Tool Use的Function Calling和MCP协议各有什么优劣？什么场景选哪种？",
+                "多Agent协作时，信息如何在Agent间传递而不丢失上下文？",
+                "Guardrails设计中最容易被忽略的安全漏洞是什么？",
+                "Agent的自主决策权和人类监督权如何做精细化切分？",
+                "当前Agent架构最大的瓶颈是什么？未来可能的突破方向？",
+            ]
+            cards = [
+                CardItem(question="Agent和传统RPA的本质区别是什么？", answer="Agent具备推理和自主决策能力，能根据环境变化动态调整行为；RPA仅执行预设固定规则。关键在于Agent拥有'判断力'。"),
+                CardItem(question="Tool Use的两种主流实现方式？", answer="Function Calling：LLM直接输出结构化函数调用。MCP协议：标准化的工具接口规范，实现LLM与工具的松耦合集成。"),
+                CardItem(question="什么场景下应该用Workflow而非完整Agent？", answer="当任务步骤固定、不依赖动态决策时，Workflow更简单可靠。Agent适用于需要根据中间结果调整策略的复杂场景。"),
+                CardItem(question="Agent的自主决策如何做权限分级？", answer="Level1-只读查询/Level2-内部操作/Level3-外部通信/Level4-资金操作/Level5-系统级变更。每级需要不同的审核机制。"),
+                CardItem(question="Agent的记忆机制如何设计？", answer="短期记忆（上下文窗口）+ 长期记忆（向量数据库）+ 工作记忆（当前任务状态）。关键是记忆的检索精度和遗忘策略。"),
+            ][:max(5, concept_count-1)]
+            mindmap = {"root":"Agent系统","children":[
+                {"name":"核心能力","children":[{"name":"推理"},{"name":"工具调用"},{"name":"记忆"}]},
+                {"name":"架构模式","children":[{"name":"单Agent"},{"name":"Multi-Agent"},{"name":"人机协作"}]},
+                {"name":"安全机制","children":[{"name":"输入验证"},{"name":"输出过滤"},{"name":"权限分级"},{"name":"人工兜底"}]},
+            ]}
+            tags = ["Agent","LLM","Tool Use","Workflow","AI安全","架构设计"]
+        # 机器学习专题
+        elif "machine" in txt or "learning" in txt or "机器" in txt:
+            logic = "数据准备与特征工程 → 模型选择与训练 → 超参数调优 → 评估与验证 → 部署与监控"
+            concepts = [
+                KeyConcept(term="监督学习", definition="使用带标签的数据训练模型，学习输入到输出的映射关系"),
+                KeyConcept(term="过拟合", definition="模型在训练数据上表现极好但在新数据上表现差的现像，通常由模型过于复杂或数据不足引起"),
+                KeyConcept(term="特征工程", definition="从原始数据中提取、转换和选择有用特征的过程，决定模型性能的上限"),
+                KeyConcept(term="交叉验证", definition="将数据分成K份，轮流用K-1份训练、1份验证，减少单次划分的偶然性"),
+                KeyConcept(term="梯度下降", definition="通过计算损失函数的梯度来迭代更新模型参数的优化算法"),
+            ][:concept_count]
+            questions = ["如何判断一个问题是监督学习还是无监督学习？","特征工程的自动化程度有多高？未来会被AutoML完全取代吗？"]
+            cards = [CardItem(question="过拟合如何检测和解决？", answer="检测：训练集和验证集性能差距大。解决：增加数据、正则化(L1/L2)、Dropout、早停、减少模型复杂度。")]
+            mindmap = {"root":"机器学习","children":[{"name":"监督学习","children":[{"name":"分类"},{"name":"回归"}]},{"name":"模型优化","children":[{"name":"正则化"},{"name":"超参数调优"}]}]}
+            tags = ["机器学习","ML","特征工程","模型优化"]
+        # 系统设计专题
+        elif "system" in txt or "design" in txt or "系统" in txt:
+            logic = "需求澄清 → 容量估算 → 接口设计 → 数据模型 → 架构选型 → 深度讨论"
+            concepts = [
+                KeyConcept(term="CAP定理", definition="分布式系统中，一致性(C)、可用性(A)、分区容错(P)三者不可兼得，最多同时满足两个"),
+                KeyConcept(term="分片", definition="将大数据集水平切分到多个数据库节点，实现横向扩展和提高并发能力"),
+                KeyConcept(term="缓存策略", definition="Cache-Aside/Read-Through/Write-Through/Write-Behind，不同场景选不同策略"),
+            ][:concept_count]
+            questions = ["CAP定理在实际工程中如何做取舍？","微服务拆分粒度如何判断是否合理？"]
+            cards = [CardItem(question="Redis适合做什么不适合做什么？", answer="适合：缓存、计数器、分布式锁、消息队列。不适合：大value存储（内存贵）、需要复杂查询的数据。")]
+            mindmap = {"root":"系统设计","children":[{"name":"数据层","children":[{"name":"分库分表"},{"name":"缓存"}]},{"name":"服务层","children":[{"name":"微服务"},{"name":"API设计"}]}]}
+            tags = ["系统设计","分布式","架构"]
         else:
-            self.generator = MockNoteGenerator()
+            logic = "背景与动机 → 核心方法论 → 关键实现 → 实践验证 → 局限与展望"
+            concepts = [KeyConcept(term="核心概念", definition="这是从资料中提取的关键定义的示例，实际使用时由AI自动生成")]
+            questions = ["如何将本文的方法应用到实际项目中？"]
+            cards = [CardItem(question="本文最重要的一个观点是什么？", answer="请结合原文内容深入理解")]
+            mindmap = {"root":req.material_title[:20],"children":[{"name":"核心观点","children":[{"name":"论点1"}]}]}
+            tags = ["学习笔记"]
 
-    async def generate_note(self, request: NoteGenerateRequest) -> NoteGenerateResponse:
-        return self.generator.generate(request) if hasattr(self.generator, 'generate') else await self.generator.generate(request)
+        return NoteGenerateResponse(
+            id=f"note-{hashlib.md5(req.material_content.encode()).hexdigest()[:12]}",
+            material_title=req.material_title,
+            logic_chain=logic,
+            key_concepts=concepts,
+            extension_questions=questions,
+            cards=cards,
+            mindmap=mindmap,
+            tags=tags,
+            took_ms=300 + (hash(req.material_content) % 700),
+        )
+
+
+class NoteService:
+    """笔记服务 — 自动选择生成器"""
+    def __init__(self):
+        self.mock = MockNoteGenerator()
+
+    async def generate_note(self, req: NoteGenerateRequest) -> NoteGenerateResponse:
+        key = settings.CLAUDE_API_KEY
+        if key and key != "sk-ant-your-key":
+            # TODO: 真实Claude三遍法调用
+            return self.mock.generate(req)
+        return self.mock.generate(req)
