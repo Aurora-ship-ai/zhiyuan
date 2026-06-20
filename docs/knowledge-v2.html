@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>知源 · 知识库 v2</title>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>鐭ユ簮 路 鐭ヨ瘑搴?v2</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#EDE8DE;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -150,12 +150,12 @@ function renderDetail(){
 
   h+='<div class="detail-tags">'+e.tags.map(function(t){return'<span style="font-size:10px;padding:3px 8px;background:#F9F6F0;border-radius:4px;color:#5A5045">#'+t+'</span>'}).join("")+'</div>';
   
-  h+='<div class="detail-actions"><span class="detail-act" onclick="toggleStar(event)">\u2B50 \u8bc4\u7ea7 '+"\u2605".repeat(e.stars)+'</span><span class="detail-act" onclick="setStatus(\x27done\x27)">\u2705 \u5df2\u638c\u63e1</span><span class="detail-act" onclick="setStatus(\x27learning\x27)">\u{1F4D6} \u5b66\u4e60\u4e2d</span><span class="detail-act warn" onclick="setStatus(\x27need\x27)">\u{1F534} \u9700\u590d\u4e60</span></div>';
+  h+='<div class="detail-actions"><span class="detail-act warn" onclick="deleteEntry()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>删除</span><span class="detail-act" onclick="toggleStar(event)">\u2B50 \u8bc4\u7ea7 '+"\u2605".repeat(e.stars)+'</span><span class="detail-act" onclick="setStatus(\x27done\x27)">\u2705 \u5df2\u638c\u63e1</span><span class="detail-act" onclick="setStatus(\x27learning\x27)">\u{1F4D6} \u5b66\u4e60\u4e2d</span><span class="detail-act warn" onclick="setStatus(\x27need\x27)">\u{1F534} \u9700\u590d\u4e60</span></div>';
   h+='</div>';
   document.getElementById("detail").innerHTML=h;
 }
 
-function render(){
+function render(){allTags=[...new Set(DB.flatMap(function(e){return e.tags}))].sort();allCats=[...new Set(DB.map(function(e){return e.cat}))].sort();
   var filtered=getFiltered();
   var h="";
   h+='<div class="nav"><span class="nav-title">\u77e5\u8bc6\u5e93</span></div>';
@@ -185,4 +185,10 @@ function render(){
   document.getElementById("app").innerHTML=h;
 }
 render();
-</script></body></html>
+
+function deleteEntry(){
+  if(!selDetail)return;
+  if(!confirm("确定删除「"+selDetail.title+"」？此操作不可撤销"))return;
+  DB=DB.filter(function(e){return e.id!==selDetail.id});
+  selDetail=null;closeDetail();render();
+}</script></body></html>
