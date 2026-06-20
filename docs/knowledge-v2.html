@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>鐭ユ簮 路 鐭ヨ瘑搴?v2</title>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>闁活厹鍎茬花?鐠?闁活厹鍎撮惁鎴炴償?v2</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:#EDE8DE;display:flex;justify-content:center;min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -133,7 +133,7 @@ function renderDetail(){
   if(!selDetail)return;
   var e=selDetail;
   var h="";
-  h+='<div class="detail-nav"><span class="detail-back" onclick="closeDetail()">\u2190 \u8fd4\u56de</span><span class="detail-title">\u7b14\u8bb0\u8be6\u60c5</span><span style="width:50px"></span></div>';
+  h+='<div class="detail-nav"><span class="detail-back" onclick="closeDetail()">\u2190 \u8fd4\u56de<span class="detail-act warn" onclick="deleteEntry()" style="font-size:11px;padding:4px 8px">鍒犻櫎</span></span></span><span class="detail-title">\u7b14\u8bb0\u8be6\u60c5</span><span style="width:50px"></span></div>';
   h+='<div class="detail-body">';
   h+='<div class="detail-cv"><h3>'+e.title+'</h3><div class="src-meta"><span>\u{1F4C4} '+e.source+'</span><span>\u{1F4C5} '+e.rvAt+'</span><span>\u23F1 \u590d\u4e60 '+e.rvCount+'\u6b21</span><span>\u2B50 '+e.rvScore.toFixed(1)+'/5</span></div><div style="display:flex;gap:8px"><span class="entry-status '+e.status+'">'+({"done":"\u5df2\u638c\u63e1","learning":"\u5b66\u4e60\u4e2d","need":"\u9700\u590d\u4e60"})[e.status]+'</span>'+("\u2605".repeat(e.stars)+"\u2606".repeat(3-e.stars))+'</div></div>';
   
@@ -150,7 +150,7 @@ function renderDetail(){
 
   h+='<div class="detail-tags">'+e.tags.map(function(t){return'<span style="font-size:10px;padding:3px 8px;background:#F9F6F0;border-radius:4px;color:#5A5045">#'+t+'</span>'}).join("")+'</div>';
   
-  h+='<div class="detail-actions"><span class="detail-act warn" onclick="deleteEntry()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>删除</span><span class="detail-act" onclick="toggleStar(event)">\u2B50 \u8bc4\u7ea7 '+"\u2605".repeat(e.stars)+'</span><span class="detail-act" onclick="setStatus(\x27done\x27)">\u2705 \u5df2\u638c\u63e1</span><span class="detail-act" onclick="setStatus(\x27learning\x27)">\u{1F4D6} \u5b66\u4e60\u4e2d</span><span class="detail-act warn" onclick="setStatus(\x27need\x27)">\u{1F534} \u9700\u590d\u4e60</span></div>';
+  h+='<div class="detail-actions"><span class="detail-act warn" onclick="deleteEntry()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>閸掔娀娅?/span><span class="detail-act" onclick="toggleStar(event)">\u2B50 \u8bc4\u7ea7 '+"\u2605".repeat(e.stars)+'</span><span class="detail-act" onclick="setStatus(\x27done\x27)">\u2705 \u5df2\u638c\u63e1</span><span class="detail-act" onclick="setStatus(\x27learning\x27)">\u{1F4D6} \u5b66\u4e60\u4e2d</span><span class="detail-act warn" onclick="setStatus(\x27need\x27)">\u{1F534} \u9700\u590d\u4e60</span></div>';
   h+='</div>';
   document.getElementById("detail").innerHTML=h;
 }
@@ -188,7 +188,7 @@ render();
 
 function deleteEntry(){
   if(!selDetail)return;
-  if(!confirm("确定删除「"+selDetail.title+"」？此操作不可撤销"))return;
+  if(!confirm("绾喖鐣鹃崚鐘绘珟閵?+selDetail.title+"閵嗗稄绱靛銈嗘惙娴ｆ粈绗夐崣顖涙寵闁库偓"))return;
   DB=DB.filter(function(e){return e.id!==selDetail.id});
   selDetail=null;closeDetail();render();
 }</script></body></html>
