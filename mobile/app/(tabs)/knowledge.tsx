@@ -1,9 +1,5 @@
-﻿import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
-import { Card } from "../../components/ui/Card";
-import { Tag } from "../../components/ui/Tag";
-import { colors, typography, spacing, borderRadius } from "../../theme";
-import { FileText, Clock, Lightbulb, Layers, Search } from "lucide-react-native";
+import React, { useState } from "react";
+// TODO: re-add icons via @expo/vector-icons
 import { searchKnowledge } from "../../services/api";
 import type { KnowledgeEntry } from "../../types";
 

@@ -1,10 +1,5 @@
-﻿import React, { useState, useCallback } from "react";
-import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, RefreshControl } from "react-native";
-import { SearchBar } from "../../components/ui/SearchBar";
-import { Card } from "../../components/ui/Card";
-import { Tag } from "../../components/ui/Tag";
-import { CardSkeleton } from "../../components/ui/Skeleton";
-import { Star, ExternalLink, Bookmark } from "lucide-react-native";
+import React, { useState, useCallback } from "react";
+// TODO: re-add icons via @expo/vector-icons
 import { colors, typography, spacing, borderRadius } from "../../theme";
 import { searchMaterials } from "../../services/api";
 import type { SearchResult } from "../../types";

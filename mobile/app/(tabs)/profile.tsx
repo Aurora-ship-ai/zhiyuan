@@ -1,9 +1,5 @@
-﻿import React from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
-import { Card } from "../../components/ui/Card";
-import { Button } from "../../components/ui/Button";
-import { colors, typography, spacing, borderRadius } from "../../theme";
-import { BookOpen, FileText, Download, Settings } from "lucide-react-native";
+import React from "react";
+// TODO: re-add icons via @expo/vector-icons
 
 export default function ProfileScreen() {
   return (

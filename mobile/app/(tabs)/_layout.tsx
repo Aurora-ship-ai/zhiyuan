@@ -1,5 +1,4 @@
-﻿import { Tabs } from "expo-router";
-import { Home, Library, Bookmark, User } from "lucide-react-native";
+// TODO: re-add icons via @expo/vector-icons
 import { colors } from "../../theme";
 
 export default function TabLayout() {

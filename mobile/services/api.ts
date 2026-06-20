@@ -1,15 +1,14 @@
 /**
- * API 瀹㈡埛绔?v2 鈥?瀵规帴鏈嶅姟绔湡瀹炵鐐? * 
- * 绾㈢嚎锛欰PI_KEY 鍐充笉鍑虹幇浜庢鏂囦欢锛屾墍鏈?AI/鎼滅储璋冪敤缁忕敱鏈嶅姟绔唬鐞嗐€? * 寮€鍙戠幆澧冧笅鏃犳湇鍔＄鏃惰嚜鍔ㄩ檷绾т负鏈湴妯℃嫙銆? */
+ * API 鐎广垺鍩涚粩?v2 閳?鐎佃甯撮張宥呭缁旑垳婀＄€圭偟顏悙? * 
+ * 缁俱垻鍤庨敍娆癙I_KEY 閸愬厖绗夐崙铏瑰箛娴滃孩顒濋弬鍥︽閿涘本澧嶉張?AI/閹兼粎鍌ㄧ拫鍐暏缂佸繒鏁遍張宥呭缁旑垯鍞悶鍡愨偓? * 瀵偓閸欐垹骞嗘晶鍐х瑓閺冪姵婀囬崝锛勵伂閺冩儼鍤滈崝銊╂缁狙傝礋閺堫剙婀村Ο鈩冨珯閵? */
 import axios, { AxiosError } from "axios";
 import type { ApiError, SearchRequest, SearchResponse } from "../types";
 
 // ============================================================
-// 閰嶇疆
-// ============================================================
+// 闁板秶鐤?// ============================================================
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:8000";
 
-// 鏃犳湇鍔＄鏃朵娇鐢ㄦ湰鍦版ā鎷燂紙寮€鍙戠敤锛?const USE_MOCK = !process.env.EXPO_PUBLIC_API_URL;
+// 閺冪姵婀囬崝锛勵伂閺冩湹濞囬悽銊︽拱閸︾増膩閹风噦绱欏鈧崣鎴犳暏閿?const USE_MOCK = !process.env.EXPO_PUBLIC_API_URL;
 
 const client = axios.create({
   baseURL: BASE_URL,
@@ -17,9 +16,9 @@ const client = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// 璇锋眰鎷︽埅锛氭敞鍏?JWT Token
+// 鐠囬攱鐪伴幏锔藉焻閿涙碍鏁為崗?JWT Token
 client.interceptors.request.use((config) => {
-  // TODO: Phase 1 鍚庣画浠庡畨鍏ㄥ瓨鍌ㄨ鍙?Token
+  // TODO: Phase 1 閸氬海鐢绘禒搴＄暔閸忋劌鐡ㄩ崒銊嚢閸?Token
   const token = "";
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -27,44 +26,29 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
-// 鍝嶅簲鎷︽埅锛氱粺涓€閿欒澶勭悊
-client.interceptors.response.use(
+// 閸濆秴绨查幏锔藉焻閿涙氨绮烘稉鈧柨娆掝嚖婢跺嫮鎮?client.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ApiError>) => {
     if (error.response?.status === 401) {
-      console.warn("鏈巿鏉冿紝璺宠浆鐧诲綍");
+      console.warn("閺堫亝宸块弶鍐跨礉鐠哄疇娴嗛惂璇茬秿");
     }
     return Promise.reject(error);
   }
 );
 
 // ============================================================
-// 鏈湴妯℃嫙鎼滅储锛堟棤鏈嶅姟绔椂闄嶇骇锛?// ============================================================
+// 閺堫剙婀村Ο鈩冨珯閹兼粎鍌ㄩ敍鍫熸￥閺堝秴濮熺粩顖涙闂勫秶楠囬敍?// ============================================================
 const MOCK_DB: Record<string, SearchResponse> = {
   "ai": {
     results: [
-      { id: "ant1", title: "Building Effective Agents", url: "https://anthropic.com/engineering/building-effective-agents", source: "Anthropic", source_type: "web", score: 9.2, summary: "Anthropic 宸ョ▼鍥㈤槦鎾板啓鐨?Agent 鏋勫缓鏉冨▉鎸囧崡鈥斺€斾粠绠€鍗曞伐浣滄祦鍒拌嚜涓?Agent銆?, tags: ["Agent", "LLM", "鏋舵瀯妯″紡"], reachable: true },
-      { id: "tds1", title: "AI 缂栫▼鏈€浣冲疄璺碉細浠?Prompt Engineering 鍒?Agent 宸ヤ綔娴?, url: "https://towardsdatascience.com/ai-coding-best-practices-2025", source: "Towards Data Science", source_type: "web", score: 4.8, summary: "绯荤粺姊崇悊 AI 杈呭姪缂栫▼鐨勪簲涓眰娆★紝闄勭湡瀹為」鐩渚嬩笌 Prompt 妯℃澘銆?, tags: ["AI", "缂栫▼", "Prompt"], reachable: true },
-      { id: "lc1", title: "Building Effective AI Agents with LangChain", url: "https://docs.langchain.com/agents", source: "LangChain", source_type: "web", score: 4.6, summary: "Agent 鏋舵瀯璁捐妯″紡璇﹁В锛歊eAct銆丳lanning銆丮ulti-Agent 鍗忎綔銆?, tags: ["Agent", "LangChain", "ReAct"], reachable: true },
-      { id: "jj1", title: "Cursor 涓?Copilot 娣卞害瀵规瘮锛?025 AI 缂栫▼宸ュ叿閫夊瀷", url: "https://juejin.cn/post/ai-coding-tools-2025", source: "鎺橀噾", source_type: "web", score: 4.5, summary: "浠ｇ爜璐ㄩ噺銆佷笂涓嬫枃鐞嗚В銆佸鏂囦欢缂栬緫涓夋柟闈㈠疄娴嬪姣斻€?, tags: ["宸ュ叿瀵规瘮", "Cursor", "Copilot"], reachable: true },
+      { id: "ant1", title: "Building Effective Agents", url: "https://anthropic.com/engineering/building-effective-agents", source: "Anthropic", source_type: "web", score: 9.2, summary: "Anthropic engineering team guide on building effective AI agents.", tags: ["Agent", "LLM", "Architecture"], reachable: true },
+      { id: "tds1", title: "AI Coding Best Practices 2025", url: "https://towardsdatascience.com/ai-coding-best-practices-2025", source: "Towards Data Science", source_type: "web", score: 4.8, summary: "Five levels of AI-assisted coding with real project examples.", tags: ["AI", "Coding", "Prompt"], reachable: true },
+      { id: "lc1", title: "Building AI Agents with LangChain", url: "https://docs.langchain.com/agents", source: "LangChain", source_type: "web", score: 4.6, summary: "Agent design patterns: ReAct, Planning, Multi-Agent.", tags: ["Agent", "LangChain", "ReAct"], reachable: true },
+      { id: "jj1", title: "Cursor vs Copilot 2025 Comparison", url: "https://juejin.cn/post/ai-coding-tools-2025", source: "Juejin", source_type: "web", score: 4.5, summary: "Code quality, context understanding, multi-file editing comparison.", tags: ["Tools", "Cursor", "Copilot"], reachable: true },
     ],
     total: 4, page: 1, page_size: 10, has_more: false, query: "", took_ms: 0,
   },
-  "鏈哄櫒瀛︿範": {
-    results: [
-      { id: "arx1", title: "Attention Is All You Need 鈥?Transformer 濂犲熀璁烘枃", url: "https://arxiv.org/abs/1706.03762", source: "arXiv", source_type: "paper", score: 9.8, summary: "鎻愬嚭鑷敞鎰忓姏鏈哄埗鏇夸唬 RNN锛屽交搴曟敼鍙?NLP 鍜屾繁搴﹀涔犮€?, tags: ["Transformer", "娉ㄦ剰鍔涙満鍒?, "娣卞害瀛︿範"], reachable: true },
-      { id: "ore1", title: "Hands-On Machine Learning", url: "https://oreilly.com/ml-handson", source: "OReilly", source_type: "book", score: 9.0, summary: "鍏鏈€浣崇殑 ML 瀹炴搷鍏ラ棬涔︼紝浠庣嚎鎬у洖褰掑埌娣卞害瀛︿範銆?, tags: ["鏈哄櫒瀛︿範", "Scikit-Learn", "TensorFlow"], reachable: true },
-    ],
-    total: 2, page: 1, page_size: 10, has_more: false, query: "", took_ms: 0,
-  },
 };
-
-function getMockResults(query: string): SearchResponse {
-  const q = query.toLowerCase();
-  for (const [key, resp] of Object.entries(MOCK_DB)) {
-    if (q.includes(key) || key.includes(q)) {
-      return { ...resp, query, took_ms: 5 };
-    }
   }
   return {
     ...MOCK_DB["ai"]!,
@@ -74,13 +58,13 @@ function getMockResults(query: string): SearchResponse {
 }
 
 // ============================================================
-// 鍏紑 API
+// 閸忣剙绱?API
 // ============================================================
 
-/** 璧勬枡鎼滅储 */
+/** 鐠у嫭鏋￠幖婊呭偍 */
 export async function searchMaterials(req: SearchRequest): Promise<SearchResponse> {
   if (USE_MOCK) {
-    // 妯℃嫙寤惰繜
+    // 濡剝瀚欏鎯扮箿
     await new Promise((r) => setTimeout(r, 400 + Math.random() * 600));
     return getMockResults(req.query);
   }
@@ -89,7 +73,7 @@ export async function searchMaterials(req: SearchRequest): Promise<SearchRespons
   return data;
 }
 
-/** 鍋ュ悍妫€鏌?*/
+/** 閸嬨儱鎮嶅Λ鈧弻?*/
 export async function healthCheck(): Promise<{ status: string }> {
   const { data } = await client.get("/api/health");
   return data;
@@ -99,7 +83,7 @@ export default client;
 
 import type { KnowledgeEntry, KnowledgeSearchResponse } from "../types";
 
-/** 保存笔记到知识库 */
+/** 淇濆瓨绗旇鍒扮煡璇嗗簱 */
 export async function saveNoteToKnowledge(note: {
   material_title: string; material_url?: string;
   logic_chain: string; key_concepts: {term:string;definition:string}[];
@@ -119,7 +103,7 @@ export async function saveNoteToKnowledge(note: {
   return data;
 }
 
-/** 搜索知识库 */
+/** 鎼滅储鐭ヨ瘑搴?*/
 export async function searchKnowledge(query: string, tags?: string[]): Promise<KnowledgeSearchResponse> {
   if (USE_MOCK) {
     await new Promise(r => setTimeout(r, 200));
@@ -137,9 +121,9 @@ const _mockKB: KnowledgeEntry[] = [];
 function getMockKnowledge(): KnowledgeEntry[] {
   if (_mockKB.length === 0) {
     _mockKB.push(
-      { id:"kn-1", material_title:"Building Effective Agents", note_title:"Building Effective Agents", logic_chain:"LLM 能力增强 → 工具调用赋予行动力 → 工作流编排实现多步骤协作 → Agent 自主决策 → 人工审核兜底", key_concepts:[{term:"Agent",definition:"具备自主决策和执行能力的 AI 系统"}], extension_questions:["什么场景用简单 Workflow 而非完整 Agent？"], cards:[{question:"Agent vs RPA 区别？",answer:"Agent 具备推理能力"}], reflection_zone:"", tags:["Agent","LLM","架构设计","AI安全"], material_count:1, saved_at:"2026-06-18T14:30:00", note_preview:"LLM 能力增强 → 工具调用赋予行动力…" },
-      { id:"kn-2", material_title:"AI 编程最佳实践", note_title:"AI 编程最佳实践", logic_chain:"代码补全 → 对话式编程 → 上下文感知 → Agent 工作流 → 自主开发", key_concepts:[{term:"Prompt Engineering",definition:"设计和优化提示词的工程方法"}], extension_questions:["如何建立 AI 代码的 Review 流程？"], cards:[], reflection_zone:"", tags:["AI","编程","Prompt","工程实践"], material_count:1, saved_at:"2026-06-17T10:00:00", note_preview:"代码补全 → 对话式编程 → 上下文感知…" },
-      { id:"kn-3", material_title:"系统设计面试指南", note_title:"系统设计面试指南", logic_chain:"需求澄清 → 容量估算 → 接口设计 → 数据模型 → 架构图 → 深度讨论", key_concepts:[{term:"CAP定理",definition:"一致性、可用性、分区容错不可兼得"}], extension_questions:["如何设计一个支持百万并发的短链接系统？"], cards:[], reflection_zone:"需要重点练习数据分片策略", tags:["系统设计","面试","架构"], material_count:1, saved_at:"2026-06-16T09:00:00", note_preview:"需求澄清 → 容量估算 → 接口设计…" },
+      { id:"kn-1", material_title:"Building Effective Agents", note_title:"Building Effective Agents", logic_chain:"LLM 鑳藉姏澧炲己 鈫?宸ュ叿璋冪敤璧嬩簣琛屽姩鍔?鈫?宸ヤ綔娴佺紪鎺掑疄鐜板姝ラ鍗忎綔 鈫?Agent 鑷富鍐崇瓥 鈫?浜哄伐瀹℃牳鍏滃簳", key_concepts:[{term:"Agent",definition:"鍏峰鑷富鍐崇瓥鍜屾墽琛岃兘鍔涚殑 AI 绯荤粺"}], extension_questions:["浠€涔堝満鏅敤绠€鍗?Workflow 鑰岄潪瀹屾暣 Agent锛?], cards:[{question:"Agent vs RPA 鍖哄埆锛?,answer:"Agent 鍏峰鎺ㄧ悊鑳藉姏"}], reflection_zone:"", tags:["Agent","LLM","鏋舵瀯璁捐","AI瀹夊叏"], material_count:1, saved_at:"2026-06-18T14:30:00", note_preview:"LLM 鑳藉姏澧炲己 鈫?宸ュ叿璋冪敤璧嬩簣琛屽姩鍔涒€? },
+      { id:"kn-2", material_title:"AI 缂栫▼鏈€浣冲疄璺?, note_title:"AI 缂栫▼鏈€浣冲疄璺?, logic_chain:"浠ｇ爜琛ュ叏 鈫?瀵硅瘽寮忕紪绋?鈫?涓婁笅鏂囨劅鐭?鈫?Agent 宸ヤ綔娴?鈫?鑷富寮€鍙?, key_concepts:[{term:"Prompt Engineering",definition:"璁捐鍜屼紭鍖栨彁绀鸿瘝鐨勫伐绋嬫柟娉?}], extension_questions:["濡備綍寤虹珛 AI 浠ｇ爜鐨?Review 娴佺▼锛?], cards:[], reflection_zone:"", tags:["AI","缂栫▼","Prompt","宸ョ▼瀹炶返"], material_count:1, saved_at:"2026-06-17T10:00:00", note_preview:"浠ｇ爜琛ュ叏 鈫?瀵硅瘽寮忕紪绋?鈫?涓婁笅鏂囨劅鐭モ€? },
+      { id:"kn-3", material_title:"绯荤粺璁捐闈㈣瘯鎸囧崡", note_title:"绯荤粺璁捐闈㈣瘯鎸囧崡", logic_chain:"闇€姹傛緞娓?鈫?瀹归噺浼扮畻 鈫?鎺ュ彛璁捐 鈫?鏁版嵁妯″瀷 鈫?鏋舵瀯鍥?鈫?娣卞害璁ㄨ", key_concepts:[{term:"CAP瀹氱悊",definition:"涓€鑷存€с€佸彲鐢ㄦ€с€佸垎鍖哄閿欎笉鍙吋寰?}], extension_questions:["濡備綍璁捐涓€涓敮鎸佺櫨涓囧苟鍙戠殑鐭摼鎺ョ郴缁燂紵"], cards:[], reflection_zone:"闇€瑕侀噸鐐圭粌涔犳暟鎹垎鐗囩瓥鐣?, tags:["绯荤粺璁捐","闈㈣瘯","鏋舵瀯"], material_count:1, saved_at:"2026-06-16T09:00:00", note_preview:"闇€姹傛緞娓?鈫?瀹归噺浼扮畻 鈫?鎺ュ彛璁捐鈥? },
     );
   }
   return _mockKB;
@@ -147,7 +131,7 @@ function getMockKnowledge(): KnowledgeEntry[] {
 
 import type { NoteGenerateRequest, NoteGenerateResponse } from "../types";
 
-/** AI 鐢熸垚澶嶄範绗旇 */
+/** AI 閻㈢喐鍨氭径宥勭瘎缁楁棁顔?*/
 export async function generateNote(req: NoteGenerateRequest): Promise<NoteGenerateResponse> {
   if (USE_MOCK) {
     await new Promise((r) => setTimeout(r, 800 + Math.random() * 1200));
@@ -163,34 +147,34 @@ function getMockNote(req: NoteGenerateRequest): NoteGenerateResponse {
     id: `mock-${Date.now()}`,
     material_title: req.material_title,
     logic_chain: isAgent
-      ? "LLM 鑳藉姏澧炲己 鈫?宸ュ叿璋冪敤璧嬩簣琛屽姩鍔?鈫?宸ヤ綔娴佺紪鎺掑疄鐜板姝ラ鍗忎綔 鈫?Agent 鑷富鍐崇瓥 鈫?浜哄伐瀹℃牳鍏滃簳"
-      : "闂鑳屾櫙涓庡姩鏈?鈫?鏍稿績鏂规硶璁?鈫?鍏抽敭瀹炵幇缁嗚妭 鈫?瀹炶返妗堜緥楠岃瘉 鈫?灞€闄愭€т笌鏈潵鏂瑰悜",
+      ? "LLM 閼宠棄濮忔晶鐐插繁 閳?瀹搞儱鍙跨拫鍐暏鐠у绨ｇ悰灞藉З閸?閳?瀹搞儰缍斿ù浣虹椽閹烘帒鐤勯悳鏉款樋濮濄儵顎冮崡蹇庣稊 閳?Agent 閼奉亙瀵岄崘宕囩摜 閳?娴滃搫浼愮€光剝鐗抽崗婊冪俺"
+      : "闂傤噣顣介懗灞炬珯娑撳骸濮╅張?閳?閺嶇绺鹃弬瑙勭《鐠?閳?閸忔娊鏁€圭偟骞囩紒鍡氬Ν 閳?鐎圭偠杩斿鍫滅伐妤犲矁鐦?閳?鐏炩偓闂勬劖鈧傜瑢閺堫亝娼甸弬鐟版倻",
     key_concepts: isAgent
       ? [
-          { term: "Agent", definition: "鍏峰鑷富鍐崇瓥鍜屾墽琛岃兘鍔涚殑 AI 绯荤粺锛岃兘鏍规嵁鐩爣閫夋嫨宸ュ叿骞堕噰鍙栬鍔? },
-          { term: "Tool Use", definition: "LLM 璋冪敤澶栭儴宸ュ叿鑾峰彇淇℃伅鎴栨墽琛屾搷浣滅殑鑳藉姏" },
-          { term: "Workflow", definition: "灏嗗涓?Agent 鎴栧伐鍏疯皟鐢ㄧ紪鎺掓垚鏈夊簭鐨勬墽琛屾祦绋? },
+          { term: "Agent", definition: "閸忓嘲顦懛顏冨瘜閸愬磭鐡ラ崪灞惧⒔鐞涘矁鍏橀崝娑氭畱 AI 缁崵绮洪敍宀冨厴閺嶈宓侀惄顔界垼闁瀚ㄥ銉ュ徔楠炲爼鍣伴崣鏍攽閸? },
+          { term: "Tool Use", definition: "LLM 鐠嬪啰鏁ゆ径鏍劥瀹搞儱鍙块懢宄板絿娣団剝浼呴幋鏍ㄥ⒔鐞涘本鎼锋担婊呮畱閼宠棄濮? },
+          { term: "Workflow", definition: "鐏忓棗顦挎稉?Agent 閹存牕浼愰崗鐤殶閻劎绱幒鎺撳灇閺堝绨惃鍕⒔鐞涘本绁︾粙? },
         ]
       : [
-          { term: "鏍稿績姒傚康1", definition: "浠庤祫鏂欎腑鎻愬彇鐨勭涓€涓叧閿蹇电殑绮剧‘瀹氫箟" },
-          { term: "鏍稿績姒傚康2", definition: "绗簩涓叧閿蹇碉紝浣撶幇浜嗚祫鏂欑殑绮惧崕" },
+          { term: "閺嶇绺惧鍌氬悍1", definition: "娴犲氦绁弬娆庤厬閹绘劕褰囬惃鍕儑娑撯偓娑擃亜鍙ч柨顔筋洤韫囩數娈戠划鍓р€樼€规矮绠? },
+          { term: "閺嶇绺惧鍌氬悍2", definition: "缁楊兛绨╂稉顏勫彠闁款喗顩ц箛纰夌礉娴ｆ挾骞囨禍鍡氱カ閺傛瑧娈戠划鎯у磿" },
         ],
     extension_questions: isAgent
       ? [
-          "浠€涔堝満鏅笅搴旇鐢ㄧ畝鍗?Workflow 鑰岄潪瀹屾暣 Agent锛熷浣曞垽鏂鏉傚害闃堝€硷紵",
-          "Agent 鑷富鍐崇瓥鐨勮竟鐣屽湪鍝噷锛熷浣曞钩琛¤嚜鍔ㄥ寲鏁堢巼鍜屼汉宸ユ帶鍒讹紵",
+          "娴犫偓娑斿牆婧€閺咁垯绗呮惔鏃囶嚉閻劎鐣濋崡?Workflow 閼板矂娼€瑰本鏆?Agent閿涚喎顩ф担鏇炲灲閺傤厼顦查弶鍌氬闂冨牆鈧》绱?,
+          "Agent 閼奉亙瀵岄崘宕囩摜閻ㄥ嫯绔熼悾灞芥躬閸濐亪鍣烽敍鐔奉洤娴ｆ洖閽╃悰陇鍤滈崝銊ュ閺佸牏宸奸崪灞兼眽瀹搞儲甯堕崚璁圭吹",
         ]
-      : ["杩欎釜鏂规硶璁哄湪鍏朵粬棰嗗煙鏄惁閫傜敤锛熷浣曡縼绉伙紵", "濡備綍楠岃瘉鑷繁宸茬粡鐪熸鐞嗚В浜嗚繖浜涙蹇碉紵"],
+      : ["鏉╂瑤閲滈弬瑙勭《鐠佸搫婀崗鏈电铂妫板棗鐓欓弰顖氭儊闁倻鏁ら敍鐔奉洤娴ｆ洝绺肩粔浼欑吹", "婵″倷缍嶆宀冪槈閼奉亜绻佸鑼病閻喐顒滈悶鍡毿掓禍鍡氱箹娴滄稒顩ц箛纰夌吹"],
     cards: isAgent
       ? [
-          { question: "Agent 鍜屼紶缁?RPA 鐨勬牳蹇冨尯鍒紵", answer: "Agent 鍏峰鎺ㄧ悊鍜岃嚜涓诲喅绛栬兘鍔涳紝鑳藉鐞嗘ā绯婄洰鏍囷紱RPA 鎵ц鍥哄畾瑙勫垯銆? },
-          { question: "Tool Use 鐨勫吀鍨嬪疄鐜版柟寮忥紵", answer: "Function Calling 鍜?MCP 鍗忚銆? },
+          { question: "Agent 閸滃奔绱剁紒?RPA 閻ㄥ嫭鐗宠箛鍐ㄥ隘閸掝偓绱?, answer: "Agent 閸忓嘲顦幒銊ф倞閸滃矁鍤滄稉璇插枀缁涙牞鍏橀崝娑崇礉閼宠棄顦╅悶鍡樐佺化濠勬窗閺嶅浄绱盧PA 閹笛嗩攽閸ュ搫鐣剧憴鍕灟閵? },
+          { question: "Tool Use 閻ㄥ嫬鍚€閸ㄥ鐤勯悳鐗堟煙瀵骏绱?, answer: "Function Calling 閸?MCP 閸楀繗顔呴妴? },
         ]
-      : [{ question: "鏈枃鏍稿績瑙傜偣鏄粈涔堬紵", answer: "AI 鑷姩鐢熸垚鐨勬牳蹇冩憳瑕佸皢鍦ㄦ鍛堢幇銆? }],
+      : [{ question: "閺堫剚鏋冮弽绋跨妇鐟欏倻鍋ｉ弰顖欑矆娑斿牞绱?, answer: "AI 閼奉亜濮╅悽鐔稿灇閻ㄥ嫭鐗宠箛鍐╂喅鐟曚礁鐨㈤崷銊︻劃閸涘牏骞囬妴? }],
     mindmap: isAgent
-      ? { root: "Agent 绯荤粺", children: [{ name: "鏍稿績鑳藉姏", children: [{ name: "鎺ㄧ悊" }, { name: "宸ュ叿璋冪敤" }] }, { name: "鏋舵瀯妯″紡", children: [{ name: "鍗旳gent" }, { name: "澶欰gent鍗忎綔" }] }] }
-      : { root: req.material_title.slice(0, 20), children: [{ name: "鏍稿績瑙傜偣", children: [{ name: "璁虹偣1" }] }, { name: "瀹炶返搴旂敤", children: [{ name: "鍦烘櫙1" }] }] },
-    tags: isAgent ? ["Agent", "LLM", "AI瀹夊叏"] : ["瀛︿範绗旇"],
+      ? { root: "Agent 缁崵绮?, children: [{ name: "閺嶇绺鹃懗钘夊", children: [{ name: "閹恒劎鎮? }, { name: "瀹搞儱鍙跨拫鍐暏" }] }, { name: "閺嬭埖鐎Ο鈥崇础", children: [{ name: "閸楁棾gent" }, { name: "婢舵gent閸楀繋缍? }] }] }
+      : { root: req.material_title.slice(0, 20), children: [{ name: "閺嶇绺剧憴鍌滃仯", children: [{ name: "鐠佽櫣鍋?" }] }, { name: "鐎圭偠杩旀惔鏃傛暏", children: [{ name: "閸︾儤娅?" }] }] },
+    tags: isAgent ? ["Agent", "LLM", "AI鐎瑰鍙?] : ["鐎涳缚绡勭粭鏃囶唶"],
     reflection_zone: "",
     generated_at: new Date().toISOString(),
     took_ms: 600,

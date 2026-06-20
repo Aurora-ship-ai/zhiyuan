@@ -1,6 +1,5 @@
-﻿import React, { useState } from "react";
-import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
-import { Search, X } from "lucide-react-native";
+import React, { useState } from "react";
+// TODO: re-add icons via @expo/vector-icons
 import { colors, typography, spacing, borderRadius } from "../../theme";
 
 interface SearchBarProps { value: string; onChangeText: (text: string) => void; placeholder?: string; onSubmit?: () => void; }

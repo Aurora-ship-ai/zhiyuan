@@ -1,9 +1,5 @@
-﻿import React from "react";
-import { View, Text, FlatList, StyleSheet, SafeAreaView } from "react-native";
-import { Card } from "../../components/ui/Card";
-import { Tag } from "../../components/ui/Tag";
-import { colors, typography, spacing } from "../../theme";
-import { Clock, ExternalLink } from "lucide-react-native";
+import React from "react";
+// TODO: re-add icons via @expo/vector-icons
 
 const MOCK_PENDING = [
   { id: "1", title: "Transformer 架构深度解析", source: "arXiv", savedAt: "3 天前", tags: ["深度学习", "Transformer"] },
