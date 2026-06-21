@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import type { ApiError, SearchRequest, SearchResponse, NoteGenerateRequest, NoteGenerateResponse, KnowledgeEntry, KnowledgeSearchResponse } from "../types";
 
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:8000";
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://192.168.72.131:8000";
 const USE_MOCK = !process.env.EXPO_PUBLIC_API_URL;
 
 const client = axios.create({ baseURL: BASE_URL, timeout: 30000, headers: { "Content-Type": "application/json" } });
