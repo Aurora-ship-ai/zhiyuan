@@ -22,7 +22,7 @@ export default function MaterialDetail() {
           {"\n\n"}（此处为模拟正文，实际使用时将展示缓存的完整内容或嵌入网页视图）
         </Text>
         <View style={styles.actions}>
-          <Button title="生成复习笔记" onPress={() => router.push("/note/1")} />
+          <Button title="生成Notes" onPress={() => router.push("/note/1")} />
         </View>
       </ScrollView>
     </SafeAreaView>

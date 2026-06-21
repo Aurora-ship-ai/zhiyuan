@@ -25,28 +25,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "首页",
+          title: "Home",
           tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="knowledge"
         options={{
-          title: "知识库",
+          title: "Knowledge",
           tabBarIcon: ({ color, size }) => <Library size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="pending"
         options={{
-          title: "待学",
+          title: "Pending",
           tabBarIcon: ({ color, size }) => <Bookmark size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: "我的",
+          title: "Profile",
           tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
         }}
       />

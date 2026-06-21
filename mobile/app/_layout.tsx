@@ -20,8 +20,8 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="note/[id]" options={{ title: "复习笔记" }} />
-        <Stack.Screen name="material/[id]" options={{ title: "资料详情" }} />
+        <Stack.Screen name="note/[id]" options={{ title: "Notes" }} />
+        <Stack.Screen name="material/[id]" options={{ title: "Material" }} />
       </Stack>
     </>
   );
