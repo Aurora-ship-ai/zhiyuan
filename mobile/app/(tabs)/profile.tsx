@@ -5,34 +5,34 @@ export default function ProfileScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.pageTitle}>我的</Text>
+        <Text style={styles.pageTitle}>鎴戠殑</Text>
       </View>
 
-      {/* 统计卡片 */}
+      {/* 缁熻鍗＄墖 */}
       <Card style={styles.statsCard}>
         <View style={styles.statItem}>
           <BookOpen size={24} color={colors.accent.primary} />
           <Text style={styles.statNumber}>12</Text>
-          <Text style={styles.statLabel}>资料</Text>
+          <Text style={styles.statLabel}>璧勬枡</Text>
         </View>
         <View style={styles.divider} />
         <View style={styles.statItem}>
           <FileText size={24} color={colors.accent.primary} />
           <Text style={styles.statNumber}>8</Text>
-          <Text style={styles.statLabel}>笔记</Text>
+          <Text style={styles.statLabel}>绗旇</Text>
         </View>
       </Card>
 
-      {/* 操作 */}
+      {/* 鎿嶄綔 */}
       <View style={styles.actions}>
         <Button
-          title="导出知识库"
+          title="瀵煎嚭鐭ヨ瘑搴?
           onPress={() => {}}
           variant="secondary"
           style={{ flex: 1 }}
         />
         <Button
-          title="设置"
+          title="璁剧疆"
           onPress={() => {}}
           variant="text"
           style={{ minWidth: 80 }}

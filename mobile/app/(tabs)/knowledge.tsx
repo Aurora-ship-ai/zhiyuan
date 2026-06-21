@@ -10,20 +10,20 @@ export default function KnowledgeScreen() {
 
   return (
     <SafeAreaView style={s.ctr}>
-      <View style={s.h}><Text style={s.brand}>知识库</Text><Text style={s.date}>6月18日</Text></View>
+      <View style={s.h}><Text style={s.brand}>閻儴鐦戞惔?/Text><Text style={s.date}>6閺?8閺?/Text></View>
       <View style={s.stats}>
-        <Stat num={4} label="笔记" />
-        <Stat num={8} label="标签" />
-        <Stat num={10} label="卡片" />
+        <Stat num={4} label="缁楁棁顔? />
+        <Stat num={8} label="閺嶅洨顒? />
+        <Stat num={10} label="閸楋紕澧? />
       </View>
       <View style={s.searchWrap}>
         <Search size={18} color={colors.text.tertiary} />
-        <Text style={s.searchInput}>搜索笔记…</Text>
+        <Text style={s.searchInput}>閹兼粎鍌ㄧ粭鏃囶唶閳?/Text>
       </View>
       <View style={s.tagRow}>
-        {["Agent","AI","架构设计","编程","系统设计"].map(t=>(<Tag key={t} label={t} selected={activeTags.includes(t)} onPress={()=>{}} />))}
+        {["Agent","AI","閺嬭埖鐎拋鎹愵吀","缂傛牜鈻?,"缁崵绮虹拋鎹愵吀"].map(t=>(<Tag key={t} label={t} selected={activeTags.includes(t)} onPress={()=>{}} />))}
       </View>
-      <View style={s.empty}><Text style={s.emptyTitle}>知识库即将就绪</Text><Text style={s.emptyDesc}>笔记保存和检索功能已完成服务端开发{"\n"}打开 docs/knowledge-demo.html 试用完整体验</Text></View>
+      <View style={s.empty}><Text style={s.emptyTitle}>閻儴鐦戞惔鎾冲祮鐏忓棗姘ㄧ紒?/Text><Text style={s.emptyDesc}>缁楁棁顔囨穱婵嗙摠閸滃本顥呯槐銏犲閼宠棄鍑＄€瑰本鍨氶張宥呭缁旑垰绱戦崣鎲?\n"}閹垫挸绱?docs/knowledge-demo.html 鐠囨洜鏁ょ€瑰本鏆ｆ担鎾荤崣</Text></View>
     </SafeAreaView>
   );
 }

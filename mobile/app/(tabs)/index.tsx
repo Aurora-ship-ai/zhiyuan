@@ -4,11 +4,11 @@ import { colors, typography, spacing, borderRadius } from "../../theme";
 import { searchMaterials } from "../../services/api";
 import type { SearchResult } from "../../types";
 
-const TYPE_FILTERS = ["全部", "文章", "论文", "视频", "书籍", "播客"];
+const TYPE_FILTERS = ["鍏ㄩ儴", "鏂囩珷", "璁烘枃", "瑙嗛", "涔︾睄", "鎾"];
 
 export default function HomeScreen() {
   const [query, setQuery] = useState("");
-  const [activeFilter, setActiveFilter] = useState("全部");
+  const [activeFilter, setActiveFilter] = useState("鍏ㄩ儴");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searched, setSearched] = useState(false);
@@ -24,7 +24,7 @@ export default function HomeScreen() {
       setResults(resp.results);
       setSearched(true);
     } catch (e: any) {
-      setError(e?.message ?? "搜索失败，请检查网络");
+      setError(e?.message ?? "鎼滅储澶辫触锛岃妫€鏌ョ綉缁?);
       setResults([]);
     } finally {
       setLoading(false);
@@ -45,17 +45,17 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={s.container}>
-      {/* 顶栏 */}
+      {/* 椤舵爮 */}
       <View style={s.header}>
-        <Text style={s.brand}>知源</Text>
-        <Text style={s.date}>6月18日 · 周三</Text>
+        <Text style={s.brand}>鐭ユ簮</Text>
+        <Text style={s.date}>6鏈?8鏃?路 鍛ㄤ笁</Text>
       </View>
 
-      {/* 搜索区 */}
+      {/* 鎼滅储鍖?*/}
       <View style={s.searchSection}>
-        <SearchBar value={query} onChangeText={setQuery} onSubmit={handleSearch} placeholder="搜索你想学的任何主题..." />
+        <SearchBar value={query} onChangeText={setQuery} onSubmit={handleSearch} placeholder="鎼滅储浣犳兂瀛︾殑浠讳綍涓婚..." />
         <View style={s.hints}>
-          {["机器学习", "系统设计", "TypeScript", "产品思维"].map((h) => (
+          {["鏈哄櫒瀛︿範", "绯荤粺璁捐", "TypeScript", "浜у搧鎬濈淮"].map((h) => (
             <TouchableOpacity key={h} style={s.hint} onPress={() => { setQuery(h); }}>
               <Text style={s.hintText}>{h}</Text>
             </TouchableOpacity>
@@ -63,7 +63,7 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {/* 类型筛选 */}
+      {/* 绫诲瀷绛涢€?*/}
       <View style={s.filterSection}>
         {TYPE_FILTERS.map((f) => (
           <TouchableOpacity key={f} style={[s.filterChip, activeFilter === f && s.filterChipActive]} onPress={() => setActiveFilter(f)}>
@@ -72,7 +72,7 @@ export default function HomeScreen() {
         ))}
       </View>
 
-      {/* 结果 */}
+      {/* 缁撴灉 */}
       {loading ? (
         <View style={s.list}>
           <CardSkeleton /><CardSkeleton /><CardSkeleton />
@@ -82,24 +82,24 @@ export default function HomeScreen() {
           <View style={s.emptyIcon}>
             <SearchBarIcon />
           </View>
-          <Text style={s.emptyTitle}>探索知识的世界</Text>
-          <Text style={s.emptyDesc}>输入主题搜索，AI 为您找到最优质的学习资料</Text>
+          <Text style={s.emptyTitle}>鎺㈢储鐭ヨ瘑鐨勪笘鐣?/Text>
+          <Text style={s.emptyDesc}>杈撳叆涓婚鎼滅储锛孉I 涓烘偍鎵惧埌鏈€浼樿川鐨勫涔犺祫鏂?/Text>
         </View>
       ) : error ? (
         <View style={s.empty}>
-          <Text style={[s.emptyTitle, { color: colors.semantic.error }]}>搜索异常</Text>
+          <Text style={[s.emptyTitle, { color: colors.semantic.error }]}>鎼滅储寮傚父</Text>
           <Text style={s.emptyDesc}>{error}</Text>
         </View>
       ) : results.length === 0 ? (
         <View style={s.empty}>
-          <Text style={s.emptyTitle}>暂无结果</Text>
-          <Text style={s.emptyDesc}>换个关键词试试，或扩大搜索范围</Text>
+          <Text style={s.emptyTitle}>鏆傛棤缁撴灉</Text>
+          <Text style={s.emptyDesc}>鎹釜鍏抽敭璇嶈瘯璇曪紝鎴栨墿澶ф悳绱㈣寖鍥?/Text>
         </View>
       ) : (
         <>
           <View style={s.sectionHeader}>
-            <Text style={s.sectionTitle}>搜索结果</Text>
-            <Text style={s.sectionCount}>{results.length} 份资料</Text>
+            <Text style={s.sectionTitle}>鎼滅储缁撴灉</Text>
+            <Text style={s.sectionCount}>{results.length} 浠借祫鏂?/Text>
           </View>
           <FlatList
             data={results}
@@ -114,7 +114,7 @@ export default function HomeScreen() {
                   {isFeatured && (
                     <View style={s.featuredBadge}>
                       <Star size={11} color={colors.accent.primary} fill={colors.accent.primary} />
-                      <Text style={s.featuredBadgeText}>精选推荐</Text>
+                      <Text style={s.featuredBadgeText}>绮鹃€夋帹鑽?/Text>
                     </View>
                   )}
                   <View style={s.cardHeader}>
@@ -129,11 +129,11 @@ export default function HomeScreen() {
                   <View style={s.cardFooter}>
                     <TouchableOpacity style={s.cardAction}>
                       <ExternalLink size={14} color={colors.accent.secondary} />
-                      <Text style={s.cardActionText}>{isFeatured ? "阅读全文" : "直达"}</Text>
+                      <Text style={s.cardActionText}>{isFeatured ? "闃呰鍏ㄦ枃" : "鐩磋揪"}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[s.cardAction, { opacity: 0.5 }]}>
                       <Bookmark size={14} color={colors.text.tertiary} />
-                      <Text style={[s.cardActionText, { color: colors.text.tertiary }]}>{isFeatured ? "稍后再读" : "收藏"}</Text>
+                      <Text style={[s.cardActionText, { color: colors.text.tertiary }]}>{isFeatured ? "绋嶅悗鍐嶈" : "鏀惰棌"}</Text>
                     </TouchableOpacity>
                   </View>
                 </Card>
@@ -146,7 +146,7 @@ export default function HomeScreen() {
   );
 }
 
-/** 搜索图标 — 空状态用 */
+/** 鎼滅储鍥炬爣 鈥?绌虹姸鎬佺敤 */
 function SearchBarIcon() {
   return (
     <View style={{ width: 24, height: 24, justifyContent: "center", alignItems: "center" }}>

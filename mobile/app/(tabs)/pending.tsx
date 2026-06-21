@@ -2,16 +2,16 @@ import React from "react";
 // TODO: re-add icons via @expo/vector-icons
 
 const MOCK_PENDING = [
-  { id: "1", title: "Transformer 架构深度解析", source: "arXiv", savedAt: "3 天前", tags: ["深度学习", "Transformer"] },
-  { id: "2", title: "TypeScript 类型体操实战", source: "GitHub", savedAt: "1 周前", tags: ["TypeScript", "编程"] },
+  { id: "1", title: "Transformer 鏋舵瀯娣卞害瑙ｆ瀽", source: "arXiv", savedAt: "3 澶╁墠", tags: ["娣卞害瀛︿範", "Transformer"] },
+  { id: "2", title: "TypeScript 绫诲瀷浣撴搷瀹炴垬", source: "GitHub", savedAt: "1 鍛ㄥ墠", tags: ["TypeScript", "缂栫▼"] },
 ];
 
 export default function PendingScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.pageTitle}>待学清单</Text>
-        <Text style={styles.subtitle}>收藏的资料，有空再读</Text>
+        <Text style={styles.pageTitle}>寰呭娓呭崟</Text>
+        <Text style={styles.subtitle}>鏀惰棌鐨勮祫鏂欙紝鏈夌┖鍐嶈</Text>
       </View>
 
       <FlatList
