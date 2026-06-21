@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, RefreshControl, TextInput } from "react-native";
 import { colors, typography, spacing, borderRadius } from "../../theme";
 import { searchMaterials } from "../../services/api";
@@ -62,7 +62,7 @@ const s = StyleSheet.create({
   tt:{...typography.h3,color:colors.text.primary,marginBottom:6},
   sum:{fontSize:12,color:colors.text.secondary,lineHeight:18,marginBottom:8},
   tgs:{flexDirection:"row",flexWrap:"wrap",gap:4,marginBottom:8},
-  tg:{fontSize:10,padding:3,8,paddingHorizontal:8,backgroundColor:colors.background.primary,borderRadius:4,color:colors.text.secondary},
+  tg:{fontSize:10,paddingVertical:3,paddingHorizontal:8,backgroundColor:colors.background.primary,borderRadius:4,color:colors.text.secondary},
   cf:{flexDirection:"row",gap:16,paddingTop:6,borderTopWidth:1,borderTopColor:colors.border.default},
   ca:{fontSize:12,fontWeight:"500",color:colors.accent.secondary},
   empty:{textAlign:"center",padding:40,color:colors.text.tertiary,fontSize:13},
