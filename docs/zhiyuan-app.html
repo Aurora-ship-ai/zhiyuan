@@ -69,7 +69,7 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
   <div class="ti" id="t2" onclick="goTab(2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Notes</div>
 </div></div>
 <script>
-var API="https://zhiyuan-production-88a3.up.railway.app",sr=[],curTab=0,kb=[],pending=[],curMat=null,notes={};
+var API="http://192.168.72.131:8000",sr=[],curTab=0,kb=[],pending=[],curMat=null,notes={};
 
 // ===== Search =====
 function goTab(i){curTab=i;document.querySelectorAll(".scr").forEach(function(s){s.classList.add("h")});var m=["homeScr","kbScr","noteScr"];document.getElementById(m[i]).classList.remove("h");document.querySelectorAll(".ti").forEach(function(t,j){t.classList.toggle("on",j===i)});if(i===0)renderHome();if(i===1)renderKB();if(i===2)renderNoteList()}
