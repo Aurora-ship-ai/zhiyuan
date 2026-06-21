@@ -10,8 +10,8 @@ export default function PendingScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.pageTitle}>寰呭娓呭崟</Text>
-        <Text style={styles.subtitle}>鏀惰棌鐨勮祫鏂欙紝鏈夌┖鍐嶈</Text>
+        <Text style={styles.pageTitle}>...</</Text>
+        <Text style={styles.subtitle}>...</</Text>
       </View>
 
       <FlatList

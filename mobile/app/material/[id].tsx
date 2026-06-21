@@ -12,15 +12,11 @@ export default function MaterialDetail() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>AI 编程最佳实践（模拟内容）</Text>
-        <Text style={styles.meta}>来源：Towards Data Science · 2025-01-10</Text>
+        <Text style={styles.title}>...</</Text>
+        <Text style={styles.meta}>...</</Text>
         <View style={styles.tagRow}><Tag label="AI" /><Tag label="编程" /><Tag label="实践指南" /></View>
         <View style={styles.divider} />
-        <Text style={styles.body}>
-          本文系统梳理了 AI 辅助编程的五个层次，从代码补全到自主 Agent。
-          附真实项目案例与 Prompt 模板，帮助开发者在实际工作中高效运用 AI 工具。
-          {"\n\n"}（此处为模拟正文，实际使用时将展示缓存的完整内容或嵌入网页视图）
-        </Text>
+        <Text style={styles.body}>...</</Text>
         <View style={styles.actions}>
           <Button title="生成Notes" onPress={() => router.push("/note/1")} />
         </View>

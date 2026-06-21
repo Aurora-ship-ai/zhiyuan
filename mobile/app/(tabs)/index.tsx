@@ -10,33 +10,7 @@ export default function HomeScreen() {
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("鍏ㄩ儴");
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const [searched, setSearched] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSearch = useCallback(async () => {
-    const q = query.trim();
-    if (!q) return;
-    setLoading(true);
-    setError("");
-    try {
-      const resp = await searchMaterials({ query: q, page_size: 10 });
-      setResults(resp.results);
-      setSearched(true);
-    } catch (e: any) {
-      setError(e?.message ?? "鎼滅储澶辫触锛岃妫€鏌ョ綉缁?);
-      setResults([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [query]);
-
-  const ScoreBadge = ({ score }: { score: number }) => {
-    const isHigh = score >= 9;
-    const bg = isHigh ? "#E8F0E2" : colors.accent.goldDim;
-    const fg = isHigh ? colors.accent.secondary : colors.accent.gold;
-    return (
-      <View style={[s.scoreBadge, { backgroundColor: bg }]}>
+  const [results, setResults] = useState<SearchResult[]>...</<View style={[s.scoreBadge, { backgroundColor: bg }]}>
         <Star size={11} color={fg} fill={fg} />
         <Text style={[s.scoreText, { color: fg }]}>{score}</Text>
       </View>
@@ -44,37 +18,23 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={s.container}>
-      {/* 椤舵爮 */}
-      <View style={s.header}>
-        <Text style={s.brand}>鐭ユ簮</Text>
-        <Text style={s.date}>6鏈?8鏃?路 鍛ㄤ笁</Text>
-      </View>
-
-      {/* 鎼滅储鍖?*/}
-      <View style={s.searchSection}>
+    <SafeAreaView style={s.container}>...</<View style={s.header}>
+        <Text style={s.brand}>...</</Text>
+        <Text style={s.date}>...</</Text>
+      </View>...</<View style={s.searchSection}>
         <SearchBar value={query} onChangeText={setQuery} onSubmit={handleSearch} placeholder="鎼滅储浣犳兂瀛︾殑浠讳綍涓婚..." />
-        <View style={s.hints}>
-          {["鏈哄櫒瀛︿範", "绯荤粺璁捐", "TypeScript", "浜у搧鎬濈淮"].map((h) => (
-            <TouchableOpacity key={h} style={s.hint} onPress={() => { setQuery(h); }}>
+        <View style={s.hints}>...</<TouchableOpacity key={h} style={s.hint} onPress={() => { setQuery(h); }}>
               <Text style={s.hintText}>{h}</Text>
             </TouchableOpacity>
           ))}
         </View>
-      </View>
-
-      {/* 绫诲瀷绛涢€?*/}
-      <View style={s.filterSection}>
+      </View>...</<View style={s.filterSection}>
         {TYPE_FILTERS.map((f) => (
           <TouchableOpacity key={f} style={[s.filterChip, activeFilter === f && s.filterChipActive]} onPress={() => setActiveFilter(f)}>
             <Text style={[s.filterText, activeFilter === f && s.filterTextActive]}>{f}</Text>
           </TouchableOpacity>
         ))}
-      </View>
-
-      {/* 缁撴灉 */}
-      {loading ? (
-        <View style={s.list}>
+      </View>...</<View style={s.list}>
           <CardSkeleton /><CardSkeleton /><CardSkeleton />
         </View>
       ) : !searched ? (
@@ -82,25 +42,21 @@ export default function HomeScreen() {
           <View style={s.emptyIcon}>
             <SearchBarIcon />
           </View>
-          <Text style={s.emptyTitle}>鎺㈢储鐭ヨ瘑鐨勪笘鐣?/Text>
-          <Text style={s.emptyDesc}>杈撳叆涓婚鎼滅储锛孉I 涓烘偍鎵惧埌鏈€浼樿川鐨勫涔犺祫鏂?/Text>
-        </View>
+          <Text style={s.emptyTitle}>...</<Text style={s.emptyDesc}>...</</View>
       ) : error ? (
         <View style={s.empty}>
-          <Text style={[s.emptyTitle, { color: colors.semantic.error }]}>鎼滅储寮傚父</Text>
+          <Text style={[s.emptyTitle, { color: colors.semantic.error }]}>...</</Text>
           <Text style={s.emptyDesc}>{error}</Text>
         </View>
       ) : results.length === 0 ? (
         <View style={s.empty}>
-          <Text style={s.emptyTitle}>鏆傛棤缁撴灉</Text>
-          <Text style={s.emptyDesc}>鎹釜鍏抽敭璇嶈瘯璇曪紝鎴栨墿澶ф悳绱㈣寖鍥?/Text>
-        </View>
+          <Text style={s.emptyTitle}>...</</Text>
+          <Text style={s.emptyDesc}>...</</View>
       ) : (
         <>
           <View style={s.sectionHeader}>
-            <Text style={s.sectionTitle}>鎼滅储缁撴灉</Text>
-            <Text style={s.sectionCount}>{results.length} 浠借祫鏂?/Text>
-          </View>
+            <Text style={s.sectionTitle}>...</</Text>
+            <Text style={s.sectionCount}>...</</View>
           <FlatList
             data={results}
             keyExtractor={(i) => i.id}
@@ -114,8 +70,7 @@ export default function HomeScreen() {
                   {isFeatured && (
                     <View style={s.featuredBadge}>
                       <Star size={11} color={colors.accent.primary} fill={colors.accent.primary} />
-                      <Text style={s.featuredBadgeText}>绮鹃€夋帹鑽?/Text>
-                    </View>
+                      <Text style={s.featuredBadgeText}>...</</View>
                   )}
                   <View style={s.cardHeader}>
                     <ScoreBadge score={item.score} />
@@ -129,11 +84,11 @@ export default function HomeScreen() {
                   <View style={s.cardFooter}>
                     <TouchableOpacity style={s.cardAction}>
                       <ExternalLink size={14} color={colors.accent.secondary} />
-                      <Text style={s.cardActionText}>{isFeatured ? "闃呰鍏ㄦ枃" : "鐩磋揪"}</Text>
+                      <Text style={s.cardActionText}>...</</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[s.cardAction, { opacity: 0.5 }]}>
                       <Bookmark size={14} color={colors.text.tertiary} />
-                      <Text style={[s.cardActionText, { color: colors.text.tertiary }]}>{isFeatured ? "绋嶅悗鍐嶈" : "鏀惰棌"}</Text>
+                      <Text style={[s.cardActionText, { color: colors.text.tertiary }]}>...</</Text>
                     </TouchableOpacity>
                   </View>
                 </Card>
@@ -142,14 +97,7 @@ export default function HomeScreen() {
           />
         </>
       )}
-    </SafeAreaView>
-  );
-}
-
-/** 鎼滅储鍥炬爣 鈥?绌虹姸鎬佺敤 */
-function SearchBarIcon() {
-  return (
-    <View style={{ width: 24, height: 24, justifyContent: "center", alignItems: "center" }}>
+    </SafeAreaView>...</<View style={{ width: 24, height: 24, justifyContent: "center", alignItems: "center" }}>
       <ExternalLink size={22} color={colors.text.tertiary} />
     </View>
   );
