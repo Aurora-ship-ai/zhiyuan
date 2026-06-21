@@ -1,4 +1,4 @@
-﻿import { Platform, TextStyle } from "react-native";
+import { Platform, TextStyle } from "react-native";
 
 const serif = Platform.select({ ios: "Noto Serif CJK SC", default: "Georgia" });
 const sans = Platform.select({ ios: "Noto Sans CJK SC", default: "Inter" });

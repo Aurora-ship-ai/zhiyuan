@@ -2,8 +2,8 @@ import React from "react";
 // TODO: re-add icons via @expo/vector-icons
 
 const MOCK_PENDING = [
-  { id: "1", title: "Transformer 鏋舵瀯娣卞害瑙ｆ瀽", source: "arXiv", savedAt: "3 澶╁墠", tags: ["娣卞害瀛︿範", "Transformer"] },
-  { id: "2", title: "TypeScript 绫诲瀷浣撴搷瀹炴垬", source: "GitHub", savedAt: "1 鍛ㄥ墠", tags: ["TypeScript", "缂栫▼"] },
+  { id: "1", title: "Transformer ", source: "arXiv", savedAt: "3 ", tags: ["", "Transformer"] },
+  { id: "2", title: "TypeScript ", source: "GitHub", savedAt: "1 ", tags: ["TypeScript", ""] },
 ];
 
 export default function PendingScreen() {

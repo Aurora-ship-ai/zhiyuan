@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { TouchableOpacity, Text, StyleSheet, ViewStyle, ActivityIndicator } from "react-native";
 import { colors, typography, spacing, borderRadius, MIN_TOUCH_SIZE } from "../../theme";
 

@@ -1,4 +1,4 @@
-﻿export type SourceType = "web" | "paper" | "video" | "book" | "podcast";
+export type SourceType = "web" | "paper" | "video" | "book" | "podcast";
 
 export interface SearchResult {
   id: string; title: string; url: string; direct_url?: string;

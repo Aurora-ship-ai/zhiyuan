@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { View, Text, ScrollView, StyleSheet, SafeAreaView } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Button } from "../../components/ui/Button";
@@ -14,11 +14,11 @@ export default function MaterialDetail() {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>...</</Text>
         <Text style={styles.meta}>...</</Text>
-        <View style={styles.tagRow}><Tag label="AI" /><Tag label="编程" /><Tag label="实践指南" /></View>
+        <View style={styles.tagRow}><Tag label="AI" /><Tag label="" /><Tag label="" /></View>
         <View style={styles.divider} />
         <Text style={styles.body}>...</</Text>
         <View style={styles.actions}>
-          <Button title="生成Notes" onPress={() => router.push("/note/1")} />
+          <Button title="Notes" onPress={() => router.push("/note/1")} />
         </View>
       </ScrollView>
     </SafeAreaView>

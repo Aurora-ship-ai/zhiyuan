@@ -1,4 +1,4 @@
-﻿import { create } from "zustand";
+import { create } from "zustand";
 import type { SearchResult } from "../types";
 
 interface SearchState {
@@ -14,7 +14,7 @@ interface SearchState {
 
 export const useSearchStore = create<SearchState>((set) => ({
   query: "",
-  activeFilter: "全部",
+  activeFilter: "",
   results: [],
   loading: false,
   setQuery: (query) => set({ query }),

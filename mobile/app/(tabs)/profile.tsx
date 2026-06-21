@@ -20,13 +20,13 @@ export default function ProfileScreen() {
         </View>
       </Card>...</<View style={styles.actions}>
         <Button
-          title="瀵煎嚭鐭ヨ瘑搴?
+          title="?
           onPress={() => {}}
           variant="secondary"
           style={{ flex: 1 }}
         />
         <Button
-          title="璁剧疆"
+          title=""
           onPress={() => {}}
           variant="text"
           style={{ minWidth: 80 }}

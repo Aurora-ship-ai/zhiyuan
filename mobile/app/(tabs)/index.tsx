@@ -4,11 +4,11 @@ import { colors, typography, spacing, borderRadius } from "../../theme";
 import { searchMaterials } from "../../services/api";
 import type { SearchResult } from "../../types";
 
-const TYPE_FILTERS = ["鍏ㄩ儴", "鏂囩珷", "璁烘枃", "瑙嗛", "涔︾睄", "鎾"];
+const TYPE_FILTERS = ["", "", "", "", "", ""];
 
 export default function HomeScreen() {
   const [query, setQuery] = useState("");
-  const [activeFilter, setActiveFilter] = useState("鍏ㄩ儴");
+  const [activeFilter, setActiveFilter] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<SearchResult[]>...</<View style={[s.scoreBadge, { backgroundColor: bg }]}>
         <Star size={11} color={fg} fill={fg} />
@@ -22,7 +22,7 @@ export default function HomeScreen() {
         <Text style={s.brand}>...</</Text>
         <Text style={s.date}>...</</Text>
       </View>...</<View style={s.searchSection}>
-        <SearchBar value={query} onChangeText={setQuery} onSubmit={handleSearch} placeholder="鎼滅储浣犳兂瀛︾殑浠讳綍涓婚..." />
+        <SearchBar value={query} onChangeText={setQuery} onSubmit={handleSearch} placeholder="..." />
         <View style={s.hints}>...</<TouchableOpacity key={h} style={s.hint} onPress={() => { setQuery(h); }}>
               <Text style={s.hintText}>{h}</Text>
             </TouchableOpacity>

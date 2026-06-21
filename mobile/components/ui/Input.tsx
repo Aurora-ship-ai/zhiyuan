@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { TextInput, View, Text, StyleSheet, ViewStyle } from "react-native";
 import { colors, typography, spacing, borderRadius } from "../../theme";
 

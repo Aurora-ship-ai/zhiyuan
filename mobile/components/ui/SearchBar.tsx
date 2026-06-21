@@ -4,7 +4,7 @@ import { colors, typography, spacing, borderRadius } from "../../theme";
 
 interface SearchBarProps { value: string; onChangeText: (text: string) => void; placeholder?: string; onSubmit?: () => void; }
 
-export function SearchBar({ value, onChangeText, placeholder = "搜索学习资料...", onSubmit }: SearchBarProps) {
+export function SearchBar({ value, onChangeText, placeholder = "...", onSubmit }: SearchBarProps) {
   const [focused, setFocused] = useState(false);
 
   return (

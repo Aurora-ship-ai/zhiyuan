@@ -1,4 +1,4 @@
-﻿import axios, { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import type { ApiError, SearchRequest, SearchResponse, NoteGenerateRequest, NoteGenerateResponse, KnowledgeEntry, KnowledgeSearchResponse } from "../types";
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:8000";

@@ -12,9 +12,9 @@ export default function KnowledgeScreen() {
     <SafeAreaView style={s.ctr}>
       <View style={s.h}><Text style={s.brand}>...</<Text style={s.date}>...</</View>
       <View style={s.stats}>
-        <Stat num={4} label="缁楁棁顔? />
-        <Stat num={8} label="閺嶅洨顒? />
-        <Stat num={10} label="閸楋紕澧? />
+        <Stat num={4} label="? />
+        <Stat num={8} label="? />
+        <Stat num={10} label="? />
       </View>
       <View style={s.searchWrap}>
         <Search size={18} color={colors.text.tertiary} />
